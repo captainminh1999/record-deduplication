@@ -1,39 +1,29 @@
-"""Feature generation for record comparison."""
+"""Step 3 of the 10-step deduplication pipeline: feature building.
+
+Given candidate pairs, this module computes textual and exact-match
+similarity metrics that serve as model features.
+"""
+
+from __future__ import annotations
 
 import pandas as pd
 import recordlinkage
 from rapidfuzz import fuzz
 
 
-def main(df_path: str = "data/cleaned.csv") -> pd.DataFrame:
-    """Compute similarity features for candidate record pairs."""
-    df = pd.read_csv(df_path, index_col="ID")
+def main(df_path: str = "data/cleaned.csv") -> None:
+    """Create similarity features between candidate pairs.
 
-    # Blocking to get candidate pairs
-    indexer = recordlinkage.Index()
-    indexer.block("phone_clean")
-    indexer.sortedneighbourhood("name_clean", window=5)
-    candidate_pairs = indexer.index(df)
-
-    compare = recordlinkage.Compare()
-    compare.string("name_clean", "name_clean", method="jarowinkler", label="name_sim")
-    compare.exact("phone_clean", "phone_clean", label="phone_match")
-
-    features = compare.compute(candidate_pairs, df)
-
-    features["addr_sim"] = features.apply(
-        lambda row: fuzz.token_set_ratio(
-            df.loc[row.name[0], "Address"],
-            df.loc[row.name[1], "Address"],
-        )
-        / 100,
-        axis=1,
-    )
-
-    return features
+    TODO:
+        * load the cleaned dataset
+        * generate candidate pairs (reuse :mod:`src.blocking` logic)
+        * compute string similarities with `recordlinkage.Compare`
+        * add address similarity using :func:`rapidfuzz.fuzz.token_set_ratio`
+        * persist the resulting feature table
+    """
+    pass
 
 
-if __name__ == "__main__":
-    feats = main()
-    feats.to_csv("data/features.csv")
-    print(f"Wrote {len(feats)} feature rows")
+if __name__ == "__main__":  # pragma: no cover - sanity run
+    print("\u23e9 started similarity")
+    main()

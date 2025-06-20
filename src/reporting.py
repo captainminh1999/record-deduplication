@@ -1,22 +1,25 @@
-"""Generate a spreadsheet for human review of potential duplicates."""
+"""Step 5 of the 10-step deduplication pipeline: reporting.
+
+This module prepares an Excel workbook that lists high-confidence
+duplicates side by side for human validation.
+"""
+
+from __future__ import annotations
 
 import pandas as pd
 
 
-def main(dupes_path: str = "data/dupes_high_conf.csv", cleaned_path: str = "data/cleaned.csv"):
-    """Create an Excel file with side-by-side records for review."""
-    dupes = pd.read_csv(dupes_path, index_col=[0, 1])
-    df = pd.read_csv(cleaned_path)
+def main(dupes_path: str = "data/dupes_high_conf.csv", cleaned_path: str = "data/cleaned.csv") -> None:
+    """Create a merge suggestion workbook.
 
-    report = dupes.merge(
-        df.reset_index(),
-        left_index=True,
-        right_on="ID",
-        suffixes=("_A", "_B"),
-    )
-
-    report.to_excel("merge_suggestions.xlsx", index=False)
+    TODO:
+        * load the scored duplicates and original cleaned data
+        * merge duplicate pairs back to the original rows
+        * write the result to ``merge_suggestions.xlsx`` using ``pandas``
+    """
+    pass
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover - sanity run
+    print("\u23e9 started reporting")
     main()

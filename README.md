@@ -1,23 +1,29 @@
-# Record Deduplication
+# Spreadsheet Deduplication Pipeline
 
-This repository contains a minimal workflow for detecting duplicate records. The
-process is split into a few small scripts under `src/` which mirror the typical
-steps in a deduplication pipeline.
+This project contains a simple 10-step workflow for detecting and merging
+duplicate rows from spreadsheet data.
 
-1. **Preprocessing** (`src/preprocess.py`)
-   - Load the raw spreadsheet.
-   - Normalize names and phone numbers.
-   - Drop exact duplicates and write `data/cleaned.csv`.
-2. **Blocking** (`src/blocking.py`)
-   - Use `recordlinkage.Index` to build candidate pairs.
-3. **Similarity Features** (`src/similarity.py`)
-   - Compute similarity features with `recordlinkage` and `rapidfuzz`.
-   - Write `data/features.csv`.
-4. **Modeling** (`src/model.py`)
-   - Train a logistic regression model on labeled pairs.
-   - Output high confidence duplicates to `data/dupes_high_conf.csv`.
-5. **Reporting** (`src/reporting.py`)
-   - Produce `merge_suggestions.xlsx` for human review.
+## Setup
 
-Install the dependencies listed in `requirements.txt` and run the scripts in the
-order above to reproduce the workflow.
+```bash
+python -m pip install -r requirements.txt
+```
+
+## Run sequence
+
+Execute each stage in order:
+
+```bash
+python -m src.preprocess
+python -m src.blocking
+python -m src.similarity
+python -m src.model
+python -m src.reporting
+```
+
+The optional OpenAI helper can be enabled by installing the `openai`
+package (uncomment the line in `requirements.txt`) and running:
+
+```bash
+python -m src.openai_integration
+```

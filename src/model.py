@@ -1,20 +1,27 @@
-"""Train a model to predict duplicate records."""
+"""Step 4 of the 10-step deduplication pipeline: model training.
 
-from sklearn.linear_model import LogisticRegression
+This stage fits a logistic regression model on labelled candidate pairs
+and predicts duplicate probabilities for all pairs.
+"""
+
+from __future__ import annotations
+
 import pandas as pd
+from sklearn.linear_model import LogisticRegression
 
 
-def main(features_path: str = "data/features.csv", labels_path: str = "data/labels.csv"):
-    """Train logistic regression on labeled pairs and score all pairs."""
-    X = pd.read_csv(features_path, index_col=[0, 1])
-    y = pd.read_csv(labels_path)["is_dup"]
+def main(features_path: str = "data/features.csv", labels_path: str = "data/labels.csv") -> None:
+    """Train a model and score candidate pairs.
 
-    model = LogisticRegression(solver="liblinear", max_iter=500)
-    model.fit(X.loc[y.index], y)
+    TODO:
+        * read features and label data from CSV files
+        * fit :class:`sklearn.linear_model.LogisticRegression`
+        * add a ``prob`` column to the feature table
+        * store high-confidence duplicates to ``data/dupes_high_conf.csv``
+    """
+    pass
 
-    X["prob"] = model.predict_proba(X)[:, 1]
-    X[X["prob"] > 0.9].to_csv("data/dupes_high_conf.csv")
 
-
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover - sanity run
+    print("\u23e9 started model")
     main()

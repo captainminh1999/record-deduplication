@@ -39,6 +39,40 @@ class PreprocessTest(unittest.TestCase):
 
             self.assertTrue(os.path.exists(log_path))
 
+    def test_preprocess_missing_phone(self):
+        data = (
+            "name,address\n"
+            "José,A\n"
+            "Jose,B\n"
+            "John,C\n"
+            "John,D\n"
+        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = os.path.join(tmpdir, "input.csv")
+            with open(input_path, "w", encoding="utf-8") as f:
+                f.write(data)
+            output_path = os.path.join(tmpdir, "out.csv")
+            audit_path = os.path.join(tmpdir, "audit.csv")
+            log_path = os.path.join(tmpdir, "log.csv")
+
+            preprocess.main(
+                input_path=input_path,
+                output_path=output_path,
+                audit_path=audit_path,
+                use_openai=False,
+                log_path=log_path,
+            )
+
+            df = pd.read_csv(output_path)
+            self.assertEqual(len(df), 2)
+            self.assertIn("phone_clean", df.columns)
+            self.assertTrue(df["phone_clean"].isna().all())
+
+            audit = pd.read_csv(audit_path)
+            self.assertEqual(len(audit), 2)
+
+            self.assertTrue(os.path.exists(log_path))
+
 
 if __name__ == "__main__":
     unittest.main()

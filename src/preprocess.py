@@ -64,7 +64,8 @@ def main(
     else:
         df["name_clean"] = df["name"].map(_normalize_name)
 
-    df["phone_clean"] = df.get("phone", "").map(_normalize_phone)
+    phone_col = df["phone"] if "phone" in df.columns else pd.Series("", index=df.index)
+    df["phone_clean"] = phone_col.map(_normalize_phone)
 
     df["combined_id"] = df["name_clean"] + ";" + df["phone_clean"]
 

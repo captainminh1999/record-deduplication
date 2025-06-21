@@ -3,7 +3,7 @@ import glob
 from datetime import datetime
 from typing import Iterable
 
-LOG_PATH = "data/run_history.log"
+LOG_PATH = "data/outputs/run_history.log"
 
 
 def clear_files(paths: Iterable[str]) -> None:
@@ -13,7 +13,7 @@ def clear_files(paths: Iterable[str]) -> None:
             os.remove(path)
 
 
-def clear_all_data(data_dir: str = "data", exclude: Iterable[str] | None = None) -> None:
+def clear_all_data(data_dir: str = "data/outputs", exclude: Iterable[str] | None = None) -> None:
     """Delete all files in ``data_dir`` except those in ``exclude``."""
     exclude = set(exclude or [])
     for file_path in glob.glob(os.path.join(data_dir, "*")):

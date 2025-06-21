@@ -33,11 +33,11 @@ merge suggestions.
 ## Step‑by‑step workflow
 
 Run the following modules in order.  Each step reads the output of the
-previous one and writes its own results to the ``data/`` directory.
+previous one and writes its own results to the ``data/outputs/`` directory.
 
 1. **Preprocess** – cleans the raw spreadsheet and writes
-   ``data/cleaned.csv``. Removed duplicates are stored in
-   ``data/removed_rows.csv``.  Pass ``--use-openai`` to translate company names to
+   ``data/outputs/cleaned.csv``. Removed duplicates are stored in
+   ``data/outputs/removed_rows.csv``.  Pass ``--use-openai`` to translate company names to
    English via the OpenAI API using the ``gpt-4o-mini`` model by default. You
    can override the model with ``--openai-model``.
 
@@ -85,7 +85,7 @@ how to merge or remove duplicate records from your original data.
 Each step accepts ``--log-path`` to append run information (start time, end time,
 rows processed and duration) to a log file. Use ``--clear`` to remove existing
 outputs before running a step again. Utility functions are available in
-``src.utils`` for clearing intermediate files or the entire ``data`` directory.
+``src.utils`` for clearing intermediate files or the entire ``data/outputs`` directory.
 
 ## Running tests
 

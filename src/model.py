@@ -10,14 +10,14 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
 
-def main(features_path: str = "data/features.csv", labels_path: str = "data/labels.csv") -> None:
+def main(features_path: str = "data/outputs/features.csv", labels_path: str = "data/outputs/labels.csv") -> None:
     """Train a model and score candidate pairs.
 
     TODO:
         * read features and label data from CSV files
         * fit :class:`sklearn.linear_model.LogisticRegression`
         * add a ``prob`` column to the feature table
-        * store high-confidence duplicates to ``data/dupes_high_conf.csv``
+        * store high-confidence duplicates to ``data/outputs/dupes_high_conf.csv``
     """
     pass
 

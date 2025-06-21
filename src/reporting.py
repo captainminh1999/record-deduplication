@@ -9,7 +9,7 @@ from __future__ import annotations
 import pandas as pd
 
 
-def main(dupes_path: str = "data/dupes_high_conf.csv", cleaned_path: str = "data/cleaned.csv") -> None:
+def main(dupes_path: str = "data/outputs/dupes_high_conf.csv", cleaned_path: str = "data/outputs/cleaned.csv") -> None:
     """Create a merge suggestion workbook.
 
     TODO:

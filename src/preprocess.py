@@ -82,16 +82,12 @@ def main(
 
     if "recordid" not in col_map and "sysid" not in col_map:
         raise KeyError("Missing required column: record_id or sys_id")
-    if "recordid" not in col_map and "sysid" in col_map:
-        df["record_id"] = df[col_map["sysid"]]
-    elif "recordid" in col_map:
-        df["record_id"] = df[col_map["recordid"]]
+    df["record_id"] = df[col_map.get("recordid", col_map.get("sysid"))]
 
-    if "company" not in df.columns:
-        if "name" in df.columns:
-            df["company"] = df["name"]
-        else:
-            raise KeyError("Missing required column: company")
+    company_key = col_map.get("company") or col_map.get("name")
+    if not company_key:
+        raise KeyError("Missing required column: company")
+    df["company"] = df[company_key]
 
     start_time = time.time()
 
@@ -100,18 +96,16 @@ def main(
     else:
         df["company_clean"] = df["company"].map(_normalize_name)
 
-    if "domain" in df.columns:
-        domain_col = df["domain"]
-    elif "website" in df.columns:
-        domain_col = df["website"]
+    domain_key = col_map.get("domain") or col_map.get("website")
+    if domain_key:
+        domain_col = df[domain_key]
     else:
         domain_col = pd.Series("", index=df.index)
     df["domain_clean"] = domain_col.map(_normalize_domain)
 
-    if "company_phone" in df.columns:
-        phone_col = df["company_phone"]
-    elif "phone" in df.columns:
-        phone_col = df["phone"]
+    phone_key = col_map.get("companyphone") or col_map.get("phone")
+    if phone_key:
+        phone_col = df[phone_key]
     else:
         phone_col = pd.Series("", index=df.index)
     df["phone_clean"] = phone_col.map(_normalize_phone)
@@ -141,7 +135,7 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
     parser.add_argument("--input-path", default="data/your_spreadsheet.csv")
     parser.add_argument("--output-path", default="data/cleaned.csv")
     parser.add_argument("--audit-path", default="data/removed_rows.csv")
-    parser.add_argument("--use-openai", action="store_true", help="Translate names with OpenAI")
+    parser.add_argument("--use-openai", action="store_true", help="Translate company names with OpenAI")
     parser.add_argument("--openai-model", default="gpt-4o-mini")
     parser.add_argument("--log-path", default="data/run_history.log")
     parser.add_argument("--clear", action="store_true", help="Remove previous outputs")

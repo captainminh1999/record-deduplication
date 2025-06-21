@@ -1,29 +1,74 @@
 # Spreadsheet Deduplication Pipeline
 
-This project contains a simple 10-step workflow for detecting and merging
-duplicate rows from spreadsheet data.
+This repository demonstrates a minimal deduplication workflow using
+Python and popular data‑science libraries.  The code is organised as a
+set of small modules that can be executed one after another to clean
+data, generate candidate pairs, create similarity features and produce
+merge suggestions.
 
 ## Setup
 
-```bash
-python -m pip install -r requirements.txt
-```
+1. **Install dependencies**
 
-## Run sequence
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
-Execute each stage in order:
+   If you would like to use the optional GPT powered helper, also
+   install the commented ``openai`` package.
 
-```bash
-python -m src.preprocess
-python -m src.blocking
-python -m src.similarity
-python -m src.model
-python -m src.reporting
-```
+2. **Prepare input data**
 
-The optional OpenAI helper can be enabled by installing the `openai`
-package (uncomment the line in `requirements.txt`) and running:
+   Place your raw spreadsheet in ``data/your_spreadsheet.csv`` (or
+   adjust the ``--input-path`` argument when running the modules).  The
+   example pipeline expects columns such as ``name`` and ``phone`` which
+   will be normalised during preprocessing.
 
-```bash
-python -m src.openai_integration
-```
+## Step‑by‑step workflow
+
+Run the following modules in order.  Each step reads the output of the
+previous one and writes its own results to the ``data/`` directory.
+
+1. **Preprocess** – cleans the raw spreadsheet and writes
+   ``data/cleaned.csv``.
+
+   ```bash
+   python -m src.preprocess
+   ```
+
+2. **Blocking** – generates candidate record pairs for comparison.
+
+   ```bash
+   python -m src.blocking
+   ```
+
+3. **Similarity features** – computes string similarity metrics for the
+   candidate pairs.
+
+   ```bash
+   python -m src.similarity
+   ```
+
+4. **Model training** – fits a logistic regression model and scores each
+   pair to estimate duplicate probability.
+
+   ```bash
+   python -m src.model
+   ```
+
+5. **Reporting** – creates an Excel workbook with high‑confidence
+   duplicates side by side for manual review.
+
+   ```bash
+   python -m src.reporting
+   ```
+
+6. **(Optional) GPT integration** – demonstrates how the OpenAI API
+   could be used to further assist with merge suggestions.
+
+   ```bash
+   python -m src.openai_integration
+   ```
+
+After inspecting the generated ``merge_suggestions.xlsx`` you can decide
+how to merge or remove duplicate records from your original data.

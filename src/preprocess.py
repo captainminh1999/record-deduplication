@@ -18,17 +18,29 @@ from .utils import log_run, clear_files
 
 
 def _normalize_name(name: str) -> str:
-    """Return a basic normalised representation of ``name``."""
+    """Return a basic normalised representation of a company name."""
     text = str(name) if pd.notnull(name) else ""
     text = unicodedata.normalize("NFKD", text)
     text = text.encode("ascii", "ignore").decode("ascii")
     return text.strip().lower()
 
 
+def _normalize_domain(domain: str) -> str:
+    """Return a simplified representation of a website domain."""
+    text = str(domain) if pd.notnull(domain) else ""
+    text = text.strip().lower()
+    text = re.sub(r"^https?://", "", text)
+    text = re.sub(r"^www\.", "", text)
+    text = text.rstrip("/")
+    return text
+
+
 def _normalize_phone(phone: str) -> str:
+    """Return digits only from a phone number."""
     text = str(phone) if pd.notnull(phone) else ""
     digits = re.sub(r"\D", "", text)
     return digits
+
 
 
 def main(
@@ -45,7 +57,7 @@ def main(
     TODO:
         * load the source spreadsheet with :func:`pandas.read_csv` or
           ``read_excel``
-        * normalise name and phone columns
+        * normalise company, domain and phone columns
         * remove exact duplicate rows
         * write the result to ``output_path``
     """
@@ -57,17 +69,42 @@ def main(
 
     df = pd.read_csv(input_path)
 
+    if "record_id" not in df.columns and "sys_id" not in df.columns:
+        raise KeyError("Missing required column: record_id or sys_id")
+    if "record_id" not in df.columns and "sys_id" in df.columns:
+        df["record_id"] = df["sys_id"]
+    if "company" not in df.columns:
+        if "name" in df.columns:
+            df["company"] = df["name"]
+        else:
+            raise KeyError("Missing required column: company")
+
     start_time = time.time()
 
     if use_openai:
-        df["name_clean"] = translate_to_english(df["name"].tolist(), model=openai_model)
+        df["company_clean"] = translate_to_english(df["company"].tolist(), model=openai_model)
     else:
-        df["name_clean"] = df["name"].map(_normalize_name)
+        df["company_clean"] = df["company"].map(_normalize_name)
 
-    phone_col = df["phone"] if "phone" in df.columns else pd.Series("", index=df.index)
+    if "domain" in df.columns:
+        domain_col = df["domain"]
+    elif "website" in df.columns:
+        domain_col = df["website"]
+    else:
+        domain_col = pd.Series("", index=df.index)
+    df["domain_clean"] = domain_col.map(_normalize_domain)
+
+    if "company_phone" in df.columns:
+        phone_col = df["company_phone"]
+    elif "phone" in df.columns:
+        phone_col = df["phone"]
+    else:
+        phone_col = pd.Series("", index=df.index)
     df["phone_clean"] = phone_col.map(_normalize_phone)
 
-    df["combined_id"] = df["name_clean"] + ";" + df["phone_clean"]
+    df["combined_id"] = (
+        df["company_clean"] + ";" + df["domain_clean"] + ";" + df["phone_clean"]
+    )
 
     duplicates = df[df.duplicated(subset="combined_id", keep="first")]
     if not duplicates.empty:

@@ -20,9 +20,11 @@ merge suggestions.
 2. **Prepare input data**
 
    Place your raw spreadsheet in ``data/your_spreadsheet.csv`` (or
-   adjust the ``--input-path`` argument when running the modules).  The
+   adjust the ``--input-path`` argument when running the modules).  A small
+   example dataset ``data/sample_input.csv`` is provided for testing.  The
    example pipeline expects columns such as ``name`` and ``phone`` which
-   will be normalised during preprocessing.
+   will be normalised during preprocessing. ``name`` and ``phone`` are
+   combined into a ``combined_id`` field used for deduplication.
 
 ## Step‑by‑step workflow
 
@@ -30,10 +32,13 @@ Run the following modules in order.  Each step reads the output of the
 previous one and writes its own results to the ``data/`` directory.
 
 1. **Preprocess** – cleans the raw spreadsheet and writes
-   ``data/cleaned.csv``.
+   ``data/cleaned.csv``. Removed duplicates are stored in
+   ``data/removed_rows.csv``.  Pass ``--use-openai`` to translate names to
+   English via the OpenAI API using the ``gpt-4o-mini`` model by default. You
+   can override the model with ``--openai-model``.
 
    ```bash
-   python -m src.preprocess
+   python -m src.preprocess --use-openai
    ```
 
 2. **Blocking** – generates candidate record pairs for comparison.

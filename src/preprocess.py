@@ -24,7 +24,6 @@ _PUNCT_RE = re.compile(r"[^\w\s&/\.-]+")
 _WS_RE = re.compile(r"\s+")
 
 
-
 def normalize_company_name(name: str) -> str:
     """Return a cleaned company name following a set of rules."""
     if not name:
@@ -74,7 +73,6 @@ def _clean_column_name(name: str) -> str:
     return re.sub(r"[ _]+", "", name).lower()
 
 
-
 def main(
     input_path: str = "data/your_spreadsheet.csv",
     output_path: str = "data/outputs/cleaned.csv",
@@ -86,12 +84,11 @@ def main(
 ) -> int:
     """Clean the raw spreadsheet and save a CSV.
 
-    TODO:
-        * load the source spreadsheet with :func:`pandas.read_csv` or
-          ``read_excel``
-        * normalise company, domain and phone columns
-        * remove exact duplicate rows
-        * write the result to ``output_path``
+    The function loads ``input_path`` using :func:`pandas.read_csv` for CSV
+    files or :func:`pandas.read_excel` for Excel files. Company, domain and
+    phone columns are normalised into new ``*_clean`` fields, exact duplicates
+    based on the ``combined_id`` are dropped and written to ``audit_path`` and
+    the cleaned dataset is saved to ``output_path``.
     """
     if clear:
         clear_all_data(os.path.dirname(output_path))
@@ -99,7 +96,11 @@ def main(
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Input spreadsheet not found: {input_path}")
 
-    df = pd.read_csv(input_path)
+    _, ext = os.path.splitext(input_path)
+    if ext.lower() in {".xls", ".xlsx", ".xlsm"}:
+        df = pd.read_excel(input_path)
+    else:
+        df = pd.read_csv(input_path)
 
     col_map = {_clean_column_name(c): c for c in df.columns}
 
@@ -115,7 +116,9 @@ def main(
     start_time = time.time()
 
     if use_openai:
-        df["company_clean"] = translate_to_english(df["company"].tolist(), model=openai_model)
+        df["company_clean"] = translate_to_english(
+            df["company"].tolist(), model=openai_model
+        )
     else:
         df["company_clean"] = df["company"].map(normalize_company_name)
 
@@ -139,7 +142,9 @@ def main(
 
     duplicates = df[df.duplicated(subset="combined_id", keep="first")]
     if not duplicates.empty:
-        duplicates.assign(reason="duplicate combined_id").to_csv(audit_path, index=False)
+        duplicates.assign(reason="duplicate combined_id").to_csv(
+            audit_path, index=False
+        )
 
     df = df.drop_duplicates(subset="combined_id", keep="first")
 
@@ -158,7 +163,9 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
     parser.add_argument("--input-path", default="data/your_spreadsheet.csv")
     parser.add_argument("--output-path", default="data/outputs/cleaned.csv")
     parser.add_argument("--audit-path", default="data/outputs/removed_rows.csv")
-    parser.add_argument("--use-openai", action="store_true", help="Translate company names with OpenAI")
+    parser.add_argument(
+        "--use-openai", action="store_true", help="Translate company names with OpenAI"
+    )
     parser.add_argument("--openai-model", default="gpt-4o-mini")
     parser.add_argument("--log-path", default="data/outputs/run_history.log")
     parser.add_argument("--clear", action="store_true", help="Remove previous outputs")

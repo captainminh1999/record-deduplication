@@ -86,6 +86,7 @@ def main(
         df["record_id"] = df[col_map["sysid"]]
     elif "recordid" in col_map:
         df["record_id"] = df[col_map["recordid"]]
+
     if "company" not in df.columns:
         if "name" in df.columns:
             df["company"] = df["name"]

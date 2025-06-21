@@ -83,3 +83,15 @@ Each step accepts ``--log-path`` to append run information (start time, end time
 rows processed and duration) to a log file. Use ``--clear`` to remove existing
 outputs before running a step again. Utility functions are available in
 ``src.utils`` for clearing intermediate files or the entire ``data`` directory.
+
+## Running tests
+
+The repository contains a small suite of unit tests under the ``tests``
+directory. You can execute them with Python's built‑in test runner:
+
+```bash
+python -m unittest discover
+```
+
+Run the command from the repository root to automatically discover and
+execute all tests.

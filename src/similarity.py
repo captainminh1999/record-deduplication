@@ -11,7 +11,7 @@ import recordlinkage
 from rapidfuzz import fuzz
 
 
-def main(df_path: str = "data/cleaned.csv") -> None:
+def main(df_path: str = "data/outputs/cleaned.csv") -> None:
     """Create similarity features between candidate pairs.
 
     TODO:

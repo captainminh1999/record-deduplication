@@ -11,7 +11,7 @@ import pandas as pd
 import recordlinkage
 
 
-def main(input_path: str = "data/cleaned.csv") -> recordlinkage.index.BaseIndex:
+def main(input_path: str = "data/outputs/cleaned.csv") -> recordlinkage.index.BaseIndex:
     """Build candidate pairs using ``recordlinkage.Index``.
 
     TODO:

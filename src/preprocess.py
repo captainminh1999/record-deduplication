@@ -1,7 +1,7 @@
 """Step 1 of the 10-step deduplication pipeline: data cleaning.
 
 This module prepares the raw spreadsheet for later stages by normalising
-fields and writing the cleaned output to ``data/cleaned.csv``.
+fields and writing the cleaned output to ``data/outputs/cleaned.csv``.
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ import time
 import pandas as pd
 
 from .openai_integration import translate_to_english
-from .utils import log_run, clear_files
+from .utils import log_run, clear_all_data
 
 
 def _normalize_name(name: str) -> str:
@@ -54,11 +54,11 @@ def _clean_column_name(name: str) -> str:
 
 def main(
     input_path: str = "data/your_spreadsheet.csv",
-    output_path: str = "data/cleaned.csv",
-    audit_path: str = "data/removed_rows.csv",
+    output_path: str = "data/outputs/cleaned.csv",
+    audit_path: str = "data/outputs/removed_rows.csv",
     use_openai: bool = False,
     openai_model: str = "gpt-4o-mini",
-    log_path: str = "data/run_history.log",
+    log_path: str = "data/outputs/run_history.log",
     clear: bool = False,
 ) -> int:
     """Clean the raw spreadsheet and save a CSV.
@@ -71,7 +71,7 @@ def main(
         * write the result to ``output_path``
     """
     if clear:
-        clear_files([output_path, audit_path])
+        clear_all_data(os.path.dirname(output_path))
 
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Input spreadsheet not found: {input_path}")
@@ -133,11 +133,11 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
 
     parser = argparse.ArgumentParser(description="Clean raw spreadsheet")
     parser.add_argument("--input-path", default="data/your_spreadsheet.csv")
-    parser.add_argument("--output-path", default="data/cleaned.csv")
-    parser.add_argument("--audit-path", default="data/removed_rows.csv")
+    parser.add_argument("--output-path", default="data/outputs/cleaned.csv")
+    parser.add_argument("--audit-path", default="data/outputs/removed_rows.csv")
     parser.add_argument("--use-openai", action="store_true", help="Translate company names with OpenAI")
     parser.add_argument("--openai-model", default="gpt-4o-mini")
-    parser.add_argument("--log-path", default="data/run_history.log")
+    parser.add_argument("--log-path", default="data/outputs/run_history.log")
     parser.add_argument("--clear", action="store_true", help="Remove previous outputs")
     args = parser.parse_args()
 

@@ -70,7 +70,9 @@ def main(
     df = pd.read_csv(input_path)
 
     if "record_id" not in df.columns and "sys_id" not in df.columns:
-        raise KeyError("Missing required column: record_id or sys_id")
+        raise KeyError(
+            f"Missing required column: record_id or sys_id. Found: {', '.join(df.columns)}"
+        )
     if "record_id" not in df.columns and "sys_id" in df.columns:
         df["record_id"] = df["sys_id"]
     if "company" not in df.columns:

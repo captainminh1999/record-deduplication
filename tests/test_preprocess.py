@@ -20,12 +20,14 @@ class PreprocessTest(unittest.TestCase):
                 f.write(data)
             output_path = os.path.join(tmpdir, "out.csv")
             audit_path = os.path.join(tmpdir, "audit.csv")
+            log_path = os.path.join(tmpdir, "log.csv")
 
             preprocess.main(
                 input_path=input_path,
                 output_path=output_path,
                 audit_path=audit_path,
                 use_openai=False,
+                log_path=log_path,
             )
 
             df = pd.read_csv(output_path)
@@ -34,6 +36,8 @@ class PreprocessTest(unittest.TestCase):
 
             audit = pd.read_csv(audit_path)
             self.assertEqual(len(audit), 2)
+
+            self.assertTrue(os.path.exists(log_path))
 
 
 if __name__ == "__main__":

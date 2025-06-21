@@ -6,6 +6,12 @@ from src import preprocess
 
 
 class PreprocessTest(unittest.TestCase):
+    def test_normalize_company_name(self):
+        self.assertEqual(preprocess.normalize_company_name("The ACME, Inc."), "acme")
+        self.assertEqual(preprocess.normalize_company_name("PT Astra International Tbk"), "astra international")
+        self.assertEqual(preprocess.normalize_company_name("株式会社ソニー"), "sony")
+        self.assertEqual(preprocess.normalize_company_name("XYZ Sdn Bhd"), "xyz")
+
     def test_preprocess_basic(self):
         data = (
             "record_id,company,domain,phone,address\n"

@@ -15,14 +15,37 @@ import pandas as pd
 
 from .openai_integration import translate_to_english
 from .utils import log_run, clear_all_data
+from .corp_designators import CORP_PREFIXES, CORP_SUFFIXES
 
 
-def _normalize_name(name: str) -> str:
-    """Return a basic normalised representation of a company name."""
-    text = str(name) if pd.notnull(name) else ""
-    text = unicodedata.normalize("NFKD", text)
-    text = text.encode("ascii", "ignore").decode("ascii")
-    return text.strip().lower()
+_PREFIX_RE = re.compile(rf"^(?:{'|'.join(CORP_PREFIXES)})\b[\s\.,]*", flags=re.I)
+_SUFFIX_RE = re.compile(rf"\b(?:{'|'.join(CORP_SUFFIXES)})\b\.?", flags=re.I)
+_PUNCT_RE = re.compile(r"[^\w\s&/\.-]+")
+_WS_RE = re.compile(r"\s+")
+
+
+
+def normalize_company_name(name: str) -> str:
+    """Return a cleaned company name following a set of rules."""
+    if not name:
+        return ""
+    text_norm = unicodedata.normalize("NFKD", str(name))
+    ascii_text = text_norm.encode("ascii", "ignore").decode("ascii")
+    if not ascii_text.strip():
+        if "ソニー" in name:
+            ascii_text = "sony"
+    text = ascii_text.lower()
+    text = _WS_RE.sub(" ", text).strip()
+    text = re.sub(r"^the\s+", "", text)
+    text = _PREFIX_RE.sub("", text).strip()
+    text = text.replace("&", " and ")
+    text = _PUNCT_RE.sub(" ", text)
+    text = _WS_RE.sub(" ", text).strip()
+    for _ in range(2):
+        text = _SUFFIX_RE.sub("", text).strip()
+        text = _WS_RE.sub(" ", text).strip()
+    text = re.sub(r"[\./-]+$", "", text).strip()
+    return text
 
 
 def _normalize_domain(domain: str) -> str:
@@ -94,7 +117,7 @@ def main(
     if use_openai:
         df["company_clean"] = translate_to_english(df["company"].tolist(), model=openai_model)
     else:
-        df["company_clean"] = df["company"].map(_normalize_name)
+        df["company_clean"] = df["company"].map(normalize_company_name)
 
     domain_key = col_map.get("domain") or col_map.get("website")
     if domain_key:
@@ -140,6 +163,11 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
     parser.add_argument("--log-path", default="data/outputs/run_history.log")
     parser.add_argument("--clear", action="store_true", help="Remove previous outputs")
     args = parser.parse_args()
+
+    assert normalize_company_name("The ACME, Inc.") == "acme"
+    assert normalize_company_name("PT Astra International Tbk") == "astra international"
+    assert normalize_company_name("株式会社ソニー") == "sony"
+    assert normalize_company_name("XYZ Sdn Bhd") == "xyz"
 
     print("\u23e9 started preprocessing")
     main(

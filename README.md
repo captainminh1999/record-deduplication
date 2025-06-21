@@ -20,12 +20,15 @@ merge suggestions.
 2. **Prepare input data**
 
    Place your raw spreadsheet in ``data/your_spreadsheet.csv`` (or
-   adjust the ``--input-path`` argument when running the modules).  A small
-   example dataset ``data/sample_input.csv`` is provided for testing.  The
-   example pipeline expects columns such as ``company``, ``domain`` and
-   ``phone`` which will be normalised during preprocessing. ``company``,
-   ``domain`` and ``phone`` are combined into a ``combined_id`` field used for
-   deduplication.
+   adjust the ``--input-path`` argument when running the modules).  The
+   preprocessing step requires a unique identifier column named
+   ``record_id``.  If your data uses ``sys_id`` instead, it will be mapped to
+   ``record_id`` automatically.  A small example dataset
+   ``data/sample_input.csv`` &mdash; which already includes this column &mdash;
+   is provided for testing.  The example pipeline expects columns such as
+   ``company``, ``domain`` and ``phone`` which will be normalised during
+   preprocessing. ``company``, ``domain`` and ``phone`` are combined into a
+   ``combined_id`` field used for deduplication.
 
 ## Step‑by‑step workflow
 

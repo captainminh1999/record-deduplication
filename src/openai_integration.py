@@ -21,6 +21,17 @@ def main() -> None:
         * formulate a prompt describing the duplicate records
         * send the request and parse the response
     """
+    if openai is None:
+        raise RuntimeError(
+            "openai package is not installed. Install 'openai' to enable integration."
+        )
+
+    if not getattr(openai, "api_key", None):
+        raise RuntimeError(
+            "OpenAI API key is not configured. Set 'openai.api_key' or the 'OPENAI_API_KEY' environment variable."
+        )
+
+    # TODO: formulate prompt and send request
     pass
 
 

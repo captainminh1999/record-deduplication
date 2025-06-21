@@ -6,11 +6,12 @@ columns to limit the number of comparisons.
 
 from __future__ import annotations
 
+import os
 import pandas as pd
 import recordlinkage
 
 
-def main(input_path: str = "data/cleaned.csv") -> None:
+def main(input_path: str = "data/cleaned.csv") -> recordlinkage.index.BaseIndex:
     """Build candidate pairs using ``recordlinkage.Index``.
 
     TODO:
@@ -18,7 +19,18 @@ def main(input_path: str = "data/cleaned.csv") -> None:
         * configure blocking on ``phone_clean`` and ``name_clean``
         * return or persist the generated :class:`pandas.MultiIndex`
     """
-    pass
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"Cleaned data not found: {input_path}")
+
+    df = pd.read_csv(input_path)
+    required_columns = {"phone_clean", "name_clean"}
+    missing = required_columns.difference(df.columns)
+    if missing:
+        cols = ", ".join(sorted(missing))
+        raise KeyError(f"Missing required columns: {cols}")
+
+    # TODO: configure blocking using recordlinkage.Index
+    return recordlinkage.Index()
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

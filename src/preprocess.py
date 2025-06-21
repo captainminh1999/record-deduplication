@@ -6,6 +6,7 @@ fields and writing the cleaned output to ``data/cleaned.csv``.
 
 from __future__ import annotations
 
+import os
 import pandas as pd
 
 
@@ -19,6 +20,10 @@ def main(input_path: str = "data/your_spreadsheet.csv", output_path: str = "data
         * remove exact duplicate rows
         * write the result to ``output_path``
     """
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"Input spreadsheet not found: {input_path}")
+
+    # TODO: implement data cleaning logic
     pass
 
 

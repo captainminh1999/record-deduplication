@@ -9,10 +9,12 @@ from __future__ import annotations
 import os
 import re
 import unicodedata
+import time
 
 import pandas as pd
 
 from .openai_integration import translate_to_english
+from .utils import log_run, clear_files
 
 
 def _normalize_name(name: str) -> str:
@@ -35,7 +37,9 @@ def main(
     audit_path: str = "data/removed_rows.csv",
     use_openai: bool = False,
     openai_model: str = "gpt-4o-mini",
-) -> None:
+    log_path: str = "data/run_history.log",
+    clear: bool = False,
+) -> int:
     """Clean the raw spreadsheet and save a CSV.
 
     TODO:
@@ -45,10 +49,15 @@ def main(
         * remove exact duplicate rows
         * write the result to ``output_path``
     """
+    if clear:
+        clear_files([output_path, audit_path])
+
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Input spreadsheet not found: {input_path}")
 
     df = pd.read_csv(input_path)
+
+    start_time = time.time()
 
     if use_openai:
         df["name_clean"] = translate_to_english(df["name"].tolist(), model=openai_model)
@@ -67,6 +76,11 @@ def main(
 
     df.to_csv(output_path, index=False)
 
+    end_time = time.time()
+    log_run("preprocess", start_time, end_time, len(df), log_path=log_path)
+
+    return len(df)
+
 
 if __name__ == "__main__":  # pragma: no cover - sanity run
     import argparse
@@ -77,6 +91,8 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
     parser.add_argument("--audit-path", default="data/removed_rows.csv")
     parser.add_argument("--use-openai", action="store_true", help="Translate names with OpenAI")
     parser.add_argument("--openai-model", default="gpt-4o-mini")
+    parser.add_argument("--log-path", default="data/run_history.log")
+    parser.add_argument("--clear", action="store_true", help="Remove previous outputs")
     args = parser.parse_args()
 
     print("\u23e9 started preprocessing")
@@ -86,4 +102,6 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
         audit_path=args.audit_path,
         use_openai=args.use_openai,
         openai_model=args.openai_model,
+        log_path=args.log_path,
+        clear=args.clear,
     )

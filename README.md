@@ -77,3 +77,8 @@ previous one and writes its own results to the ``data/`` directory.
 
 After inspecting the generated ``merge_suggestions.xlsx`` you can decide
 how to merge or remove duplicate records from your original data.
+
+Each step accepts ``--log-path`` to append run information (start time, end time,
+rows processed and duration) to a log file. Use ``--clear`` to remove existing
+outputs before running a step again. Utility functions are available in
+``src.utils`` for clearing intermediate files or the entire ``data`` directory.

@@ -8,7 +8,10 @@ from src import preprocess
 class PreprocessTest(unittest.TestCase):
     def test_normalize_company_name(self):
         self.assertEqual(preprocess.normalize_company_name("The ACME, Inc."), "acme")
-        self.assertEqual(preprocess.normalize_company_name("PT Astra International Tbk"), "astra international")
+        self.assertEqual(
+            preprocess.normalize_company_name("PT Astra International Tbk"),
+            "astra international",
+        )
         self.assertEqual(preprocess.normalize_company_name("株式会社ソニー"), "sony")
         self.assertEqual(preprocess.normalize_company_name("XYZ Sdn Bhd"), "xyz")
 
@@ -70,7 +73,7 @@ class PreprocessTest(unittest.TestCase):
             df = pd.read_csv(output_path)
             self.assertEqual(len(df), 2)
             self.assertIn("record_id", df.columns)
-            
+
     def test_preprocess_missing_domain(self):
         data = (
             "record_id,company,phone,address\n"
@@ -133,6 +136,40 @@ class PreprocessTest(unittest.TestCase):
             self.assertEqual(len(df), 2)
             self.assertIn("phone_clean", df.columns)
             self.assertTrue(df["phone_clean"].isna().all())
+
+            audit = pd.read_csv(audit_path)
+            self.assertEqual(len(audit), 2)
+
+            self.assertTrue(os.path.exists(log_path))
+
+    def test_preprocess_excel_input(self):
+        df_in = pd.DataFrame(
+            {
+                "record_id": [1, 2, 3, 4],
+                "company": ["Acme Inc", "Acme Inc", "Widgets LLC", "Widgets LLC"],
+                "domain": ["acme.com", "acme.com", "widgets.com", "widgets.com"],
+                "phone": [123, 123, 555, 555],
+                "address": list("ABCD"),
+            }
+        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = os.path.join(tmpdir, "input.xlsx")
+            df_in.to_excel(input_path, index=False)
+            output_path = os.path.join(tmpdir, "out.csv")
+            audit_path = os.path.join(tmpdir, "audit.csv")
+            log_path = os.path.join(tmpdir, "log.csv")
+
+            preprocess.main(
+                input_path=input_path,
+                output_path=output_path,
+                audit_path=audit_path,
+                use_openai=False,
+                log_path=log_path,
+            )
+
+            df_out = pd.read_csv(output_path)
+            self.assertEqual(len(df_out), 2)
+            self.assertIn("combined_id", df_out.columns)
 
             audit = pd.read_csv(audit_path)
             self.assertEqual(len(audit), 2)

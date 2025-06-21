@@ -16,14 +16,14 @@ def main(input_path: str = "data/cleaned.csv") -> recordlinkage.index.BaseIndex:
 
     TODO:
         * read ``input_path`` with :func:`pandas.read_csv`
-        * configure blocking on ``phone_clean`` and ``name_clean``
+        * configure blocking on ``phone_clean`` and ``company_clean``
         * return or persist the generated :class:`pandas.MultiIndex`
     """
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Cleaned data not found: {input_path}")
 
     df = pd.read_csv(input_path)
-    required_columns = {"phone_clean", "name_clean"}
+    required_columns = {"phone_clean", "company_clean"}
     missing = required_columns.difference(df.columns)
     if missing:
         cols = ", ".join(sorted(missing))

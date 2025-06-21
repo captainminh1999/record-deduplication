@@ -16,12 +16,12 @@ except Exception:  # pragma: no cover - optional dependency
 
 
 def translate_to_english(texts: Iterable[str], model: str = "gpt-4o-mini") -> List[str]:
-    """Translate a sequence of names to English using the OpenAI API.
+    """Translate a sequence of company names to English using the OpenAI API.
 
     Parameters
     ----------
     texts:
-        An iterable of raw text values (e.g. names) to translate.
+        An iterable of raw text values (e.g. company names) to translate.
     model:
         Chat completion model to use.
 
@@ -43,7 +43,7 @@ def translate_to_english(texts: Iterable[str], model: str = "gpt-4o-mini") -> Li
     results: List[str] = []
     for text in texts:
         prompt = (
-            "Translate the following name to English using Latin characters only: "
+            "Translate the following company name to English using Latin characters only: "
             f"{text}"
         )
         resp = openai.ChatCompletion.create(

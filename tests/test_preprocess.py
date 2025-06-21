@@ -39,6 +39,32 @@ class PreprocessTest(unittest.TestCase):
 
             self.assertTrue(os.path.exists(log_path))
 
+    def test_column_normalization(self):
+        data = (
+            "Record ID,company,domain,phone,address\n"
+            "1,Acme Inc,acme.com,123,A\n"
+            "2,Widgets LLC,widgets.com,555,B\n"
+        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = os.path.join(tmpdir, "input.csv")
+            with open(input_path, "w", encoding="utf-8") as f:
+                f.write(data)
+            output_path = os.path.join(tmpdir, "out.csv")
+            audit_path = os.path.join(tmpdir, "audit.csv")
+            log_path = os.path.join(tmpdir, "log.csv")
+
+            preprocess.main(
+                input_path=input_path,
+                output_path=output_path,
+                audit_path=audit_path,
+                use_openai=False,
+                log_path=log_path,
+            )
+
+            df = pd.read_csv(output_path)
+            self.assertEqual(len(df), 2)
+            self.assertIn("record_id", df.columns)
+            
     def test_preprocess_missing_domain(self):
         data = (
             "record_id,company,phone,address\n"

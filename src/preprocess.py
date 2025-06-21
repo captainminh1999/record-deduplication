@@ -42,6 +42,15 @@ def _normalize_phone(phone: str) -> str:
     return digits
 
 
+def _clean_column_name(name: str) -> str:
+    """Return a simplified column identifier.
+
+    Lowercase and strip spaces and underscores so that variations like
+    ``Record ID`` or ``record_id`` map to the same key.
+    """
+    return re.sub(r"[ _]+", "", name).lower()
+
+
 
 def main(
     input_path: str = "data/your_spreadsheet.csv",
@@ -69,12 +78,15 @@ def main(
 
     df = pd.read_csv(input_path)
 
-    if "record_id" not in df.columns and "sys_id" not in df.columns:
-        raise KeyError(
-            f"Missing required column: record_id or sys_id. Found: {', '.join(df.columns)}"
-        )
-    if "record_id" not in df.columns and "sys_id" in df.columns:
-        df["record_id"] = df["sys_id"]
+    col_map = {_clean_column_name(c): c for c in df.columns}
+
+    if "recordid" not in col_map and "sysid" not in col_map:
+        raise KeyError("Missing required column: record_id or sys_id")
+    if "recordid" not in col_map and "sysid" in col_map:
+        df["record_id"] = df[col_map["sysid"]]
+    elif "recordid" in col_map:
+        df["record_id"] = df[col_map["recordid"]]
+
     if "company" not in df.columns:
         if "name" in df.columns:
             df["company"] = df["name"]

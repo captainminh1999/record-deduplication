@@ -14,6 +14,56 @@ import recordlinkage
 from .utils import log_run
 
 
+def generate_candidate_pairs(df: pd.DataFrame) -> pd.MultiIndex:
+    """Return a MultiIndex of candidate pairs using simple blocking rules.
+
+    Parameters
+    ----------
+    df:
+        Cleaned DataFrame with ``record_id`` as a column or index and
+        normalised ``phone_clean``, ``company_clean`` and ``domain_clean``
+        fields.
+
+    Returns
+    -------
+    pandas.MultiIndex
+        Candidate pairs to be compared in the next pipeline step.
+    """
+    if "record_id" in df.columns:
+        df = df.set_index("record_id")
+
+    required = {"phone_clean", "company_clean", "domain_clean"}
+    missing = required.difference(df.columns)
+    if missing:
+        cols = ", ".join(sorted(missing))
+        raise KeyError(f"Missing required columns: {cols}")
+
+    blocks = []
+    idx = recordlinkage.Index()
+    idx.block("phone_clean")
+    blocks.append(idx.index(df))
+
+    idx = recordlinkage.Index()
+    idx.block("company_clean")
+    blocks.append(idx.index(df))
+
+    idx = recordlinkage.Index()
+    idx.block("domain_clean")
+    blocks.append(idx.index(df))
+
+    # A fuzzy company block using sorted neighbourhood. The window size
+    # can be tuned later for a different recall/precision trade-off.
+    idx = recordlinkage.Index()
+    idx.sortedneighbourhood("company_clean", window=5)
+    blocks.append(idx.index(df))
+
+    candidates = blocks[0]
+    for b in blocks[1:]:
+        candidates = candidates.union(b)
+
+    return candidates
+
+
 def main(
     input_path: str = "data/outputs/cleaned.csv",
     output_path: str = "data/outputs/pairs.csv",

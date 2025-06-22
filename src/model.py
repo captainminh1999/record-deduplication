@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import click
 import joblib
+import os
 import pandas as pd
 from pandas import ExcelWriter  # noqa: F401 - imported for future report steps
 from sklearn.linear_model import LogisticRegression
@@ -20,6 +21,16 @@ def main(
     duplicates_path: str = "data/outputs/high_confidence.csv",
 ) -> pd.DataFrame:
     """Train a model and score candidate pairs."""
+
+    if not os.path.exists(features_path):
+        raise FileNotFoundError(f"Features file not found: {features_path}")
+    if not os.path.exists(labels_path):
+        msg = (
+            f"Labels file not found: {labels_path}. "
+            "Model training requires labeled data."
+        )
+        print(msg)
+        raise FileNotFoundError(msg)
 
     # Load similarity features and labels then merge on the pair identifiers.
     feat_df = pd.read_csv(features_path)

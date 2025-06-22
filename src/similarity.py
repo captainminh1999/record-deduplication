@@ -32,8 +32,8 @@ def main(
         "phone_clean",
         "company_clean",
         "domain_clean",
-        "address_clean",
     }
+    address_present = "address_clean" in df.columns
     missing = required.difference(df.columns)
     if missing:
         cols = ", ".join(sorted(missing))
@@ -72,11 +72,12 @@ def main(
         score = fuzz.token_set_ratio(str(a) if pd.notnull(a) else "", str(b) if pd.notnull(b) else "")
         return score / 100.0
 
-    addr_scores = [
-        _addr_ratio(df.loc[i1, "address_clean"], df.loc[i2, "address_clean"])
-        for i1, i2 in pairs_index
-    ]
-    features["address_sim"] = addr_scores
+    if address_present:
+        addr_scores = [
+            _addr_ratio(df.loc[i1, "address_clean"], df.loc[i2, "address_clean"])
+            for i1, i2 in pairs_index
+        ]
+        features["address_sim"] = addr_scores
 
     features = features.reset_index()
     features.to_csv(features_path, index=False)

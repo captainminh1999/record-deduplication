@@ -142,6 +142,32 @@ class PreprocessTest(unittest.TestCase):
 
             self.assertTrue(os.path.exists(log_path))
 
+    def test_preprocess_combine_address_parts(self):
+        data = (
+            "record_id,company,domain,phone,Street,Street Cont.,City,State,Country Code\n"
+            "1,Acme Inc,acme.com,123,1 Main,,Town,CA,US\n"
+            "2,Widgets LLC,widgets.com,555,2 Side,Suite 3,City,NY,US\n"
+        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = os.path.join(tmpdir, "input.csv")
+            with open(input_path, "w", encoding="utf-8") as f:
+                f.write(data)
+            output_path = os.path.join(tmpdir, "out.csv")
+            audit_path = os.path.join(tmpdir, "audit.csv")
+            log_path = os.path.join(tmpdir, "log.csv")
+
+            preprocess.main(
+                input_path=input_path,
+                output_path=output_path,
+                audit_path=audit_path,
+                use_openai=False,
+                log_path=log_path,
+            )
+
+            df = pd.read_csv(output_path)
+            self.assertIn("address_clean", df.columns)
+            self.assertTrue(df["address_clean"].str.contains("Main").any())
+
     def test_preprocess_excel_input(self):
         df_in = pd.DataFrame(
             {

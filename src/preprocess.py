@@ -136,6 +136,32 @@ def main(
         phone_col = pd.Series("", index=df.index)
     df["phone_clean"] = phone_col.map(_normalize_phone)
 
+    # Build an address column from various components if one isn't provided
+    address_key = col_map.get("address")
+    if address_key:
+        address_series = df[address_key]
+    else:
+        comp_keys = [
+            col_map.get("street"),
+            col_map.get("streetcont"),
+            col_map.get("city"),
+            col_map.get("state"),
+            col_map.get("countrycode"),
+        ]
+        comps = [df[k] for k in comp_keys if k]
+        if comps:
+            address_series = (
+                pd.concat(comps, axis=1)
+                .fillna("")
+                .astype(str)
+                .agg(" ".join, axis=1)
+                .str.replace(r"\s+", " ", regex=True)
+                .str.strip()
+            )
+        else:
+            address_series = pd.Series("", index=df.index)
+    df["address_clean"] = address_series
+
     df["combined_id"] = (
         df["company_clean"] + ";" + df["domain_clean"] + ";" + df["phone_clean"]
     )

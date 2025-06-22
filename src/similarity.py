@@ -46,6 +46,7 @@ def main(
         pairs_index = pd.MultiIndex.from_frame(pairs_df)
     else:
         pairs_index = generate_candidate_pairs(df)
+        os.makedirs(os.path.dirname(pairs_path), exist_ok=True)
         pairs_index.to_frame(index=False).to_csv(pairs_path, index=False)
 
     comp = recordlinkage.Compare()
@@ -80,6 +81,7 @@ def main(
         features["address_sim"] = addr_scores
 
     features = features.reset_index()
+    os.makedirs(os.path.dirname(features_path), exist_ok=True)
     features.to_csv(features_path, index=False)
 
     print(f"Computed {len(features)} feature rows and saved to {features_path}.")

@@ -7,6 +7,7 @@ side by side for human validation.
 from __future__ import annotations
 
 import click
+import os
 import pandas as pd
 from openpyxl.styles import PatternFill
 from pandas import ExcelWriter
@@ -31,6 +32,7 @@ def main(
     high_conf = merged[merged["prob"] >= 0.9]
     manual_review = merged[(merged["prob"] >= 0.6) & (merged["prob"] < 0.9)]
 
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with ExcelWriter(report_path, engine="openpyxl") as writer:
         high_conf.to_excel(writer, sheet_name="high_confidence", index=False)
         manual_review.to_excel(writer, sheet_name="manual_review", index=False)

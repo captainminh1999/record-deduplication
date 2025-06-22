@@ -47,6 +47,34 @@ class BlockingTest(unittest.TestCase):
             self.assertIn("preprocess", lines[0])
             self.assertIn("blocking", lines[1])
 
+    def test_blocking_creates_dirs(self):
+        data = (
+            "record_id,company,domain,phone,address\n"
+            "1,Acme Corp,acme.com,123,A\n"
+            "2,Acme Co,acme.org,123,B\n"
+        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = os.path.join(tmpdir, "input.csv")
+            with open(input_path, "w", encoding="utf-8") as f:
+                f.write(data)
+            cleaned_path = os.path.join(tmpdir, "cleaned.csv")
+            preprocess.main(
+                input_path=input_path,
+                output_path=cleaned_path,
+                audit_path=os.path.join(tmpdir, "audit.csv"),
+                use_openai=False,
+                log_path=os.path.join(tmpdir, "logs", "log.csv"),
+            )
+
+            pairs_path = os.path.join(tmpdir, "nested", "pairs.csv")
+            blocking.main(
+                input_path=cleaned_path,
+                output_path=pairs_path,
+                log_path=os.path.join(tmpdir, "logs", "log.csv"),
+            )
+
+            self.assertTrue(os.path.exists(pairs_path))
+
 
 if __name__ == "__main__":
     unittest.main()

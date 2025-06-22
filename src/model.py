@@ -48,6 +48,7 @@ def main(
     model.fit(X, y)
 
     # Persist the trained model for later reuse.
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
     joblib.dump(model, model_path)
 
     # Score all candidate pairs using the trained model. ``predict_proba`` returns
@@ -61,6 +62,7 @@ def main(
     # Filter pairs with probability above the high-confidence threshold. The
     # threshold can be adjusted later as needed.
     high_conf = scored_df[scored_df["prob"] >= 0.9]
+    os.makedirs(os.path.dirname(duplicates_path), exist_ok=True)
     high_conf.to_csv(duplicates_path, index=False)
 
     return scored_df

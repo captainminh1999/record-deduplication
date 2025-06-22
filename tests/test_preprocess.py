@@ -202,6 +202,32 @@ class PreprocessTest(unittest.TestCase):
 
             self.assertTrue(os.path.exists(log_path))
 
+    def test_preprocess_creates_dirs(self):
+        data = (
+            "record_id,company,domain,phone,address\n"
+            "1,Acme,acme.com,1,A\n"
+            "2,Acme,acme.com,1,B\n"
+        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = os.path.join(tmpdir, "input.csv")
+            with open(input_path, "w", encoding="utf-8") as f:
+                f.write(data)
+            output_path = os.path.join(tmpdir, "out", "cleaned.csv")
+            audit_path = os.path.join(tmpdir, "audit", "removed.csv")
+            log_path = os.path.join(tmpdir, "logs", "run.log")
+
+            preprocess.main(
+                input_path=input_path,
+                output_path=output_path,
+                audit_path=audit_path,
+                use_openai=False,
+                log_path=log_path,
+            )
+
+            self.assertTrue(os.path.exists(output_path))
+            self.assertTrue(os.path.exists(audit_path))
+            self.assertTrue(os.path.exists(log_path))
+
 
 if __name__ == "__main__":
     unittest.main()

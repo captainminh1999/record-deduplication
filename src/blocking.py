@@ -7,12 +7,19 @@ columns to limit the number of comparisons.
 from __future__ import annotations
 
 import os
+import time
 import pandas as pd
 import recordlinkage
 
+from .utils import log_run
 
-def main(input_path: str = "data/outputs/cleaned.csv") -> pd.DataFrame:
-    """Return a DataFrame of candidate pairs.
+
+def main(
+    input_path: str = "data/outputs/cleaned.csv",
+    output_path: str = "data/outputs/pairs.csv",
+    log_path: str = "data/outputs/run_history.log",
+) -> pd.DataFrame:
+    """Return a DataFrame of candidate pairs and optionally save to CSV.
 
     Parameters
     ----------
@@ -25,6 +32,8 @@ def main(input_path: str = "data/outputs/cleaned.csv") -> pd.DataFrame:
         DataFrame with ``record_id_1`` and ``record_id_2`` columns representing
         candidate record pairs.
     """
+    start_time = time.time()
+
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Cleaned data not found: {input_path}")
 
@@ -72,9 +81,26 @@ def main(input_path: str = "data/outputs/cleaned.csv") -> pd.DataFrame:
     # can be fine-tuned later for better performance.
     print(f"Generated {len(pair_df)} candidate pairs")
 
+    pair_df.to_csv(output_path, index=False)
+
+    end_time = time.time()
+    log_run("blocking", start_time, end_time, len(pair_df), log_path=log_path)
+
     return pair_df
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate candidate pairs")
+    parser.add_argument("--input-path", default="data/outputs/cleaned.csv")
+    parser.add_argument("--output-path", default="data/outputs/pairs.csv")
+    parser.add_argument("--log-path", default="data/outputs/run_history.log")
+    args = parser.parse_args()
+
     print("\u23e9 started blocking")
-    main()
+    main(
+        input_path=args.input_path,
+        output_path=args.output_path,
+        log_path=args.log_path,
+    )

@@ -31,7 +31,7 @@ def main(
     high_conf = merged[merged["prob"] >= 0.9]
     manual_review = merged[(merged["prob"] >= 0.6) & (merged["prob"] < 0.9)]
 
-    with ExcelWriter(report_path) as writer:
+    with ExcelWriter(report_path, engine="openpyxl") as writer:
         high_conf.to_excel(writer, sheet_name="high_confidence", index=False)
         manual_review.to_excel(writer, sheet_name="manual_review", index=False)
 

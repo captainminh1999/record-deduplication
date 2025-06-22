@@ -118,7 +118,7 @@ Once trained (or even without explicit training data), the logistic model will *
 python -m src.model
 ```
 
-This assumes that `features.csv` (from the previous step) and `labels.csv` (if available) are present in the `data/outputs` directory. The script will load the features, load labels if provided, train the `LogisticRegression` model, and then produce scores for all pairs. If you have no `labels.csv`, the logistic regression may either not run or will default to some behavior (depending on if the code was extended to handle no labels). In practice, if no labels are available, you might skip directly to using similarity thresholds or use unsupervised techniques; however, in this pipeline, providing at least some labels will greatly improve accuracy.
+This assumes that `features.csv` (from the previous step) and `labels.csv` are present in the `data/outputs` directory. The script will load the features, read the labels, train the `LogisticRegression` model, and then produce scores for all pairs. **If `labels.csv` is missing, the script will print a message explaining that model training requires labeled data and exit with an error.** In practice, providing at least some labels greatly improves accuracy.
 
 **Output:** After running, you should see:
 

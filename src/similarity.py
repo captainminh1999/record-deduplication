@@ -69,8 +69,11 @@ def main(
     # RapidFuzz token_set_ratio for addresses. Scale to [0,1] as future
     # thresholds may be tuned later. Additional phonetic or fuzzy-domain
     # checks can be implemented in future iterations.
-    def _addr_ratio(a: str, b: str) -> float:
-        score = fuzz.token_set_ratio(str(a) if pd.notnull(a) else "", str(b) if pd.notnull(b) else "")
+    def _addr_ratio(a: object, b: object) -> float:
+        score = fuzz.token_set_ratio(
+            str(a) if pd.notnull(a) else "",
+            str(b) if pd.notnull(b) else "",
+        )
         return score / 100.0
 
     if address_present:

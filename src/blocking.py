@@ -131,6 +131,7 @@ def main(
     # can be fine-tuned later for better performance.
     print(f"Generated {len(pair_df)} candidate pairs")
 
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     pair_df.to_csv(output_path, index=False)
 
     end_time = time.time()

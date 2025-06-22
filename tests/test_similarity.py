@@ -64,6 +64,31 @@ class SimilarityTest(unittest.TestCase):
             self.assertEqual(len(feats), 1)
             self.assertNotIn("address_sim", feats.columns)
 
+    def test_similarity_creates_dirs(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cleaned_path = os.path.join(tmpdir, "cleaned.csv")
+            df = pd.DataFrame(
+                {
+                    "record_id": [1, 2],
+                    "company_clean": ["acme", "acme"],
+                    "domain_clean": ["acme.com", "acme.com"],
+                    "phone_clean": ["123", "123"],
+                }
+            )
+            df.to_csv(cleaned_path, index=False)
+
+            pairs_path = os.path.join(tmpdir, "pairs", "pairs.csv")
+            features_path = os.path.join(tmpdir, "feats", "features.csv")
+
+            similarity.main(
+                cleaned_path=cleaned_path,
+                pairs_path=pairs_path,
+                features_path=features_path,
+            )
+
+            self.assertTrue(os.path.exists(pairs_path))
+            self.assertTrue(os.path.exists(features_path))
+
 
 if __name__ == "__main__":
     unittest.main()

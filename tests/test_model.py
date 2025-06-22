@@ -83,6 +83,39 @@ class ModelTest(unittest.TestCase):
             dupes = pd.read_csv(dupes_path)
             self.assertGreaterEqual(len(dupes), 1)
 
+    def test_model_creates_dirs(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            features_path = os.path.join(tmpdir, "features.csv")
+            labels_path = os.path.join(tmpdir, "labels.csv")
+            model_path = os.path.join(tmpdir, "model_dir", "model.joblib")
+            dupes_path = os.path.join(tmpdir, "dupes_dir", "high.csv")
+
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "feat": [0, 1],
+                }
+            ).to_csv(features_path, index=False)
+
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "label": [0, 1],
+                }
+            ).to_csv(labels_path, index=False)
+
+            model.main(
+                features_path=features_path,
+                labels_path=labels_path,
+                model_path=model_path,
+                duplicates_path=dupes_path,
+            )
+
+            self.assertTrue(os.path.exists(model_path))
+            self.assertTrue(os.path.exists(dupes_path))
+
 
 if __name__ == "__main__":
     unittest.main()

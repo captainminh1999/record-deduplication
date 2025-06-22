@@ -168,12 +168,14 @@ def main(
 
     duplicates = df[df.duplicated(subset="combined_id", keep="first")]
     if not duplicates.empty:
+        os.makedirs(os.path.dirname(audit_path), exist_ok=True)
         duplicates.assign(reason="duplicate combined_id").to_csv(
             audit_path, index=False
         )
 
     df = df.drop_duplicates(subset="combined_id", keep="first")
 
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df.to_csv(output_path, index=False)
 
     end_time = time.time()

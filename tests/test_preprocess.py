@@ -142,6 +142,38 @@ class PreprocessTest(unittest.TestCase):
 
             self.assertTrue(os.path.exists(log_path))
 
+    def test_preprocess_domain_only_dedup(self):
+        data = (
+            "record_id,company,domain,phone,address\n"
+            "1,Acme,example.com,1,A\n"
+            "2,Widgets,example.com,2,B\n"
+            "3,Third,other.com,3,C\n"
+            "4,Fourth,other.com,4,D\n"
+        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = os.path.join(tmpdir, "input.csv")
+            with open(input_path, "w", encoding="utf-8") as f:
+                f.write(data)
+            output_path = os.path.join(tmpdir, "out.csv")
+            audit_path = os.path.join(tmpdir, "audit.csv")
+            log_path = os.path.join(tmpdir, "log.csv")
+
+            preprocess.main(
+                input_path=input_path,
+                output_path=output_path,
+                audit_path=audit_path,
+                use_openai=False,
+                log_path=log_path,
+            )
+
+            df = pd.read_csv(output_path)
+            self.assertEqual(len(df), 2)
+
+            audit = pd.read_csv(audit_path)
+            self.assertEqual(len(audit), 2)
+
+            self.assertTrue(os.path.exists(log_path))
+
     def test_preprocess_combine_address_parts(self):
         data = (
             "record_id,company,domain,phone,Street,Street Cont.,City,State,Country Code\n"

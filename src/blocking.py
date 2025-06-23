@@ -87,8 +87,8 @@ def main(
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Cleaned data not found: {input_path}")
 
-    # Read the cleaned dataset and set record_id as the index for the
-    # recordlinkage algorithms.
+    # Read the cleaned dataset. ``generate_candidate_pairs`` will handle
+    # column validation and indexing.
     df = pd.read_csv(input_path)
 
     required_columns = {"record_id", "phone_clean", "company_clean", "domain_clean"}
@@ -97,32 +97,8 @@ def main(
         cols = ", ".join(sorted(missing))
         raise KeyError(f"Missing required columns: {cols}")
 
-    df = df.set_index("record_id")
-
-    # Build exact-match blocks for phone, company and domain.
-    blocks = []
-    idx = recordlinkage.Index()
-    idx.block("phone_clean")
-    blocks.append(idx.index(df))
-
-    idx = recordlinkage.Index()
-    idx.block("company_clean")
-    blocks.append(idx.index(df))
-
-    idx = recordlinkage.Index()
-    idx.block("domain_clean")
-    blocks.append(idx.index(df))
-
-    # Add a fuzzy block on company name using a sorted-neighbourhood approach.
-    # The window size can be tuned later to adjust recall and precision.
-    idx = recordlinkage.Index()
-    idx.sortedneighbourhood("company_clean", window=5)
-    blocks.append(idx.index(df))
-
-    # Union all candidate sets into a single MultiIndex and convert to DataFrame.
-    candidates = blocks[0]
-    for b in blocks[1:]:
-        candidates = candidates.union(b)
+    # Delegate the blocking logic to ``generate_candidate_pairs``.
+    candidates = generate_candidate_pairs(df)
 
     pair_df = candidates.to_frame(index=False)
     pair_df.columns = ["record_id_1", "record_id_2"]

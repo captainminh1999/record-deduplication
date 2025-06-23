@@ -19,6 +19,8 @@ from sklearn.cluster import DBSCAN
 # The OpenAI package is optional and may not be installed by default
 try:
     import openai  # type: ignore
+    if not getattr(openai, "api_key", None):
+        openai.api_key = os.getenv("OPENAI_KEY") or os.getenv("OPENAI_API_KEY")
 except Exception:  # pragma: no cover - optional dependency
     openai = None
 
@@ -50,7 +52,7 @@ def translate_to_english(
 
     if not getattr(openai, "api_key", None):
         raise RuntimeError(
-            "OpenAI API key is not configured. Set 'openai.api_key' or the 'OPENAI_API_KEY' environment variable."
+            "OpenAI API key is not configured. Set 'openai.api_key' or the 'OPENAI_KEY' environment variable."
         )
 
     results: List[str] = []
@@ -77,7 +79,7 @@ def _check_openai() -> None:
         )
     if not getattr(openai, "api_key", None):
         raise RuntimeError(
-            "OpenAI API key is not configured. Set 'openai.api_key' or the 'OPENAI_API_KEY' environment variable."
+            "OpenAI API key is not configured. Set 'openai.api_key' or the 'OPENAI_KEY' environment variable."
         )
 
 

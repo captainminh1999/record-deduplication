@@ -27,7 +27,7 @@ This will install pandas, NumPy, scikit-learn, `recordlinkage` (for pairing reco
 pip install openai
 ```
 
-Also, set your OpenAI API key as an environment variable (`OPENAI_API_KEY`) or configure it in your code before use. *Skip this step if you don’t intend to use the GPT features.* (More on this in the [Optional: GPT Integration](#optional-gpt-integration) section.)
+Also, set your OpenAI API key as an environment variable (`OPENAI_KEY`) or configure it in your code before use. *Skip this step if you don’t intend to use the GPT features.* (More on this in the [Optional: GPT Integration](#optional-gpt-integration) section.)
 
 ## Usage Guide: Step-by-Step Workflow
 

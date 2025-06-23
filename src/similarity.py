@@ -7,6 +7,7 @@ similarity metrics that serve as model features.
 from __future__ import annotations
 
 import os
+import re
 
 import click
 import pandas as pd
@@ -20,6 +21,7 @@ def main(
     cleaned_path: str = "data/outputs/cleaned.csv",
     pairs_path: str = "data/outputs/pairs.csv",
     features_path: str = "data/outputs/features.csv",
+    match_path: str = "data/outputs/match_data.csv",
 ) -> pd.DataFrame:
     """Create similarity features between candidate record pairs."""
     if not os.path.exists(cleaned_path):
@@ -87,7 +89,29 @@ def main(
     os.makedirs(os.path.dirname(features_path), exist_ok=True)
     features.to_csv(features_path, index=False)
 
-    print(f"Computed {len(features)} feature rows and saved to {features_path}.")
+    # Build a companion file with the cleaned values for each record.
+    match_cols = ["company_clean", "domain_clean", "phone_clean"]
+    if "address_clean" in df.columns:
+        match_cols.append("address_clean")
+    state_col = next((c for c in df.columns if re.sub(r"[ _]+", "", c).lower() == "state"), None)
+    country_col = next((c for c in df.columns if re.sub(r"[ _]+", "", c).lower() == "countrycode"), None)
+    if state_col:
+        match_cols.append(state_col)
+    if country_col:
+        match_cols.append(country_col)
+
+    left = df.loc[features["record_id_1"], match_cols].reset_index(drop=True)
+    left.columns = [f"{c}_1" for c in match_cols]
+    right = df.loc[features["record_id_2"], match_cols].reset_index(drop=True)
+    right.columns = [f"{c}_2" for c in match_cols]
+    match_df = pd.concat([features[["record_id_1", "record_id_2"]], left, right], axis=1)
+    os.makedirs(os.path.dirname(match_path), exist_ok=True)
+    match_df.to_csv(match_path, index=False)
+
+    print(
+        f"Computed {len(features)} feature rows and saved to {features_path}.",
+        f"Match data saved to {match_path}.",
+    )
     return features
 
 
@@ -95,9 +119,10 @@ def main(
 @click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True)
 @click.option("--pairs-path", default="data/outputs/pairs.csv", show_default=True)
 @click.option("--features-path", default="data/outputs/features.csv", show_default=True)
-def cli(cleaned_path: str, pairs_path: str, features_path: str) -> None:
+@click.option("--match-path", default="data/outputs/match_data.csv", show_default=True)
+def cli(cleaned_path: str, pairs_path: str, features_path: str, match_path: str) -> None:
     """CLI wrapper for :func:`main`."""
-    main(cleaned_path, pairs_path, features_path)
+    main(cleaned_path, pairs_path, features_path, match_path)
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

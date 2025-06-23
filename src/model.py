@@ -42,6 +42,11 @@ def main(
     X = train_df.drop(columns=["record_id_1", "record_id_2", "label"])
     y = train_df["label"]
 
+    # Convert any non-numeric feature columns to numeric. If strings are
+    # encountered (e.g. due to bad input like "bluehex"), ``to_numeric`` will
+    # produce ``NaN`` which we replace with ``0`` so the model can still train.
+    X = X.apply(pd.to_numeric, errors="coerce").fillna(0)
+
     # Instantiate a basic logistic regression model. Regularisation strength ``C``
     # and solver can be tuned later for better performance.
     model = LogisticRegression(max_iter=1000)
@@ -54,7 +59,11 @@ def main(
     # Score all candidate pairs using the trained model. ``predict_proba`` returns
     # probabilities for the negative and positive classes; ``[:, 1]`` selects the
     # duplicate probability.
-    X_all = feat_df.drop(columns=["record_id_1", "record_id_2"])
+    X_all = (
+        feat_df.drop(columns=["record_id_1", "record_id_2"])
+        .apply(pd.to_numeric, errors="coerce")
+        .fillna(0)
+    )
     probs = model.predict_proba(X_all)[:, 1]
     scored_df = feat_df.copy()
     scored_df["prob"] = probs

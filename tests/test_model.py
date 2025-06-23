@@ -116,6 +116,39 @@ class ModelTest(unittest.TestCase):
             self.assertTrue(os.path.exists(model_path))
             self.assertTrue(os.path.exists(dupes_path))
 
+    def test_model_handles_non_numeric_features(self):
+        """Model training should not fail if features contain text values."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            features_path = os.path.join(tmpdir, "features.csv")
+            labels_path = os.path.join(tmpdir, "labels.csv")
+            model_path = os.path.join(tmpdir, "model.joblib")
+            dupes_path = os.path.join(tmpdir, "dupes.csv")
+
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "feat": ["bluehex", 1.0],
+                }
+            ).to_csv(features_path, index=False)
+
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "label": [0, 1],
+                }
+            ).to_csv(labels_path, index=False)
+
+            scored = model.main(
+                features_path=features_path,
+                labels_path=labels_path,
+                model_path=model_path,
+                duplicates_path=dupes_path,
+            )
+
+            self.assertIn("prob", scored.columns)
+
 
 if __name__ == "__main__":
     unittest.main()

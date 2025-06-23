@@ -86,9 +86,10 @@ def main(
 
     The function loads ``input_path`` using :func:`pandas.read_csv` for CSV
     files or :func:`pandas.read_excel` for Excel files. Company, domain and
-    phone columns are normalised into new ``*_clean`` fields, exact duplicates
-    based on the ``combined_id`` are dropped and written to ``audit_path`` and
-    the cleaned dataset is saved to ``output_path``.
+    phone columns are normalised into new ``*_clean`` fields. Rows that share
+    the same normalised company name **or** the same normalised domain are
+    considered duplicates, written to ``audit_path`` and removed from the
+    output written to ``output_path``.
     """
     if clear:
         clear_all_data(os.path.dirname(output_path))
@@ -166,14 +167,44 @@ def main(
         df["company_clean"] + ";" + df["domain_clean"] + ";" + df["phone_clean"]
     )
 
-    duplicates = df[df.duplicated(subset="combined_id", keep="first")]
+    df["_id_str"] = df["record_id"].astype(str)
+
+    company_map = (
+        df.groupby("company_clean")["_id_str"].apply(lambda s: set(s)).to_dict()
+    )
+    domain_map = (
+        df[df["domain_clean"].ne("")]
+        .groupby("domain_clean")["_id_str"]
+        .apply(lambda s: set(s))
+        .to_dict()
+    )
+
+    def _build_merged(row: pd.Series) -> str:
+        ids = {row["_id_str"]}
+        comp_ids = company_map.get(row["company_clean"])
+        if comp_ids and len(comp_ids) > 1:
+            ids.update(comp_ids)
+        dom_ids = domain_map.get(row["domain_clean"])
+        if dom_ids and len(dom_ids) > 1:
+            ids.update(dom_ids)
+        return ";".join(sorted(ids))
+
+    df["merged_ids"] = df.apply(_build_merged, axis=1)
+
+    dup_by_company = df.duplicated(subset=["company_clean"], keep="first")
+    dup_by_domain = (
+        df["domain_clean"].ne("")
+        & df.duplicated(subset=["domain_clean"], keep="first")
+    )
+    dup_mask = dup_by_company | dup_by_domain
+    duplicates = df[dup_mask].drop(columns=["_id_str"])
     if not duplicates.empty:
         os.makedirs(os.path.dirname(audit_path), exist_ok=True)
-        duplicates.assign(reason="duplicate combined_id").to_csv(
+        duplicates.assign(reason="duplicate company or domain").to_csv(
             audit_path, index=False
         )
 
-    df = df.drop_duplicates(subset="combined_id", keep="first")
+    df = df[~dup_mask].drop(columns=["_id_str"])
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df.to_csv(output_path, index=False)

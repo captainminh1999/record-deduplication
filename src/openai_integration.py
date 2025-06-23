@@ -22,8 +22,13 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     openai = None
 
+# Default chat model used across this module
+DEFAULT_MODEL = "gpt-4o-mini"
 
-def translate_to_english(texts: Iterable[str], model: str = "gpt-4o-mini") -> List[str]:
+
+def translate_to_english(
+    texts: Iterable[str], model: str = DEFAULT_MODEL
+) -> List[str]:
     """Translate a sequence of company names to English using the OpenAI API.
 
     Parameters
@@ -62,6 +67,7 @@ def translate_to_english(texts: Iterable[str], model: str = "gpt-4o-mini") -> Li
         results.append(translated)
 
     return results
+
 
 def _check_openai() -> None:
     """Ensure the OpenAI dependency and API key are available."""
@@ -106,6 +112,7 @@ def main(
     eps: float = 0.5,
     min_samples: int = 2,
     report_path: str = "data/outputs/gpt_cluster_report.json",
+    openai_model: str = DEFAULT_MODEL,
 ) -> None:
     """Run a GPT-assisted cluster sanity check over deduplication results."""
 
@@ -120,9 +127,7 @@ def main(
     cleaned = pd.read_csv(cleaned_path).set_index("record_id")
 
     similarity_cols = [
-        c
-        for c in feats.columns
-        if c.endswith("_sim") or c == "phone_exact"
+        c for c in feats.columns if c.endswith("_sim") or c == "phone_exact"
     ]
     if not similarity_cols:
         raise ValueError("No similarity columns found in features file")
@@ -170,15 +175,24 @@ def main(
                 f"  - ID {d['id']}: {d['company']}, {d['domain']}, {d['phone']}, {d['address']}"
             )
         lines.append("1) Do these all refer to the same organization?")
-        lines.append("2) If yes, what should be the **primary organization name**?")
-        lines.append("3) Please provide a **single canonical record** (choose or merge the fields above).")
-        lines.append("If any record does NOT belong in this cluster, please list its ID.")
+        lines.append(
+            "2) If yes, what should be the **primary organization name**?"
+        )
+        lines.append(
+            "3) Please provide a **single canonical record** (choose or merge the fields above)."
+        )
+        lines.append(
+            "If any record does NOT belong in this cluster, please list its ID."
+        )
         prompt_text = "\n".join(lines)
 
         resp = openai.ChatCompletion.create(
-            model="4o-mini",
+            model=openai_model,
             messages=[
-                {"role": "system", "content": "You are a data quality assistant."},
+                {
+                    "role": "system",
+                    "content": "You are a data quality assistant.",
+                },
                 {"role": "user", "content": prompt_text},
             ],
             temperature=0,
@@ -201,25 +215,44 @@ def main(
     with open(report_path, "w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
 
-    print(f"Processed {len(results)} clusters and saved report to {report_path}")
+    print(
+        f"Processed {len(results)} clusters and saved report to {report_path}"
+    )
 
 
 @click.command()
-@click.option("--features-path", default="data/outputs/features.csv", show_default=True)
-@click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True)
+@click.option(
+    "--features-path", default="data/outputs/features.csv", show_default=True
+)
+@click.option(
+    "--cleaned-path", default="data/outputs/cleaned.csv", show_default=True
+)
 @click.option("--eps", default=0.5, show_default=True)
 @click.option("--min-samples", default=2, show_default=True)
-@click.option("--report-path", default="data/outputs/gpt_cluster_report.json", show_default=True)
+@click.option(
+    "--report-path",
+    default="data/outputs/gpt_cluster_report.json",
+    show_default=True,
+)
+@click.option("--openai-model", default=DEFAULT_MODEL, show_default=True)
 def cli(
     features_path: str,
     cleaned_path: str,
     eps: float,
     min_samples: int,
     report_path: str,
+    openai_model: str,
 ) -> None:
     """CLI wrapper for :func:`main`."""
 
-    main(features_path, cleaned_path, eps, min_samples, report_path)
+    main(
+        features_path,
+        cleaned_path,
+        eps,
+        min_samples,
+        report_path,
+        openai_model,
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

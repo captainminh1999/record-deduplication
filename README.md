@@ -128,11 +128,11 @@ This assumes that `features.csv` (from the previous step) and `labels.csv` are p
 
 **Output:** After running, you should see:
 
-* **`data/outputs/dupes_high_conf.csv`** – a list of the candidate pairs that the model flagged as likely duplicates with high confidence. This is essentially the subset of the features table with an added probability column and filtered by a probability threshold. You might also see:
+* **`data/outputs/high_confidence.csv`** – a list of the candidate pairs that the model flagged as likely duplicates with high confidence. This is essentially the subset of the features table with an added probability column and filtered by a probability threshold. You might also see:
 * An updated **`data/outputs/features.csv`** – possibly now including the new `prob` column for all pairs (depending on implementation of saving the results).
-* The logistic model itself is not saved in this pipeline (training is fast enough to run as needed), but developers could easily modify the code to save the model to disk if desired.
+* **`data/outputs/model.joblib`** – the trained logistic regression model saved for reuse.
 
-By inspecting `dupes_high_conf.csv`, you can get a quick sense of which records the pipeline thinks are duplicates. Each row should reference two record IDs (from the original `record_id` field) and might include their similarity features and the predicted probability. High-confidence duplicates might be those with probability > 0.9 (90%) or a similar threshold that was chosen in the code. You can adjust this threshold by modifying the code in `src/model.py` if needed.
+By inspecting `high_confidence.csv`, you can get a quick sense of which records the pipeline thinks are duplicates. Each row should reference two record IDs (from the original `record_id` field) and might include their similarity features and the predicted probability. High-confidence duplicates might be those with probability > 0.9 (90%) or a similar threshold that was chosen in the code. You can adjust this threshold by modifying the code in `src/model.py` if needed.
 
 **What to watch out for:** The effectiveness of this step depends heavily on the quality of your training data (labels) and features. If you provide no labels, the model isn’t truly learning what a duplicate looks like in your context – it might default to some baseline or require you to manually set a threshold on features instead. If the model’s output doesn’t seem accurate (e.g., it’s flagging many false positives or missing obvious duplicates), consider improving the training labels:
 
@@ -144,7 +144,7 @@ By inspecting `dupes_high_conf.csv`, you can get a quick sense of which records 
 
 **What it does:** The final core step is to produce a human-readable **report of duplicate suggestions**. After the model identifies likely duplicates, this step will gather those pairs and present them side-by-side in an Excel workbook for you to review manually. The idea is to make it easy for a user (or data steward) to verify the suggested merges before applying them to the original dataset.
 
-The reporting module will take the high-confidence duplicate pairs (`dupes_high_conf.csv`) and the cleaned data, and for each duplicate pair, retrieve the full original records from the cleaned dataset. It then creates a spreadsheet (Excel `.xlsx` file) where each row contains two records that are deemed duplicates, with their details in adjacent columns. This way, you can scroll through the file and visually compare each pair – checking if they truly look like duplicates or if the algorithm made a mistake.
+The reporting module will take the high-confidence duplicate pairs (`high_confidence.csv`) and the cleaned data, and for each duplicate pair, retrieve the full original records from the cleaned dataset. It then creates a spreadsheet (Excel `.xlsx` file) where each row contains two records that are deemed duplicates, with their details in adjacent columns. This way, you can scroll through the file and visually compare each pair – checking if they truly look like duplicates or if the algorithm made a mistake.
 
 **How to run:** Execute the reporting module:
 
@@ -152,13 +152,13 @@ The reporting module will take the high-confidence duplicate pairs (`dupes_high_
 python -m src.reporting
 ```
 
-This will read **`data/outputs/dupes_high_conf.csv`** and **`data/outputs/cleaned.csv`** by default. It will then create the Excel file with merge suggestions.
+This will read **`data/outputs/high_confidence.csv`** and **`data/outputs/cleaned.csv`** by default. It will then create the Excel file with merge suggestions.
 
-**Output:** The main output is **`merge_suggestions.xlsx`** in the project root or in the `data/outputs/` directory (check the README or code for the exact location; typically it would be placed with the outputs). In this Excel workbook, you'll find all the pairs of records that were identified as likely duplicates. Each pair is presented with original field values for side-by-side comparison. There may also be an indication of the model’s confidence score or key matching fields to help you judge.
+**Output:** The main output is **`manual_review.xlsx`** in the project root or in the `data/outputs/` directory (check the README or code for the exact location; typically it would be placed with the outputs). In this Excel workbook, you'll find all the pairs of records that were identified as likely duplicates. Each pair is presented with original field values for side-by-side comparison. There may also be an indication of the model’s confidence score or key matching fields to help you judge.
 
-After this stage, **your involvement as a human reviewer is important** – go through `merge_suggestions.xlsx` and decide for each pair if they are indeed duplicates. If they are, you will want to merge or consolidate those records in your source data. If not, you can ignore that suggestion. The pipeline does **not** automatically modify your original dataset; it just provides recommendations. This gives you full control to avoid incorrect merges.
+After this stage, **your involvement as a human reviewer is important** – go through `manual_review.xlsx` and decide for each pair if they are indeed duplicates. If they are, you will want to merge or consolidate those records in your source data. If not, you can ignore that suggestion. The pipeline does **not** automatically modify your original dataset; it just provides recommendations. This gives you full control to avoid incorrect merges.
 
-**What to watch out for:** Ensure that the `dupes_high_conf.csv` exists and is not empty before running this step; if the model didn’t flag any duplicates, the report might be empty or the script might simply produce an empty spreadsheet. If the reporting step fails, it might be due to unexpected data formats in the CSV or missing files. Also note that the Excel is generated using `pandas` with OpenPyXL/XlsxWriter, so very large numbers of duplicate pairs might lead to a large file – if you had hundreds of thousands of suggestions (unlikely in practice after blocking and scoring), you might instead want to output a CSV or handle the review in a database. But for most use cases, the Excel output is convenient and easy to filter or annotate as you review the results.
+**What to watch out for:** Ensure that the `high_confidence.csv` exists and is not empty before running this step; if the model didn’t flag any duplicates, the report might be empty or the script might simply produce an empty spreadsheet. If the reporting step fails, it might be due to unexpected data formats in the CSV or missing files. Also note that the Excel is generated using `pandas` with OpenPyXL/XlsxWriter, so very large numbers of duplicate pairs might lead to a large file – if you had hundreds of thousands of suggestions (unlikely in practice after blocking and scoring), you might instead want to output a CSV or handle the review in a database. But for most use cases, the Excel output is convenient and easy to filter or annotate as you review the results.
 
 ### Optional: GPT Integration
 
@@ -201,8 +201,9 @@ Understanding the repository structure will help you navigate the code and data:
     * `pairs.csv` – Record ID pairs generated by the blocking step.
     * `features.csv` – Similarity feature matrix for candidate pairs (output of the similarity step).
     * `labels.csv` – *(Optional)* Label data for training the model (you might prepare this manually if you have known duplicates for supervised learning).
-    * `dupes_high_conf.csv` – High-confidence duplicate pairs identified by the model, to be reviewed.
-    * `merge_suggestions.xlsx` – Excel report generated in the reporting step, listing likely duplicates side by side for human review.
+    * `model.joblib` – Saved model from Step 4.
+    * `high_confidence.csv` – High-confidence duplicate pairs identified by the model, to be reviewed.
+    * `manual_review.xlsx` – Excel report generated in the reporting step, listing likely duplicates side by side for human review.
     * `run_history.log` – A log file appending a line each time you run a pipeline step with the `--log-path` option or by default. It records the step name, start/end time, number of records processed, and duration. This is useful for tracking the pipeline execution over time or debugging performance.
 
 * **`src/`** – The source code for the pipeline, organized by stage:
@@ -210,8 +211,8 @@ Understanding the repository structure will help you navigate the code and data:
   * `preprocess.py` – Step 1: Data cleaning and normalization script (adds `record_id` field, normalizes company/domain/phone, removes duplicates, writes `cleaned.csv`).
   * `blocking.py` – Step 2: Blocking script (reads `cleaned.csv`, forms candidate pairs by blocking on keys like phone and company, using the `recordlinkage` library).
   * `similarity.py` – Step 3: Similarity computation script (takes candidate pairs and computes features such as string similarity scores, writing out `features.csv`).
-  * `model.py` – Step 4: Model training and scoring script (loads features and labels, trains logistic regression, scores all pairs, outputs `dupes_high_conf.csv` with a probability for each potential duplicate pair).
-  * `reporting.py` – Step 5: Reporting script (loads the high-confidence duplicates and the cleaned data, then creates the `merge_suggestions.xlsx` Excel file for review).
+  * `model.py` – Step 4: Model training and scoring script (loads features and labels, trains logistic regression, scores all pairs, outputs `high_confidence.csv` with a probability for each potential duplicate pair).
+  * `reporting.py` – Step 5: Reporting script (loads the high-confidence duplicates and the cleaned data, then creates the `manual_review.xlsx` Excel file for review).
   * `openai_integration.py` – Optional GPT integration module (contains functions to use OpenAI API, e.g., `translate_to_english` for company names, and a placeholder for prompting GPT to evaluate duplicates). This is not required for core functionality but is provided for extension.
   * `utils.py` – Utility functions used across the pipeline (for example, file cleanup and logging). Key utilities:
 
@@ -247,7 +248,7 @@ Even with a straightforward pipeline, you might run into issues or have question
   * You didn’t change the default paths without telling the next step. If you use a custom `--output-path` in one step, you might need to provide the matching `--input-path` to the next step. Consistency is key if you override any paths.
   * The working directory is correct. Run the commands from the root of the repository (where the `data` folder is accessible). If you run the script from a different folder, the relative paths might not resolve correctly.
 
-* **Output Seems Incorrect or Empty:** If the pipeline runs but the results don't look right (e.g., `dupes_high_conf.csv` is empty or the Excel report has no entries):
+* **Output Seems Incorrect or Empty:** If the pipeline runs but the results don't look right (e.g., `high_confidence.csv` is empty or the Excel report has no entries):
 
   * It could be that no duplicate candidates met the "high confidence" threshold. This might happen if your data truly has no duplicates (good news!) or if the model was not effective. Try lowering the confidence threshold in the code or checking some pairs with slightly lower scores.
   * It’s also possible that the similarity features weren't generated properly. Peek into `features.csv` to see if it contains reasonable values. If all similarity scores are 0 for example, something might have gone wrong in feature computation.
@@ -265,7 +266,7 @@ Even with a straightforward pipeline, you might run into issues or have question
 
   * Not normalizing data before deduplication. (Our pipeline handles basic normalization, but always sanity-check things like consistent formats for phone numbers, or remove trailing spaces in names that might throw off comparisons.)
   * Relying on a single field to deduplicate can be dangerous, as different entities can share names or domains. The preprocessing step therefore removes rows that duplicate **either** the normalised company name or the domain to catch obvious repeats before modelling.
-  * Forgetting to review suggestions manually. Even a high-confidence model can make mistakes. Always review the `merge_suggestions.xlsx` file; do not assume it’s 100% accurate. This pipeline is a tool to assist you, not a fully automatic solution.
+  * Forgetting to review suggestions manually. Even a high-confidence model can make mistakes. Always review the `manual_review.xlsx` file; do not assume it’s 100% accurate. This pipeline is a tool to assist you, not a fully automatic solution.
 
 * **Limitations:** This is a **minimal demo pipeline**, not a one-size-fits-all solution. It provides a foundation, but you may need to adapt it to your specific data:
 
@@ -300,7 +301,7 @@ Run this command from the root of the repository. It will automatically find tes
 * **Better Blocking:** The current blocking is minimal. For larger data, consider multi-step blocking (first on something broad like country or first letter of name, then on finer keys) to manage candidate volume. The `recordlinkage` library supports blocking on multiple keys (even combinations or sorted neighborhood indexing). You can implement those in `src/blocking.py`.
 * **Additional Similarity Metrics:** The more features the model has, the better it can distinguish duplicates. You could incorporate things like edit distance for names, Jaccard similarity for sets of words (useful for addresses or lists), or even domain-specific comparisons (if deduplicating products, compare categories; if people, compare birthdates, etc.). Use the `rapidfuzz` library or other text similarity libraries to compute these in `src/similarity.py`. Keep an eye on performance; you might not want to compute every possible metric if not needed.
 * **Different Models:** Logistic regression is straightforward, but you could try other algorithms (random forests, gradient boosting, neural nets) for the classification step. These might capture non-linear patterns in the features. However, more complex models may require more data to train effectively and are harder to interpret. If you do swap out the model, update `src/model.py` accordingly and ensure you still output a probability or score for each pair (for reporting).
-* **Active Learning/Feedback Loop:** In a practical setting, you might use the results from reporting to further train the model. For example, if the user reviews `merge_suggestions.xlsx` and confirms some pairs as true duplicates and rejects others, those could be fed back into the labels dataset to retrain and improve the model. A developer could script this feedback loop externally or extend the pipeline to incorporate a manual review step where the user’s input is collected.
+* **Active Learning/Feedback Loop:** In a practical setting, you might use the results from reporting to further train the model. For example, if the user reviews `manual_review.xlsx` and confirms some pairs as true duplicates and rejects others, those could be fed back into the labels dataset to retrain and improve the model. A developer could script this feedback loop externally or extend the pipeline to incorporate a manual review step where the user’s input is collected.
 * **Integration:** You may want to integrate this pipeline into a larger system (for instance, running it as part of an ETL job or a web service). Each module can be imported and called from other Python code. For example, you could `import src.preprocess` and call `src.preprocess.main(input_path="...")` from a larger application. The modular design supports such reuse. If doing so, make sure to handle the working directory or path issues (you might want to pass absolute paths for inputs/outputs in that case).
 
 **Code Style and Conventions:** The code is written with clarity in mind. There are docstrings at the top of each module explaining its purpose. Functions and variables have intuitive names (e.g., `_normalize_name`, `_normalize_domain` for cleaning tasks). If you contribute or modify, try to maintain this clarity. Small, pure functions for normalization make the code easier to test and reuse (notice how `_normalize_name`, `_normalize_domain`, `_normalize_phone` are separate helpers in preprocessing).

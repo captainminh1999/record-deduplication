@@ -8,17 +8,22 @@ from __future__ import annotations
 
 import click
 import os
+import time
 import pandas as pd
 from openpyxl.styles import PatternFill
 from pandas import ExcelWriter
+from .utils import log_run, LOG_PATH
 
 
 def main(
     dupes_path: str = "data/outputs/high_confidence.csv",
     cleaned_path: str = "data/outputs/cleaned.csv",
     report_path: str = "data/outputs/manual_review.xlsx",
+    log_path: str = LOG_PATH,
 ) -> None:
     """Create a merge suggestion workbook."""
+
+    start_time = time.time()
 
     dupes = pd.read_csv(dupes_path)
     cleaned = pd.read_csv(cleaned_path).set_index("record_id")
@@ -56,15 +61,25 @@ def main(
         f"pairs for manual review to {report_path}"
     )
 
+    end_time = time.time()
+    log_run(
+        "reporting",
+        start_time,
+        end_time,
+        len(high_conf) + len(manual_review),
+        log_path=log_path,
+    )
+
 
 @click.command()
 @click.option("--duplicates-path", default="data/outputs/high_confidence.csv", show_default=True)
 @click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True)
 @click.option("--report-path", default="data/outputs/manual_review.xlsx", show_default=True)
-def cli(duplicates_path: str, cleaned_path: str, report_path: str) -> None:
+@click.option("--log-path", default=LOG_PATH, show_default=True)
+def cli(duplicates_path: str, cleaned_path: str, report_path: str, log_path: str) -> None:
     """CLI wrapper for :func:`main`."""
 
-    main(duplicates_path, cleaned_path, report_path)
+    main(duplicates_path, cleaned_path, report_path, log_path)
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

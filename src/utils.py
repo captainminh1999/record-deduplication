@@ -3,7 +3,7 @@ import glob
 from datetime import datetime
 from typing import Iterable
 
-LOG_PATH = "data/outputs/run_history.log"
+LOG_PATH = "data/run_history.log"
 
 
 def clear_files(paths: Iterable[str]) -> None:

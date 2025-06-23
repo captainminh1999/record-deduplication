@@ -11,7 +11,7 @@ import time
 import pandas as pd
 import recordlinkage
 
-from .utils import log_run
+from .utils import log_run, LOG_PATH
 
 
 def generate_candidate_pairs(df: pd.DataFrame) -> pd.MultiIndex:
@@ -67,7 +67,7 @@ def generate_candidate_pairs(df: pd.DataFrame) -> pd.MultiIndex:
 def main(
     input_path: str = "data/outputs/cleaned.csv",
     output_path: str = "data/outputs/pairs.csv",
-    log_path: str = "data/outputs/run_history.log",
+    log_path: str = LOG_PATH,
 ) -> pd.DataFrame:
     """Return a DataFrame of candidate pairs and optionally save to CSV.
 
@@ -122,7 +122,7 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
     parser = argparse.ArgumentParser(description="Generate candidate pairs")
     parser.add_argument("--input-path", default="data/outputs/cleaned.csv")
     parser.add_argument("--output-path", default="data/outputs/pairs.csv")
-    parser.add_argument("--log-path", default="data/outputs/run_history.log")
+    parser.add_argument("--log-path", default=LOG_PATH)
     args = parser.parse_args()
 
     print("\u23e9 started blocking")

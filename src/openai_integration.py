@@ -10,11 +10,13 @@ from typing import Iterable, List, Dict, Any
 
 import json
 import os
+import time
 
 import click
 import numpy as np
 import pandas as pd
 from sklearn.cluster import DBSCAN
+from .utils import log_run, LOG_PATH
 
 # The OpenAI package is optional and may not be installed by default
 try:
@@ -113,8 +115,11 @@ def main(
     min_samples: int = 2,
     report_path: str = "data/outputs/gpt_cluster_report.json",
     openai_model: str = DEFAULT_MODEL,
+    log_path: str = LOG_PATH,
 ) -> None:
     """Run a GPT-assisted cluster sanity check over deduplication results."""
+
+    start_time = time.time()
 
     _check_openai()
 
@@ -219,6 +224,15 @@ def main(
         f"Processed {len(results)} clusters and saved report to {report_path}"
     )
 
+    end_time = time.time()
+    log_run(
+        "openai_integration",
+        start_time,
+        end_time,
+        len(results),
+        log_path=log_path,
+    )
+
 
 @click.command()
 @click.option(
@@ -235,6 +249,7 @@ def main(
     show_default=True,
 )
 @click.option("--openai-model", default=DEFAULT_MODEL, show_default=True)
+@click.option("--log-path", default=LOG_PATH, show_default=True)
 def cli(
     features_path: str,
     cleaned_path: str,
@@ -242,6 +257,7 @@ def cli(
     min_samples: int,
     report_path: str,
     openai_model: str,
+    log_path: str,
 ) -> None:
     """CLI wrapper for :func:`main`."""
 
@@ -252,6 +268,7 @@ def cli(
         min_samples,
         report_path,
         openai_model,
+        log_path,
     )
 
 

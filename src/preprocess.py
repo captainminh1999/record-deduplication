@@ -14,7 +14,7 @@ import time
 import pandas as pd
 
 from .openai_integration import translate_to_english
-from .utils import log_run, clear_all_data
+from .utils import log_run, clear_all_data, LOG_PATH
 from .corp_designators import CORP_PREFIXES, CORP_SUFFIXES
 
 
@@ -79,7 +79,7 @@ def main(
     audit_path: str = "data/outputs/removed_rows.csv",
     use_openai: bool = False,
     openai_model: str = "gpt-4o-mini",
-    log_path: str = "data/outputs/run_history.log",
+    log_path: str = LOG_PATH,
     clear: bool = False,
 ) -> int:
     """Clean the raw spreadsheet and save a CSV.
@@ -226,7 +226,7 @@ if __name__ == "__main__":  # pragma: no cover - sanity run
         "--use-openai", action="store_true", help="Translate company names with OpenAI"
     )
     parser.add_argument("--openai-model", default="gpt-4o-mini")
-    parser.add_argument("--log-path", default="data/outputs/run_history.log")
+    parser.add_argument("--log-path", default=LOG_PATH)
     parser.add_argument("--clear", action="store_true", help="Remove previous outputs")
     args = parser.parse_args()
 

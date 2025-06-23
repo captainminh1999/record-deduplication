@@ -9,9 +9,11 @@ from __future__ import annotations
 import click
 import joblib
 import os
+import time
 import pandas as pd
 from pandas import ExcelWriter  # noqa: F401 - imported for future report steps
 from sklearn.linear_model import LogisticRegression
+from .utils import log_run, LOG_PATH
 
 
 def _heuristic_labels(df: pd.DataFrame) -> pd.DataFrame:
@@ -61,8 +63,11 @@ def main(
     labels_path: str = "data/outputs/labels.csv",
     model_path: str = "data/outputs/model.joblib",
     duplicates_path: str = "data/outputs/high_confidence.csv",
+    log_path: str = LOG_PATH,
 ) -> pd.DataFrame:
     """Train a model and score candidate pairs."""
+
+    start_time = time.time()
 
     if not os.path.exists(features_path):
         raise FileNotFoundError(f"Features file not found: {features_path}")
@@ -125,6 +130,9 @@ def main(
     os.makedirs(os.path.dirname(duplicates_path), exist_ok=True)
     high_conf.to_csv(duplicates_path, index=False)
 
+    end_time = time.time()
+    log_run("model", start_time, end_time, len(scored_df), log_path=log_path)
+
     return scored_df
 
 
@@ -135,6 +143,7 @@ def main(
 @click.option("--duplicates-path", default="data/outputs/high_confidence.csv", show_default=True)
 @click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True)
 @click.option("--report-path", default="data/outputs/manual_review.xlsx", show_default=True)
+@click.option("--log-path", default=LOG_PATH, show_default=True)
 def cli(
     features_path: str,
     labels_path: str,
@@ -142,10 +151,11 @@ def cli(
     duplicates_path: str,
     cleaned_path: str,  # noqa: ARG001 - reserved for future reporting step
     report_path: str,  # noqa: ARG001 - reserved for future reporting step
+    log_path: str,
 ) -> None:
     """CLI wrapper for :func:`main`."""
 
-    main(features_path, labels_path, model_path, duplicates_path)
+    main(features_path, labels_path, model_path, duplicates_path, log_path)
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import re
+import time
 
 import click
 import pandas as pd
@@ -15,14 +16,17 @@ import recordlinkage
 from rapidfuzz import fuzz
 
 from .blocking import generate_candidate_pairs
+from .utils import log_run, LOG_PATH
 
 
 def main(
     cleaned_path: str = "data/outputs/cleaned.csv",
     pairs_path: str = "data/outputs/pairs.csv",
     features_path: str = "data/outputs/features.csv",
+    log_path: str = LOG_PATH,
 ) -> pd.DataFrame:
     """Create similarity features between candidate record pairs."""
+    start_time = time.time()
     if not os.path.exists(cleaned_path):
         raise FileNotFoundError(f"Cleaned data not found: {cleaned_path}")
 
@@ -111,6 +115,8 @@ def main(
     print(
         f"Computed {len(features)} feature rows and saved to {features_path}."
     )
+    end_time = time.time()
+    log_run("similarity", start_time, end_time, len(features), log_path=log_path)
     return features
 
 
@@ -118,9 +124,10 @@ def main(
 @click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True)
 @click.option("--pairs-path", default="data/outputs/pairs.csv", show_default=True)
 @click.option("--features-path", default="data/outputs/features.csv", show_default=True)
-def cli(cleaned_path: str, pairs_path: str, features_path: str) -> None:
+@click.option("--log-path", default=LOG_PATH, show_default=True)
+def cli(cleaned_path: str, pairs_path: str, features_path: str, log_path: str) -> None:
     """CLI wrapper for :func:`main`."""
-    main(cleaned_path, pairs_path, features_path)
+    main(cleaned_path, pairs_path, features_path, log_path)
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

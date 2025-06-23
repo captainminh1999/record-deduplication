@@ -61,7 +61,7 @@ Replace the `--input-path` value if your input file is named differently or loca
 
 * `cleaned.csv` – the processed data ready for the next step.
 * `removed_rows.csv` – any dropped duplicates (if no rows were dropped, this file may have only headers or be empty).
-* `run_history.log` – a log file where each pipeline step appends the stage name, start/end times, number of rows processed, and duration.
+* `run_history.log` (in `data/`) – a log file where each pipeline step appends the stage name, start/end times, number of rows processed, and duration.
 
 > **Example:** Using the provided `sample_input.csv` (already in the `data/` folder) as input will result in a `cleaned.csv` with 2 records and a `removed_rows.csv` containing the two rows that shared the same company or domain. The log file will note the preprocessing step and how many rows remained.
 
@@ -204,7 +204,7 @@ Understanding the repository structure will help you navigate the code and data:
     * `model.joblib` – Saved model from Step 4.
     * `high_confidence.csv` – High-confidence duplicate pairs identified by the model, to be reviewed.
     * `manual_review.xlsx` – Excel report generated in the reporting step, listing likely duplicates side by side for human review.
-    * `run_history.log` – A log file appending a line each time you run a pipeline step with the `--log-path` option or by default. It records the step name, start/end time, number of records processed, and duration. This is useful for tracking the pipeline execution over time or debugging performance.
+    * `run_history.log` – A log file (saved in `data/`) appending a line each time you run a pipeline step with the `--log-path` option or by default. It records the step name, start/end time, number of records processed, and duration. This is useful for tracking the pipeline execution over time or debugging performance.
 
 * **`src/`** – The source code for the pipeline, organized by stage:
 
@@ -306,7 +306,7 @@ Run this command from the root of the repository. It will automatically find tes
 
 **Code Style and Conventions:** The code is written with clarity in mind. There are docstrings at the top of each module explaining its purpose. Functions and variables have intuitive names (e.g., `_normalize_name`, `_normalize_domain` for cleaning tasks). If you contribute or modify, try to maintain this clarity. Small, pure functions for normalization make the code easier to test and reuse (notice how `_normalize_name`, `_normalize_domain`, `_normalize_phone` are separate helpers in preprocessing).
 
-**Logging and Monitoring:** The `run_history.log` can be useful for developers to see how long each step takes and how many records are processed each run. This can help identify bottlenecks or anomalies (e.g., if suddenly a run processes far fewer records, maybe many were filtered out unexpectedly). You can extend logging or add more detailed logging within each step if needed.
+**Logging and Monitoring:** The `run_history.log` file in `data/` captures an entry every time you run a pipeline step. This lets developers see how long each stage takes and how many records were processed. It can help identify bottlenecks or anomalies (e.g., if suddenly a run processes far fewer records, maybe many were filtered out unexpectedly). You can extend logging or add more detailed logging within each step if needed.
 
 **Working with the Codebase:** If using an interactive environment like Jupyter notebooks (as hinted by the `notebooks/` directory), you can run parts of the pipeline step by step and inspect variables at each stage, which is great for development and debugging. For instance, you could load `cleaned.csv` into a DataFrame and manually experiment with recordlinkage indexing and comparing before finalizing the code in `blocking.py` or `similarity.py`.
 

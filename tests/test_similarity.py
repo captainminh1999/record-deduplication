@@ -37,6 +37,9 @@ class SimilarityTest(unittest.TestCase):
             self.assertIn("company_sim", feats.columns)
             self.assertIn("address_sim", feats.columns)
             self.assertEqual(feats.loc[0, "phone_exact"], 1)
+            self.assertIn("company_clean_1", feats.columns)
+            self.assertIn("company_clean_2", feats.columns)
+            self.assertEqual(feats.loc[0, "domain_clean_1"], "acme.com")
 
     def test_similarity_without_address(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -63,6 +66,8 @@ class SimilarityTest(unittest.TestCase):
             feats = pd.read_csv(features_path)
             self.assertEqual(len(feats), 1)
             self.assertNotIn("address_sim", feats.columns)
+            self.assertIn("phone_clean_1", feats.columns)
+            self.assertEqual(feats.loc[0, "company_clean_2"], "acme")
 
     def test_similarity_creates_dirs(self):
         with tempfile.TemporaryDirectory() as tmpdir:

@@ -18,7 +18,7 @@ from .blocking import generate_candidate_pairs
 
 def main(
     cleaned_path: str = "data/outputs/cleaned.csv",
-    pairs_path: str = "data/outputs/candidate_pairs.csv",
+    pairs_path: str = "data/outputs/pairs.csv",
     features_path: str = "data/outputs/features.csv",
 ) -> pd.DataFrame:
     """Create similarity features between candidate record pairs."""
@@ -93,7 +93,7 @@ def main(
 
 @click.command()
 @click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True)
-@click.option("--pairs-path", default="data/outputs/candidate_pairs.csv", show_default=True)
+@click.option("--pairs-path", default="data/outputs/pairs.csv", show_default=True)
 @click.option("--features-path", default="data/outputs/features.csv", show_default=True)
 def cli(cleaned_path: str, pairs_path: str, features_path: str) -> None:
     """CLI wrapper for :func:`main`."""

@@ -42,6 +42,21 @@ class PreprocessTest(unittest.TestCase):
             df = pd.read_csv(output_path)
             self.assertEqual(len(df), 2)
             self.assertIn("combined_id", df.columns)
+            self.assertIn("merged_ids", df.columns)
+            self.assertEqual(
+                df.loc[df["record_id"] == 1, "combined_id"].iloc[0],
+                "acme;acme.com;123",
+            )
+            self.assertEqual(
+                df.loc[df["record_id"] == 1, "merged_ids"].iloc[0], "1;2"
+            )
+            self.assertEqual(
+                df.loc[df["record_id"] == 3, "combined_id"].iloc[0],
+                "widgets;widgets.com;555",
+            )
+            self.assertEqual(
+                df.loc[df["record_id"] == 3, "merged_ids"].iloc[0], "3;4"
+            )
 
             audit = pd.read_csv(audit_path)
             self.assertEqual(len(audit), 2)
@@ -168,6 +183,20 @@ class PreprocessTest(unittest.TestCase):
 
             df = pd.read_csv(output_path)
             self.assertEqual(len(df), 2)
+            self.assertEqual(
+                df.loc[df["record_id"] == 1, "combined_id"].iloc[0],
+                "acme;example.com;1",
+            )
+            self.assertEqual(
+                df.loc[df["record_id"] == 1, "merged_ids"].iloc[0], "1;2"
+            )
+            self.assertEqual(
+                df.loc[df["record_id"] == 3, "combined_id"].iloc[0],
+                "third;other.com;3",
+            )
+            self.assertEqual(
+                df.loc[df["record_id"] == 3, "merged_ids"].iloc[0], "3;4"
+            )
 
             audit = pd.read_csv(audit_path)
             self.assertEqual(len(audit), 2)
@@ -228,6 +257,23 @@ class PreprocessTest(unittest.TestCase):
             df_out = pd.read_csv(output_path)
             self.assertEqual(len(df_out), 2)
             self.assertIn("combined_id", df_out.columns)
+            self.assertIn("merged_ids", df_out.columns)
+            self.assertEqual(
+                df_out.loc[df_out["record_id"] == 1, "combined_id"].iloc[0],
+                "acme;acme.com;123",
+            )
+            self.assertEqual(
+                df_out.loc[df_out["record_id"] == 1, "merged_ids"].iloc[0],
+                "1;2",
+            )
+            self.assertEqual(
+                df_out.loc[df_out["record_id"] == 3, "combined_id"].iloc[0],
+                "widgets;widgets.com;555",
+            )
+            self.assertEqual(
+                df_out.loc[df_out["record_id"] == 3, "merged_ids"].iloc[0],
+                "3;4",
+            )
 
             audit = pd.read_csv(audit_path)
             self.assertEqual(len(audit), 2)

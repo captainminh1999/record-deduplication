@@ -44,9 +44,9 @@ Now, execute the following pipeline steps **in order**:
 * **Normalize text fields** such as company names, website domains, and phone numbers into a standard format (lowercasing, removing accents, stripping URLs, etc.). For example, "Acme Inc" and "acme inc." would be normalized to the same representation.
 * **Ensure required columns exist:** The script will check that a unique ID and a company name column are present. If the input has `sys_id` instead of `record_id`, it will rename it automatically. If the company column is named differently (e.g. "Name"), it will be detected and used. Missing critical columns will result in an error instructing you to add or rename that column.
 * **Optionally translate company names to English:** If you have company names in multiple languages, you can use the `--use-openai` flag to call OpenAI GPT for translation. By default this uses a model called `"gpt-4o-mini"` (you can specify a different model with `--openai-model`). This will send each company name to the API and replace it with an English version using Latin characters. (Ensure you installed `openai` and set your API key as described above, otherwise an error will be raised.)
-* **Create a combined key for duplicates:** The script creates a new field `combined_id` by concatenating the normalized company name, domain, and phone fields. This acts as a unique signature for a record. Any exact duplicate rows sharing the same `combined_id` are considered obvious duplicates.
-* **Remove exact duplicate records:** If multiple entries have the same `combined_id`, only the first is kept. The duplicates that were removed are saved separately with a note for review.
-* **Save cleaned output:** The cleaned dataset (after dropping exact duplicates) is written to **`data/outputs/cleaned.csv`**, and any removed duplicate rows are saved to **`data/outputs/removed_rows.csv`**. The removed rows file includes a column (e.g., `reason`) explaining why those records were filtered out (in this case, `"duplicate combined_id"`).
+* **Create a combined key for reference:** The script still creates a `combined_id` field by concatenating the normalized company, domain and phone columns. This is mainly for auditing and later steps.
+* **Remove obvious duplicate records:** Rows that share the same normalised company name **or** the same normalised domain are considered duplicates. Only the first occurrence is kept. Dropped rows are saved with a note for review.
+* **Save cleaned output:** The cleaned dataset (after dropping these duplicates) is written to **`data/outputs/cleaned.csv`**, and any removed duplicate rows are saved to **`data/outputs/removed_rows.csv`**. The removed rows file includes a column (e.g., `reason`) explaining why those records were filtered out (in this case, `"duplicate company or domain"`).
 
 **How to run:** Execute the preprocessing module with Python. From the repository root directory, run:
 
@@ -258,7 +258,7 @@ Even with a straightforward pipeline, you might run into issues or have question
 * **Common Mistakes:**
 
   * Not normalizing data before deduplication. (Our pipeline handles basic normalization, but always sanity-check things like consistent formats for phone numbers, or remove trailing spaces in names that might throw off comparisons.)
-  * Relying on a single field to deduplicate (like just company name) can be dangerous, as different entities can share names. That’s why we combined multiple fields into a `combined_id` for exact duplicate removal and use multiple features for the model.
+  * Relying on a single field to deduplicate can be dangerous, as different entities can share names or domains. The preprocessing step therefore removes rows that duplicate **either** the normalised company name or the domain to catch obvious repeats before modelling.
   * Forgetting to review suggestions manually. Even a high-confidence model can make mistakes. Always review the `merge_suggestions.xlsx` file; do not assume it’s 100% accurate. This pipeline is a tool to assist you, not a fully automatic solution.
 
 * **Limitations:** This is a **minimal demo pipeline**, not a one-size-fits-all solution. It provides a foundation, but you may need to adapt it to your specific data:

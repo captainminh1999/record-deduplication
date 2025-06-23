@@ -42,6 +42,11 @@ def main(
     X = train_df.drop(columns=["record_id_1", "record_id_2", "label"])
     y = train_df["label"]
 
+    if y.nunique() < 2:
+        raise ValueError(
+            "Labels file must contain at least two classes for training"
+        )
+
     # Convert any non-numeric feature columns to numeric. If strings are
     # encountered (e.g. due to bad input like "bluehex"), ``to_numeric`` will
     # produce ``NaN`` which we replace with ``0`` so the model can still train.

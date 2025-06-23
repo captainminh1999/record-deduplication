@@ -149,6 +149,35 @@ class ModelTest(unittest.TestCase):
 
             self.assertIn("prob", scored.columns)
 
+    def test_model_requires_two_classes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            features_path = os.path.join(tmpdir, "features.csv")
+            labels_path = os.path.join(tmpdir, "labels.csv")
+
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "feat": [0.1, 0.2],
+                }
+            ).to_csv(features_path, index=False)
+
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "label": [0, 0],
+                }
+            ).to_csv(labels_path, index=False)
+
+            with self.assertRaises(ValueError):
+                model.main(
+                    features_path=features_path,
+                    labels_path=labels_path,
+                    model_path=os.path.join(tmpdir, "m.joblib"),
+                    duplicates_path=os.path.join(tmpdir, "d.csv"),
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

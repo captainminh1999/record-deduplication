@@ -40,7 +40,9 @@ def _heuristic_labels(df: pd.DataFrame) -> pd.DataFrame:
 
     if pos_df.empty or neg_df.empty:
         raise FileNotFoundError(
-            "Labels file not found and insufficient heuristic examples for training"
+            "Labels file not found and insufficient heuristic examples for training. "
+            "Ensure `features.csv` contains at least one near-duplicate pair and one clearly different pair, "
+            "or provide a labels.csv with examples."
         )
 
     n = min(len(pos_df), len(neg_df))

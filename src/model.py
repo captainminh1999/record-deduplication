@@ -71,6 +71,9 @@ def main(
 
     if os.path.exists(labels_path):
         label_df = pd.read_csv(labels_path)
+        # Ignore any extra columns in labels.csv to avoid duplicate feature
+        # columns after merging with ``features.csv``.
+        label_df = label_df[["record_id_1", "record_id_2", "label"]]
     else:
         print(
             f"Labels file not found: {labels_path}. "

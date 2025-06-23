@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import tempfile
 import unittest
+import joblib
 
 from src import model
 
@@ -204,6 +205,47 @@ class ModelTest(unittest.TestCase):
 
             self.assertTrue(os.path.exists(model_path))
             self.assertTrue(os.path.exists(dupes_path))
+            self.assertIn("prob", scored.columns)
+
+    def test_labels_with_extra_columns(self):
+        """Labels file may contain extra feature columns which should be ignored."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            features_path = os.path.join(tmpdir, "features.csv")
+            labels_path = os.path.join(tmpdir, "labels.csv")
+            model_path = os.path.join(tmpdir, "model.joblib")
+            dupes_path = os.path.join(tmpdir, "dupes.csv")
+
+            # features file with a single feature column
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "feat": [0, 1],
+                }
+            ).to_csv(features_path, index=False)
+
+            # labels file mistakenly containing the same feature column and an extra
+            # column. Only the ``label`` column should be used.
+            pd.DataFrame(
+                {
+                    "record_id_1": [1, 2],
+                    "record_id_2": [2, 3],
+                    "feat": [0, 1],
+                    "extra": [9, 9],
+                    "label": [0, 1],
+                }
+            ).to_csv(labels_path, index=False)
+
+            scored = model.main(
+                features_path=features_path,
+                labels_path=labels_path,
+                model_path=model_path,
+                duplicates_path=dupes_path,
+            )
+
+            # The model should have been trained with only one feature
+            mdl = joblib.load(model_path)
+            self.assertEqual(mdl.coef_.shape[1], 1)
             self.assertIn("prob", scored.columns)
 
 

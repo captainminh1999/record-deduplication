@@ -44,6 +44,12 @@ def main(
     agg = melted.groupby("record_id")[sim_cols].mean()
     agg = agg.reindex(cleaned.index, fill_value=0)
 
+    # Persist the aggregated feature matrix for debugging or later tuning
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    agg.to_csv("data/outputs/agg_features.csv")
+    print(f"Wrote aggregated features to data/outputs/agg_features.csv")
+
+    # ``eps`` and ``min_samples`` can be fine-tuned later for different datasets
     clustering = DBSCAN(eps=eps, min_samples=min_samples)
     labels = clustering.fit_predict(agg[sim_cols])
     agg["cluster"] = labels

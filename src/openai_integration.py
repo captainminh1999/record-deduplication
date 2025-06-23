@@ -118,27 +118,32 @@ def main(
 
     start_time = time.time()
 
-    _check_openai()
-
     if not os.path.exists(clusters_path):
         raise FileNotFoundError(f"Clusters file not found: {clusters_path}")
 
     clusters_df = pd.read_csv(clusters_path)
+    cluster_count = clusters_df["cluster"].nunique()
 
-    # eps, min_samples and prompt wording can be tuned later via ``clustering.py``
+    _check_openai()
+
+    # eps, min_samples and prompt wording can be tuned later
 
     results: List[Dict[str, Any]] = []
     for cluster_id, group in clusters_df.groupby("cluster"):
         cluster_id_int = int(cast(Any, cluster_id))
+        # Skip noise (-1) and singleton clusters; this threshold can be tuned later
         if cluster_id_int == -1 or len(group) <= 1:
             continue
 
         lines = [f"Cluster {cluster_id_int} contains {len(group)} records:"]
         for _, row in group.iterrows():
             lines.append(
-                f"- ID {int(row['record_id'])}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
+                f"  - ID {int(row['record_id'])}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
             )
-        lines.append("Do these all refer to the same organization? If yes, provide a canonical version of the record.")
+        lines.append("1) Do these all refer to the same organization?")
+        lines.append("2) If yes, what should be the primary organization name?")
+        lines.append("3) Please produce a single canonical record (merge or pick fields).")
+        lines.append("If any record does NOT belong, list its ID.")
         prompt_text = "\n".join(lines)
 
         resp = cast(Any, openai).ChatCompletion.create(
@@ -151,7 +156,7 @@ def main(
         results.append(
             {
                 "cluster_id": cluster_id_int,
-                "records": [int(r) for r in group["record_id"].tolist()],
+                "record_ids": [int(r) for r in group["record_id"].tolist()],
                 "gpt_response": answer,
             }
         )
@@ -160,9 +165,9 @@ def main(
     with open(review_path, "w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
 
-    print(f"Wrote clusters.csv with {len(clusters_df)} records.")
+    print(f"Read {cluster_count} clusters from {clusters_path}.")
     print(
-        f"Queried OpenAI for {len(results)} clusters, saved responses to {review_path}."
+        f"Queried OpenAI for {len(results)} clusters, saved JSON to {review_path}."
     )
 
     end_time = time.time()

@@ -14,6 +14,46 @@ from pandas import ExcelWriter  # noqa: F401 - imported for future report steps
 from sklearn.linear_model import LogisticRegression
 
 
+def _heuristic_labels(df: pd.DataFrame) -> pd.DataFrame:
+    """Return pseudo labels based on simple similarity thresholds."""
+    required = {"company_sim", "domain_sim"}
+    missing = required.difference(df.columns)
+    if missing:
+        raise FileNotFoundError(
+            "Labels file not found and required similarity columns are missing"
+        )
+
+    pos_mask = (df.get("company_sim", 0) >= 0.99) & (df.get("domain_sim", 0) >= 0.99)
+    if "phone_exact" in df.columns:
+        pos_mask &= df["phone_exact"] == 1
+    if "address_sim" in df.columns:
+        pos_mask &= df["address_sim"] >= 0.99
+
+    neg_mask = (df.get("company_sim", 1) <= 0.1) & (df.get("domain_sim", 1) <= 0.1)
+    if "phone_exact" in df.columns:
+        neg_mask &= df["phone_exact"] == 0
+    if "address_sim" in df.columns:
+        neg_mask &= df["address_sim"] <= 0.1
+
+    pos_df = df[pos_mask]
+    neg_df = df[neg_mask]
+
+    if pos_df.empty or neg_df.empty:
+        raise FileNotFoundError(
+            "Labels file not found and insufficient heuristic examples for training"
+        )
+
+    n = min(len(pos_df), len(neg_df))
+    labeled = pd.concat(
+        [
+            pos_df.head(n)[["record_id_1", "record_id_2"]].assign(label=1),
+            neg_df.head(n)[["record_id_1", "record_id_2"]].assign(label=0),
+        ],
+        ignore_index=True,
+    )
+    return labeled
+
+
 def main(
     features_path: str = "data/outputs/features.csv",
     labels_path: str = "data/outputs/labels.csv",
@@ -24,17 +64,18 @@ def main(
 
     if not os.path.exists(features_path):
         raise FileNotFoundError(f"Features file not found: {features_path}")
-    if not os.path.exists(labels_path):
-        msg = (
-            f"Labels file not found: {labels_path}. "
-            "Model training requires labeled data."
-        )
-        print(msg)
-        raise FileNotFoundError(msg)
 
-    # Load similarity features and labels then merge on the pair identifiers.
     feat_df = pd.read_csv(features_path)
-    label_df = pd.read_csv(labels_path)
+
+    if os.path.exists(labels_path):
+        label_df = pd.read_csv(labels_path)
+    else:
+        print(
+            f"Labels file not found: {labels_path}. "
+            "Using heuristic positive/negative pairs for training."
+        )
+        label_df = _heuristic_labels(feat_df)
+
     train_df = feat_df.merge(label_df, on=["record_id_1", "record_id_2"], how="inner")
 
     # Split into X/y. All similarity columns are used as features and ``label``

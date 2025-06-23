@@ -111,7 +111,9 @@ In addition, the similarity step now writes **`data/outputs/match_data.csv`**. T
 
 **What it does:** In this step, a simple **machine learning model** is trained to distinguish duplicates from non-duplicates using the similarity features from Step 3. The pipeline uses a **logistic regression** classifier (from scikit-learn) as the model. Logistic regression will assign weights to each similarity feature to best separate true duplicate pairs from false pairs, and output a probability (between 0 and 1) that each candidate pair is a duplicate.
 
-For training this model, you ideally need a set of example pairs labeled as "duplicate" or "not duplicate" – this is your training data (`labels.csv`). If you already have some known duplicate pairs in your dataset (or a subset that was manually labeled), you can prepare a CSV of labels for those pairs. The pipeline expects labels in **`data/outputs/labels.csv`** by default. The exact format may be for example: a row with the two record IDs and a label (`1` for duplicate, `0` for not). If you do not have a labeled dataset, the model can still be used in an unsupervised way by making some assumptions (for instance, treating the exact duplicates found in preprocessing as positive examples, and a sample of obviously different records as negatives), but that is outside the scope of this simple pipeline.
+For training this model, you ideally need a set of example pairs labeled as "duplicate" or "not duplicate" – this is your training data (`labels.csv`). If you already have some known duplicate pairs in your dataset (or a subset that was manually labeled), you can prepare a CSV of labels for those pairs. The pipeline expects labels in **`data/outputs/labels.csv`** by default. The exact format may be for example: a row with the two record IDs and a label (`1` for duplicate, `0` for not).
+
+If the `labels.csv` file is missing, the script now falls back to a simple **unsupervised mode**. In this mode it automatically labels pairs that look like exact duplicates (very high similarity across all features) as positives and pairs that look obviously different as negatives. These heuristic labels allow the logistic regression to train even without manual input, though providing real labels is still recommended for best results.
 
 Once trained (or even without explicit training data), the logistic model will **score all candidate pairs**. It will add a new column (let's say `prob` or `score`) to the features table indicating the predicted probability that each pair is a duplicate. The pipeline will then identify **high-confidence duplicates**, e.g. pairs with a probability above a certain threshold, and save them for reporting.
 
@@ -121,7 +123,7 @@ Once trained (or even without explicit training data), the logistic model will *
 python -m src.model
 ```
 
-This assumes that `features.csv` (from the previous step) and `labels.csv` are present in the `data/outputs` directory. The script will load the features, read the labels, train the `LogisticRegression` model, and then produce scores for all pairs. **If `labels.csv` is missing, the script will print a message explaining that model training requires labeled data and exit with an error.** In practice, providing at least some labels greatly improves accuracy.
+This assumes that `features.csv` (from the previous step) and `labels.csv` are present in the `data/outputs` directory. The script will load the features and labels, train the `LogisticRegression` model, and then produce scores for all pairs. If `labels.csv` is missing, it will automatically generate heuristic labels and train in unsupervised mode instead. Providing real labels is still preferred when possible.
 
 **Output:** After running, you should see:
 

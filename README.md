@@ -115,6 +115,8 @@ For training this model, you ideally need a set of example pairs labeled as "dup
 
 If the `labels.csv` file is missing, the script now falls back to a simple **unsupervised mode**. In this mode it automatically labels pairs that look like exact duplicates (very high similarity across all features) as positives and pairs that look obviously different as negatives. These heuristic labels allow the logistic regression to train even without manual input, though providing real labels is still recommended for best results.
 
+**Note:** This fallback only works if your `features.csv` contains at least one pair that is almost certainly a duplicate and one pair that is clearly not. If no such extremes exist, the model cannot create the heuristic labels and will fail with an error like `"Labels file not found and insufficient heuristic examples for training"`. In that case, create a small `labels.csv` with at least one positive and one negative row.
+
 Once trained (or even without explicit training data), the logistic model will **score all candidate pairs**. It will add a new column (let's say `prob` or `score`) to the features table indicating the predicted probability that each pair is a duplicate. The pipeline will then identify **high-confidence duplicates**, e.g. pairs with a probability above a certain threshold, and save them for reporting.
 
 **How to run:** Execute the model training module:

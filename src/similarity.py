@@ -87,6 +87,26 @@ def main(
 
     features = features.reset_index()
     os.makedirs(os.path.dirname(features_path), exist_ok=True)
+
+    # Build columns with the cleaned values for each record and
+    # combine them with the similarity features.
+    match_cols = ["company_clean", "domain_clean", "phone_clean"]
+    if "address_clean" in df.columns:
+        match_cols.append("address_clean")
+    state_col = next((c for c in df.columns if re.sub(r"[ _]+", "", c).lower() == "state"), None)
+    country_col = next((c for c in df.columns if re.sub(r"[ _]+", "", c).lower() == "countrycode"), None)
+    if state_col:
+        match_cols.append(state_col)
+    if country_col:
+        match_cols.append(country_col)
+
+    left = df.loc[features["record_id_1"], match_cols].reset_index(drop=True)
+    left.columns = [f"{c}_1" for c in match_cols]
+    right = df.loc[features["record_id_2"], match_cols].reset_index(drop=True)
+    right.columns = [f"{c}_2" for c in match_cols]
+    match_df = pd.concat([left, right], axis=1)
+    features = pd.concat([features, match_df], axis=1)
+
     features.to_csv(features_path, index=False)
 
     # Build a companion file with the cleaned values for each record.

@@ -41,7 +41,10 @@ def main(
         workbook = writer.book
         review_ws = writer.sheets["manual_review"]
         fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
-        score_col = int(manual_review.columns.get_loc("prob")) + 1
+        prob_idx = manual_review.columns.get_loc("prob")
+        if not isinstance(prob_idx, int):
+            raise TypeError("Expected a unique 'prob' column")
+        score_col = prob_idx + 1
         for row in review_ws.iter_rows(
             min_row=2, max_row=review_ws.max_row, min_col=score_col, max_col=score_col
         ):

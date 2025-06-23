@@ -6,7 +6,7 @@ merges or normalise data. It is intentionally minimal and optional.
 
 from __future__ import annotations
 
-from typing import Iterable, List, Dict, Any
+from typing import Iterable, List, Dict, Any, cast
 
 import json
 import os
@@ -61,7 +61,7 @@ def translate_to_english(
             "Translate the following company name to English using Latin characters only: "
             f"{text}"
         )
-        resp = openai.ChatCompletion.create(
+        resp = cast(Any, openai).ChatCompletion.create(
             model=model,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -129,10 +129,11 @@ def main(
 
     results: List[Dict[str, Any]] = []
     for cluster_id, group in clusters_df.groupby("cluster"):
-        if cluster_id == -1 or len(group) <= 1:
+        cluster_id_int = int(cast(Any, cluster_id))
+        if cluster_id_int == -1 or len(group) <= 1:
             continue
 
-        lines = [f"Cluster {cluster_id} contains {len(group)} records:"]
+        lines = [f"Cluster {cluster_id_int} contains {len(group)} records:"]
         for _, row in group.iterrows():
             lines.append(
                 f"- ID {int(row['record_id'])}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
@@ -140,7 +141,7 @@ def main(
         lines.append("Do these all refer to the same organization? If yes, provide a canonical version of the record.")
         prompt_text = "\n".join(lines)
 
-        resp = openai.ChatCompletion.create(
+        resp = cast(Any, openai).ChatCompletion.create(
             model=openai_model,
             messages=[{"role": "user", "content": prompt_text}],
             temperature=0,
@@ -149,7 +150,7 @@ def main(
 
         results.append(
             {
-                "cluster_id": int(cluster_id),
+                "cluster_id": cluster_id_int,
                 "records": [int(r) for r in group["record_id"].tolist()],
                 "gpt_response": answer,
             }

@@ -140,7 +140,7 @@ def main(
             lines.append(
                 f"  - ID {int(row['record_id'])}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
             )
-        lines.append("1) Do these all refer to the same organization?")
+        lines.append("1) Take some times to think. Do these all refer to the same organization?")
         lines.append("2) If yes, what should be the primary organization name?")
         lines.append("3) Please produce a single canonical record (merge or pick fields).")
         lines.append("If any record does NOT belong, list its ID.")

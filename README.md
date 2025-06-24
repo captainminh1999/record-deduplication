@@ -220,7 +220,7 @@ Understanding the repository structure will help you navigate the code and data:
     * `manual_review.xlsx` – Excel report generated in the reporting step, listing likely duplicates side by side for human review.
     * `clusters.csv` – DBSCAN cluster assignments for each record (from the optional clustering step).
     * `agg_features.csv` – Aggregated feature matrix that includes the cluster label.
-    * `gpt_review.json` – Output from the GPT cluster review step.
+    * `gpt_review.json` – Output from the GPT cluster review step. This file contains the results of the optional AI-assisted cluster review, where GPT analyzes each cluster and returns canonical records and groupings for potential duplicates. The output is brief and results-only, and may include multiple canonical records per cluster if more than one group of duplicates is detected.
     * `run_history.log` – A log file (saved in `data/`) appending a line each time you run a pipeline step with the `--log-path` option or by default. It records the step name, start/end time, number of records processed, and duration. This is useful for tracking the pipeline execution over time or debugging performance.
 
 * **`src/`** – The source code for the pipeline, organized by stage:
@@ -231,7 +231,7 @@ Understanding the repository structure will help you navigate the code and data:
   * `model.py` – Step 4: Model training and scoring script (loads features and labels, trains logistic regression, scores all pairs, outputs `high_confidence.csv` with a probability for each potential duplicate pair).
   * `clustering.py` – Optional DBSCAN clustering step that groups records based on their similarity features and writes `clusters.csv` and `agg_features.csv`.
   * `reporting.py` – Step 5: Reporting script (loads the high-confidence duplicates and the cleaned data, then creates the `manual_review.xlsx` Excel file for review).
-  * `openai_integration.py` – Optional GPT integration module used for translating text and reviewing clusters. It outputs `gpt_review.json` when analysing clusters.
+  * `openai_integration.py` – Optional GPT integration module used for translating text and reviewing clusters. It outputs `gpt_review.json` when analysing clusters. The GPT review step now supports multiple canonical records per cluster and is designed to return only the results (no explanations), with a character limit per response and a progress bar for user feedback.
   * `utils.py` – Utility functions used across the pipeline (for example, file cleanup and logging). Key utilities:
 
     * `clear_all_data()` – Deletes all files in the outputs directory (to reset the pipeline).
@@ -243,8 +243,9 @@ Understanding the repository structure will help you navigate the code and data:
 
   * `test_preprocess.py` – Tests the preprocessing logic on small sample data, ensuring duplicates are removed and columns normalized as expected.
   * `test_utils.py` – Tests the utility functions like logging and file clearing.
+  * `test_blocking.py`, `test_model.py`, `test_openai_defaults.py`, `test_reporting.py`, `test_similarity.py` – Additional tests for blocking, model, OpenAI integration defaults, reporting, and similarity features, ensuring each module works as intended and edge cases are handled.
 
-* **`notebooks/`** – (If present) Jupyter notebooks for interactive exploration or development. For example, `deduplication.ipynb` might be intended to demonstrate the pipeline in an interactive manner. You can open it to walk through the process step by step. *(Note: This might be empty or a work-in-progress in the repository.)*
+* **`notebooks/`** – (If present) Jupyter notebooks for interactive exploration or development. For example, `dbscan_debug.ipynb` is provided for debugging and exploring clustering results interactively.
 
 This modular structure makes it easy to understand and modify each part of the pipeline in isolation. For instance, if you want to improve the similarity computation, you can focus on `src/similarity.py` without touching other parts, as long as you keep the input/output interface consistent (reading `cleaned.csv` and writing `features.csv`).
 
@@ -275,7 +276,7 @@ Even with a straightforward pipeline, you might run into issues or have question
 
 * **Performance Issues:** For moderate data sizes (hundreds or thousands of records), this pipeline should run quickly (especially without the OpenAI calls). If you attempt to run it on a very large dataset (millions of records), you could run into performance bottlenecks:
 
-  * The blocking step might still generate a lot of candidate pairs if the blocking keys are too common. You might need to introduce more refined blocking (like blocking on combinations of fields or using multiple passes).
+  * The blocking step might still generate a lot of candidate pairs if the blocking keys are too common. You might need to introduce more refined blocking (like blocking on combinations of fields or using multiple passes) to manage candidate volume.
   * The similarity computation is pairwise and could be slow if there are millions of pairs. Consider sampling or more advanced indexing techniques in the `recordlinkage` library (like Sorted Neighborhood or other algorithms).
   * The logistic model training on a huge number of pairs could be slow or memory-intensive. Ensure you have enough memory, or consider doing a preliminary blocking and labeling on a smaller sample to train the model.
   * Writing a very large Excel file in the reporting step could also be slow. For extremely large numbers of duplicate pairs, you might opt to output to a CSV or database for review rather than Excel.

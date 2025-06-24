@@ -10,10 +10,14 @@ from typing import Iterable, List, Dict, Any, cast
 
 import json
 import os
+import sys
 import time
+import concurrent.futures
 
 import click
 import pandas as pd
+from tqdm import tqdm
+
 from .utils import log_run, LOG_PATH
 
 # The OpenAI package is optional and may not be installed by default
@@ -22,7 +26,7 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     OpenAI = None  # type: ignore
 
-client: "OpenAI | None" = None
+client: Any = None  # type: ignore
 
 # Default chat model used across this module
 DEFAULT_MODEL = "gpt-4o-mini"
@@ -110,6 +114,7 @@ def main(
     review_path: str = "data/outputs/gpt_review.json",
     openai_model: str = DEFAULT_MODEL,
     log_path: str = LOG_PATH,
+    max_workers: int = 10,
 ) -> None:
     """Review DBSCAN clusters with GPT for validation."""
 
@@ -126,37 +131,59 @@ def main(
     # eps, min_samples and prompt wording can be tuned later
 
     results: List[Dict[str, Any]] = []
-    for cluster_id, group in clusters_df.groupby("cluster"):
-        cluster_id_int = int(cast(Any, cluster_id))
-        # Skip noise (-1) and singleton clusters; this threshold can be tuned later
-        if cluster_id_int == -1 or len(group) <= 1:
-            continue
+    clusters = list(clusters_df.groupby("cluster"))
 
+    def process_cluster(args):
+        cluster_id, group = args
+        cluster_id_int = int(cast(Any, cluster_id))
+        if cluster_id_int == -1 or len(group) <= 1:
+            return None
         lines = [f"Cluster {cluster_id_int} contains {len(group)} records:"]
         for _, row in group.iterrows():
             lines.append(
                 f"  - ID {row['record_id']}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
             )
-        lines.append("1) Take some times to think. Do these all refer to the same organization?")
-        lines.append("2) If yes, what should be the primary organization name?")
-        lines.append("3) Please produce a single canonical record (merge or pick fields).")
-        lines.append("If any record does NOT belong, list its ID.")
+        lines.append("Analyze the records above. There may be more than one group of duplicates in this cluster.")
+        lines.append("For each unique organization, return a JSON object with:")
+        lines.append('- "primary_organization": the main name')
+        lines.append('- "canonical_record": a dict with the merged or picked fields')
+        lines.append('- "record_ids": a list of record IDs belonging to this organization')
+        lines.append("Return a JSON array of these objects. Only output valid JSON, no explanations or formatting.")
         prompt_text = "\n".join(lines)
-
-        resp = client.chat.completions.create(
-            model=openai_model,
-            messages=[{"role": "user", "content": prompt_text}],
-            temperature=0,
-        )
-        answer = resp.choices[0].message.content.strip()
-
-        results.append(
-            {
+        try:
+            resp = client.chat.completions.create(
+                model=openai_model,
+                messages=[{"role": "user", "content": prompt_text}],
+                temperature=0,
+                max_tokens=2000
+            )
+            answer = resp.choices[0].message.content.strip()
+            try:
+                canonical_groups = json.loads(answer)
+            except Exception as e:
+                canonical_groups = []
+            return {
                 "cluster_id": cluster_id_int,
                 "record_ids": [str(r) for r in group["record_id"].tolist()],
-                "gpt_response": answer,
+                "canonical_groups": canonical_groups,
+                "raw_response": answer,
             }
-        )
+        except Exception as e:
+            return {
+                "cluster_id": cluster_id_int,
+                "record_ids": [str(r) for r in group["record_id"].tolist()],
+                "canonical_groups": [],
+                "raw_response": f"ERROR: {str(e)}",
+            }
+
+    with tqdm(total=len(clusters), desc="Processing clusters", file=sys.stdout) as pbar:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {executor.submit(process_cluster, c): c for c in clusters}
+            for future in concurrent.futures.as_completed(futures):
+                result = future.result()
+                if result is not None:
+                    results.append(result)
+                pbar.update(1)
 
     os.makedirs(os.path.dirname(review_path), exist_ok=True)
     with open(review_path, "w", encoding="utf-8") as fh:
@@ -180,18 +207,22 @@ def main(
 )
 @click.option("--openai-model", default=DEFAULT_MODEL, show_default=True)
 @click.option("--log-path", default=LOG_PATH, show_default=True)
+@click.option("--max-workers", default=10, show_default=True, help="Number of parallel OpenAI requests to run.")
 def cli(
     clusters_path: str,
     review_path: str,
     openai_model: str,
     log_path: str,
+    max_workers: int,
 ) -> None:
     """CLI wrapper for :func:`main`."""
 
     global client
+    if OpenAI is None:
+        raise RuntimeError("openai package is not installed. Install 'openai' to enable integration.")
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    main(clusters_path, review_path, openai_model, log_path)
+    main(clusters_path, review_path, openai_model, log_path, max_workers)
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

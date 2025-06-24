@@ -20,8 +20,9 @@ def main(
     cleaned_path: str = "data/outputs/cleaned.csv",
     report_path: str = "data/outputs/manual_review.xlsx",
     log_path: str = LOG_PATH,
+    gpt_review_path: str = "data/outputs/gpt_review.json",
 ) -> None:
-    """Create a merge suggestion workbook."""
+    """Create a merge suggestion workbook, now with GPT review results."""
 
     start_time = time.time()
 
@@ -37,10 +38,21 @@ def main(
     high_conf = merged[merged["prob"] >= 0.9]
     manual_review = merged[(merged["prob"] >= 0.6) & (merged["prob"] < 0.9)]
 
+    # Load GPT review results if available
+    gpt_df = None
+    if os.path.exists(gpt_review_path):
+        import json
+
+        with open(gpt_review_path, "r", encoding="utf-8") as f:
+            gpt_review = json.load(f)
+        gpt_df = pd.DataFrame(gpt_review)
+
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with ExcelWriter(report_path, engine="openpyxl") as writer:
         high_conf.to_excel(writer, sheet_name="high_confidence", index=False)
         manual_review.to_excel(writer, sheet_name="manual_review", index=False)
+        if gpt_df is not None:
+            gpt_df.to_excel(writer, sheet_name="gpt_review", index=False)
 
         # Optional formatting highlighting borderline pairs for review.
         workbook = writer.book
@@ -57,8 +69,7 @@ def main(
                 cell.fill = fill
 
     print(
-        f"Saved {len(high_conf)} high-confidence pairs and {len(manual_review)} "
-        f"pairs for manual review to {report_path}"
+        f"Saved {len(high_conf)} high-confidence pairs and {len(manual_review)} pairs for manual review to {report_path}"
     )
 
     end_time = time.time()
@@ -76,10 +87,11 @@ def main(
 @click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True)
 @click.option("--report-path", default="data/outputs/manual_review.xlsx", show_default=True)
 @click.option("--log-path", default=LOG_PATH, show_default=True)
-def cli(duplicates_path: str, cleaned_path: str, report_path: str, log_path: str) -> None:
+@click.option("--gpt-review-path", default="data/outputs/gpt_review.json", show_default=True, help="Path to GPT review JSON file.")
+def cli(duplicates_path: str, cleaned_path: str, report_path: str, log_path: str, gpt_review_path: str) -> None:
     """CLI wrapper for :func:`main`."""
 
-    main(duplicates_path, cleaned_path, report_path, log_path)
+    main(duplicates_path, cleaned_path, report_path, log_path, gpt_review_path)
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

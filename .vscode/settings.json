@@ -1,0 +1,6 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+  "jupyter.notebook.defaultKernel": "dedupe-env"
+}
+// This file is used to configure settings for the Visual Studio Code workspace.
+// It specifies the default Python interpreter and Jupyter notebook kernel to use.

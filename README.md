@@ -160,22 +160,36 @@ After this stage, **your involvement as a human reviewer is important** – go t
 
 **What to watch out for:** Ensure that the `high_confidence.csv` exists and is not empty before running this step; if the model didn’t flag any duplicates, the report might be empty or the script might simply produce an empty spreadsheet. If the reporting step fails, it might be due to unexpected data formats in the CSV or missing files. Also note that the Excel is generated using `pandas` with OpenPyXL/XlsxWriter, so very large numbers of duplicate pairs might lead to a large file – if you had hundreds of thousands of suggestions (unlikely in practice after blocking and scoring), you might instead want to output a CSV or handle the review in a database. But for most use cases, the Excel output is convenient and easy to filter or annotate as you review the results.
 
+### Step 6: Clustering (Optional Grouping)
+
+**What it does:** Rather than evaluating pairs with a model, you can cluster records directly based on their similarity features. The `src/clustering.py` module uses DBSCAN to assign each record to a cluster using the mean of its pairwise similarity scores. Enabling `--scale` standardises feature ranges so each metric contributes equally.
+
+Running this step creates **`clusters.csv`** with the cluster label for every record and **`agg_features.csv`** with the aggregated feature matrix that includes that label.
+
+**How to run:**
+
+```bash
+python -m src.clustering --eps 0.5 --min-samples 2 --scale
+```
+
+Tune the parameters for your dataset. The resulting clusters can be inspected directly or reviewed with GPT as described below.
+
 ### Optional: GPT Integration
 
 *(This step is optional and not required for the core deduplication pipeline. Non-technical users can skip this unless they are interested in AI-assisted data cleaning.)*
 
-The project includes an **optional integration with OpenAI's GPT** for enhanced data cleaning and merging assistance. There are two places GPT can help:
+The project includes an **optional integration with OpenAI's GPT** for enhanced data cleaning and review. There are two ways GPT can help:
 
 1. **Data Normalization:** As mentioned in preprocessing, GPT can translate or normalize company names (or other text fields) to a consistent language and character set. This can be very useful if your dataset contains entries in multiple languages or scripts (e.g., "株式会社ABC" to "ABC Corp"). By using the `--use-openai` flag in Step 1, the `translate_to_english` function will be called to handle this. Keep in mind this will call an external API for each entry, which may be slower and will require API credits.
-2. **Merge Suggestion Prompting:** In the future (or if you extend the code), GPT could be used to directly suggest how to merge two records or to justify why they are duplicates. The module `src/openai_integration.py` contains a placeholder for how one might formulate a prompt describing two potentially duplicate records and ask GPT for a decision or suggestion. For example, you could feed the details of two records to GPT and ask "Are these two entries likely the same entity? If so, suggest a consolidated record." This is not fully implemented in the current pipeline (the function is a stub to demonstrate where such logic would go), but it provides a blueprint for those interested in experimenting with AI in record deduplication.
+2. **Cluster Review:** After generating `clusters.csv`, you can ask GPT to inspect each cluster and provide a short analysis of whether the records appear to represent the same organisation. The script `src/openai_integration.py` sends a textual summary of each cluster to the API and writes the responses to **`gpt_review.json`**.
 
-**How to use GPT features:** To use the translation feature, simply include `--use-openai` when running the preprocess step (and ensure `openai` library is installed and API key configured). If you wanted to experiment with the merge suggestion via GPT, you would run:
+**How to use GPT features:** To use the translation feature, simply include `--use-openai` when running the preprocess step (and ensure `openai` library is installed and API key configured). To review clusters with GPT, run:
 
 ```bash
 python -m src.openai_integration
 ```
 
-This module as provided does a minimal check and uses the `translate_to_english` on a hardcoded example. Developers can expand this to actually read in the duplicate suggestions and call the API. Remember to handle costs and privacy – sending record details to the OpenAI API means that data is leaving your environment, so avoid this for sensitive data unless you have the right agreements in place.
+The script will read `clusters.csv`, send a short summary of each cluster to the API, and write the results to `gpt_review.json`. Remember to handle costs and privacy – sending record details to the OpenAI API means that data is leaving your environment, so avoid this for sensitive data unless you have the right agreements in place.
 
 **Caution:** Using GPT is powerful but comes with considerations:
 
@@ -204,6 +218,9 @@ Understanding the repository structure will help you navigate the code and data:
     * `model.joblib` – Saved model from Step 4.
     * `high_confidence.csv` – High-confidence duplicate pairs identified by the model, to be reviewed.
     * `manual_review.xlsx` – Excel report generated in the reporting step, listing likely duplicates side by side for human review.
+    * `clusters.csv` – DBSCAN cluster assignments for each record (from the optional clustering step).
+    * `agg_features.csv` – Aggregated feature matrix that includes the cluster label.
+    * `gpt_review.json` – Output from the GPT cluster review step.
     * `run_history.log` – A log file (saved in `data/`) appending a line each time you run a pipeline step with the `--log-path` option or by default. It records the step name, start/end time, number of records processed, and duration. This is useful for tracking the pipeline execution over time or debugging performance.
 
 * **`src/`** – The source code for the pipeline, organized by stage:
@@ -212,8 +229,9 @@ Understanding the repository structure will help you navigate the code and data:
   * `blocking.py` – Step 2: Blocking script (reads `cleaned.csv`, forms candidate pairs by blocking on keys like phone and company, using the `recordlinkage` library).
   * `similarity.py` – Step 3: Similarity computation script (takes candidate pairs and computes features such as string similarity scores, writing out `features.csv`).
   * `model.py` – Step 4: Model training and scoring script (loads features and labels, trains logistic regression, scores all pairs, outputs `high_confidence.csv` with a probability for each potential duplicate pair).
+  * `clustering.py` – Optional DBSCAN clustering step that groups records based on their similarity features and writes `clusters.csv` and `agg_features.csv`.
   * `reporting.py` – Step 5: Reporting script (loads the high-confidence duplicates and the cleaned data, then creates the `manual_review.xlsx` Excel file for review).
-  * `openai_integration.py` – Optional GPT integration module (contains functions to use OpenAI API, e.g., `translate_to_english` for company names, and a placeholder for prompting GPT to evaluate duplicates). This is not required for core functionality but is provided for extension.
+  * `openai_integration.py` – Optional GPT integration module used for translating text and reviewing clusters. It outputs `gpt_review.json` when analysing clusters.
   * `utils.py` – Utility functions used across the pipeline (for example, file cleanup and logging). Key utilities:
 
     * `clear_all_data()` – Deletes all files in the outputs directory (to reset the pipeline).

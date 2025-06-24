@@ -138,7 +138,7 @@ def main(
         lines = [f"Cluster {cluster_id_int} contains {len(group)} records:"]
         for _, row in group.iterrows():
             lines.append(
-                f"  - ID {int(row['record_id'])}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
+                f"  - ID {row['record_id']}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
             )
         lines.append("1) Take some times to think. Do these all refer to the same organization?")
         lines.append("2) If yes, what should be the primary organization name?")
@@ -156,7 +156,7 @@ def main(
         results.append(
             {
                 "cluster_id": cluster_id_int,
-                "record_ids": [int(r) for r in group["record_id"].tolist()],
+                "record_ids": [str(r) for r in group["record_id"].tolist()],
                 "gpt_response": answer,
             }
         )

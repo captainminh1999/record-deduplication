@@ -7,6 +7,7 @@ import os
 import click
 import pandas as pd
 from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import StandardScaler
 
 
 @click.command()
@@ -15,9 +16,29 @@ from sklearn.cluster import DBSCAN
 @click.option("--eps", type=float, default=0.5, show_default=True)
 @click.option("--min-samples", type=int, default=2, show_default=True)
 @click.option("--output-path", default="data/outputs/clusters.csv", show_default=True)
-def cli(features_path: str, cleaned_path: str, eps: float, min_samples: int, output_path: str) -> None:
+@click.option(
+    "--scale/--no-scale",
+    default=False,
+    show_default=True,
+    help="Standard-scale similarity columns before DBSCAN",
+)
+@click.option(
+    "--agg-path",
+    default="data/outputs/agg_features.csv",
+    show_default=True,
+    help="Where to write aggregated features (with cluster column)",
+)
+def cli(
+    features_path: str,
+    cleaned_path: str,
+    eps: float,
+    min_samples: int,
+    output_path: str,
+    scale: bool,
+    agg_path: str,
+) -> None:
     """CLI wrapper for :func:`main`."""
-    main(features_path, cleaned_path, eps, min_samples, output_path)
+    main(features_path, cleaned_path, eps, min_samples, output_path, scale, agg_path)
 
 
 def main(
@@ -26,8 +47,15 @@ def main(
     eps: float = 0.5,
     min_samples: int = 2,
     output_path: str = "data/outputs/clusters.csv",
+    scale: bool = False,
+    agg_path: str = "data/outputs/agg_features.csv",
 ) -> pd.DataFrame:
-    """Generate DBSCAN clusters from similarity features."""
+    """Generate DBSCAN clusters from similarity features.
+
+    ``eps`` should come from the elbow of the k-distance curve and ``min_samples``
+    should generally be >= 4 to avoid tiny noise clumps. Using ``--scale``
+    standardises feature ranges so each contributes equally to clustering.
+    """
 
     feats = pd.read_csv(features_path)
     cleaned = pd.read_csv(cleaned_path).set_index("record_id")
@@ -44,14 +72,12 @@ def main(
     agg = melted.groupby("record_id")[sim_cols].mean()
     agg = agg.reindex(cleaned.index, fill_value=0)
 
-    # Persist the aggregated feature matrix for debugging or later tuning
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    agg.to_csv("data/outputs/agg_features.csv")
-    print(f"Wrote aggregated features to data/outputs/agg_features.csv")
+    X = agg[sim_cols].values
+    if scale:
+        X = StandardScaler().fit_transform(X)
 
-    # ``eps`` and ``min_samples`` can be fine-tuned later for different datasets
     clustering = DBSCAN(eps=eps, min_samples=min_samples)
-    labels = clustering.fit_predict(agg[sim_cols])
+    labels = clustering.fit_predict(X)
     agg["cluster"] = labels
 
     result = (
@@ -68,7 +94,12 @@ def main(
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     result.to_csv(output_path, index=False)
-    print(f"Wrote {len(result)} rows to {output_path}")
+
+    os.makedirs(os.path.dirname(agg_path), exist_ok=True)
+    agg.reset_index().to_csv(agg_path, index=False)
+
+    print(f"Wrote {len(result)} clustered records to {output_path}")
+    print(f"Wrote aggregated features (incl. cluster) to {agg_path}")
 
     return result
 

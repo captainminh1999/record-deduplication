@@ -18,11 +18,11 @@ from .utils import log_run, LOG_PATH
 
 # The OpenAI package is optional and may not be installed by default
 try:
-    import openai  # type: ignore
-    if not getattr(openai, "api_key", None):
-        openai.api_key = os.getenv("OPENAI_KEY") or os.getenv("OPENAI_API_KEY")
+    from openai import OpenAI  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
-    openai = None
+    OpenAI = None  # type: ignore
+
+client: "OpenAI | None" = None
 
 # Default chat model used across this module
 DEFAULT_MODEL = "gpt-4o-mini"
@@ -45,15 +45,7 @@ def translate_to_english(
     List[str]
         The translated strings in the same order as ``texts``.
     """
-    if openai is None:
-        raise RuntimeError(
-            "openai package is not installed. Install 'openai' to enable integration."
-        )
-
-    if not getattr(openai, "api_key", None):
-        raise RuntimeError(
-            "OpenAI API key is not configured. Set 'openai.api_key' or the 'OPENAI_KEY' environment variable."
-        )
+    _check_openai()
 
     results: List[str] = []
     for text in texts:
@@ -61,7 +53,7 @@ def translate_to_english(
             "Translate the following company name to English using Latin characters only: "
             f"{text}"
         )
-        resp = cast(Any, openai).ChatCompletion.create(
+        resp = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -73,14 +65,19 @@ def translate_to_english(
 
 def _check_openai() -> None:
     """Ensure the OpenAI dependency and API key are available."""
-    if openai is None:
+    if OpenAI is None:  # pragma: no cover - optional dependency
         raise RuntimeError(
             "openai package is not installed. Install 'openai' to enable integration."
         )
-    if not getattr(openai, "api_key", None):
-        raise RuntimeError(
-            "OpenAI API key is not configured. Set 'openai.api_key' or the 'OPENAI_KEY' environment variable."
-        )
+
+    global client
+    if client is None:
+        api_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_KEY")
+        if not api_key:
+            raise RuntimeError(
+                "OpenAI API key is not configured. Set 'OPENAI_API_KEY' or 'OPENAI_KEY' environment variable."
+            )
+        client = OpenAI(api_key=api_key)
 
 
 def _parse_gpt_response(answer: str) -> Dict[str, Any]:
@@ -146,7 +143,7 @@ def main(
         lines.append("If any record does NOT belong, list its ID.")
         prompt_text = "\n".join(lines)
 
-        resp = cast(Any, openai).ChatCompletion.create(
+        resp = client.chat.completions.create(
             model=openai_model,
             messages=[{"role": "user", "content": prompt_text}],
             temperature=0,
@@ -190,6 +187,9 @@ def cli(
     log_path: str,
 ) -> None:
     """CLI wrapper for :func:`main`."""
+
+    global client
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     main(clusters_path, review_path, openai_model, log_path)
 

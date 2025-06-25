@@ -1,7 +1,6 @@
-"""Step 2 of the 10-step deduplication pipeline: candidate generation.
+"""Step 2 of 6: Blocking (Candidate Generation)
 
-This stage produces candidate record pairs by blocking on selected
-columns to limit the number of comparisons.
+Generates candidate record pairs for comparison by grouping records on blocking keys (e.g., normalized phone and company name) to limit the number of comparisons. See README for details.
 """
 
 from __future__ import annotations

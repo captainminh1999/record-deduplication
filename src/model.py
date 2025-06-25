@@ -1,7 +1,6 @@
-"""Step 4 of the 10-step deduplication pipeline: model training.
+"""Step 4 of 6: Model Training (Duplicate Scoring)
 
-This stage fits a logistic regression model on labelled candidate pairs and
-predicts duplicate probabilities for all pairs.
+Trains a logistic regression model to score candidate pairs as duplicates or not, using similarity features. Supports supervised and unsupervised modes. See README for details.
 """
 
 from __future__ import annotations

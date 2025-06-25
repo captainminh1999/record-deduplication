@@ -1,7 +1,6 @@
-"""Step 1 of the 10-step deduplication pipeline: data cleaning.
+"""Step 1 of 6: Preprocessing (Data Cleaning)
 
-This module prepares the raw spreadsheet for later stages by normalising
-fields and writing the cleaned output to ``data/outputs/cleaned.csv``.
+Cleans and normalizes raw spreadsheet data, removes records that duplicate the same company or domain, and writes the cleaned output to data/outputs/cleaned.csv. Optionally translates company names to English using GPT. See README for details.
 """
 
 from __future__ import annotations

@@ -155,4 +155,40 @@ CORP_SUFFIXES = [
     r"foundation",
     r"trust",
     r"ngo\b",
+
+    # Russia & CIS
+    r"ооо", r"zao", r"оао", r"ao", r"тов", r"пao", r"прaт",
+
+    # Turkey
+    r"a\.ş\.", r"anonim\s+şirket", r"ltd\.\s*şti\.", r"limited\s+şirketi",
+
+    # Israel
+    r"בע""מ", r"חברה\s+בע""מ",
+
+    # Greece
+    r"α\.ε\.", r"ανώνυμη\s+εταιρεία", r"ε\.π\.ε\.", r"εταιρεία\s+περιορισμένης\s+ευθύνης",
+
+    # Hungary
+    r"kft\.", r"korlátolt\s+felelősségű\s+társaság", r"rt\.", r"részvénytársaság", r"zrt\.", r"nyrt\.",
+
+    # Romania
+    r"s\.r\.l\.", r"societate\s+cu\s+răspundere\s+limitată", r"s\.a\.", r"societate\s+pe\s+acțiuni",
+
+    # Ukraine
+    r"тов", r"tov", r"пaт", r"pat", r"прaт", r"prat",
+
+    # Middle East
+    r"pjsc", r"public\s+joint\s+stock\s+company", r"spc", r"single\s+person\s+company",
+
+    # Nordic
+    r"aps", r"a/s", r"as", r"oyj",
+
+    # Balkans
+    r"d\.o\.o\.", r"društvo\s+s\s+ograničenom\s+odgovornošću", r"a\.d\.",
+
+    # North Africa / Francophone
+    r"eurl", r"entreprise\s+unipersonnelle\s+à\s+responsabilité\s+limitée", r"snc", r"société\s+en\s+nom\s+collectif",
+
+    # South America (additional)
+    r"spa", r"sociedad\s+por\s+acciones",
 ]

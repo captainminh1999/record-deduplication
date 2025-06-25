@@ -1,7 +1,6 @@
-"""Step 3 of the 10-step deduplication pipeline: feature building.
+"""Step 3 of 6: Similarity Features
 
-Given candidate pairs, this module computes textual and exact-match
-similarity metrics that serve as model features.
+Computes similarity features (e.g., string similarity, exact matches) for each candidate pair, used as input for the model. See README for details.
 """
 
 from __future__ import annotations
@@ -75,10 +74,9 @@ def main(
     # thresholds may be tuned later. Additional phonetic or fuzzy-domain
     # checks can be implemented in future iterations.
     def _addr_ratio(a: object, b: object) -> float:
-        score = fuzz.token_set_ratio(
-            str(a) if pd.notna(a) else "",
-            str(b) if pd.notna(b) else "",
-        )
+        a_str = str(a) if a is not None and not (isinstance(a, float) and pd.isna(a)) else ""
+        b_str = str(b) if b is not None and not (isinstance(b, float) and pd.isna(b)) else ""
+        score = fuzz.token_set_ratio(a_str, b_str)
         return score / 100.0
 
     if address_present:

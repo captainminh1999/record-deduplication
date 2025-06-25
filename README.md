@@ -162,7 +162,11 @@ After this stage, **your involvement as a human reviewer is important** – go t
 
 ### Step 6: Clustering (Optional Grouping)
 
-**What it does:** Rather than evaluating pairs with a model, you can cluster records directly based on their similarity features. The `src/clustering.py` module uses DBSCAN to assign each record to a cluster using the mean of its pairwise similarity scores. Enabling `--scale` standardises feature ranges so each metric contributes equally.
+**What it does:** Rather than evaluating pairs with a model, you can cluster records directly based on their similarity features. The `src/clustering.py` module uses DBSCAN to assign each record to a cluster using the mean of its pairwise similarity scores. 
+
+**Note:** In the current implementation, the `domain_sim` feature is given double weight before clustering. This means that domain similarity will have a stronger influence on the clustering results compared to other features. If you want to adjust the weighting, you can modify the code in `src/clustering.py`.
+
+Enabling `--scale` standardises feature ranges so each metric contributes equally (after weighting).
 
 Running this step creates **`clusters.csv`** with the cluster label for every record and **`agg_features.csv`** with the aggregated feature matrix that includes that label.
 

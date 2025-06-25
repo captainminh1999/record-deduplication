@@ -1,7 +1,6 @@
-"""Step 5 of the 10-step deduplication pipeline: reporting.
+"""Step 5 of 6: Reporting (Review and Export)
 
-This module prepares an Excel workbook that lists high-confidence duplicates
-side by side for human validation.
+Generates an Excel workbook listing high-confidence duplicate pairs side by side for human review. See README for details.
 """
 
 from __future__ import annotations
@@ -38,14 +37,76 @@ def main(
     high_conf = merged[merged["prob"] >= 0.9]
     manual_review = merged[(merged["prob"] >= 0.6) & (merged["prob"] < 0.9)]
 
-    # Load GPT review results if available
-    gpt_df = None
+    # Load and flatten GPT review results if available
+    gpt_flat = []
     if os.path.exists(gpt_review_path):
         import json
 
         with open(gpt_review_path, "r", encoding="utf-8") as f:
             gpt_review = json.load(f)
-        gpt_df = pd.DataFrame(gpt_review)
+        for entry in gpt_review:
+            cluster_id = entry.get("cluster_id")
+            record_ids = entry.get("record_ids")
+            canonical_groups = entry.get("canonical_groups")
+            raw_response = entry.get("raw_response")
+            if canonical_groups and isinstance(canonical_groups, list) and len(canonical_groups) > 0:
+                for group in canonical_groups:
+                    # Required fields: primary_organization, company_clean, domain_clean, record_ids
+                    primary_organization = group.get("primary_organization")
+                    canonical_record = group.get("canonical_record", {}) or {}
+                    company_clean = canonical_record.get("company_clean")
+                    domain_clean = canonical_record.get("domain_clean")
+                    phone_clean = canonical_record.get("phone_clean")
+                    address_clean = canonical_record.get("address_clean")
+                    canonical_record_ids = group.get("record_ids")
+                    confidence = group.get("confidence")
+                    # Only add if required fields are present and not blank
+                    if primary_organization and company_clean and domain_clean and canonical_record_ids:
+                        gpt_flat.append(
+                            {
+                                "cluster_id": cluster_id,
+                                "record_ids": record_ids,
+                                "primary_organization": primary_organization,
+                                "company_clean": company_clean,
+                                "domain_clean": domain_clean,
+                                "phone_clean": phone_clean,
+                                "address_clean": address_clean,
+                                "canonical_record_ids": canonical_record_ids,
+                                "confidence": confidence,
+                                "raw_response": None,
+                            }
+                        )
+                    else:
+                        gpt_flat.append(
+                            {
+                                "cluster_id": cluster_id,
+                                "record_ids": record_ids,
+                                "primary_organization": primary_organization or None,
+                                "company_clean": company_clean or None,
+                                "domain_clean": domain_clean or None,
+                                "phone_clean": phone_clean or None,
+                                "address_clean": address_clean or None,
+                                "canonical_record_ids": canonical_record_ids or None,
+                                "confidence": confidence,
+                                "raw_response": raw_response,
+                            }
+                        )
+            else:
+                gpt_flat.append(
+                    {
+                        "cluster_id": cluster_id,
+                        "record_ids": record_ids,
+                        "primary_organization": None,
+                        "company_clean": None,
+                        "domain_clean": None,
+                        "phone_clean": None,
+                        "address_clean": None,
+                        "canonical_record_ids": None,
+                        "confidence": None,
+                        "raw_response": raw_response,
+                    }
+                )
+    gpt_df = pd.DataFrame(gpt_flat) if gpt_flat else None
 
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with ExcelWriter(report_path, engine="openpyxl") as writer:
@@ -69,7 +130,7 @@ def main(
                 cell.fill = fill
 
     print(
-        f"Saved {len(high_conf)} high-confidence pairs and {len(manual_review)} pairs for manual review to {report_path}"
+        f"Saved {len(high_conf)} high-confidence pairs, {len(manual_review)} pairs for manual review, and {len(gpt_df) if gpt_df is not None else 0} GPT review records to {report_path}"
     )
 
     end_time = time.time()

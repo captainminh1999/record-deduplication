@@ -1,7 +1,7 @@
-"""Optional step of the 10-step deduplication pipeline: GPT assistance.
+"""
+Optional: GPT Integration for Data Normalization and Cluster Review
 
-This module demonstrates how the OpenAI API might be used to suggest
-merges or normalise data. It is intentionally minimal and optional.
+Provides optional integration with OpenAI's GPT for translating company names and reviewing clusters. Not required for the core pipeline. See README for details.
 """
 
 from __future__ import annotations
@@ -144,11 +144,12 @@ def main(
                 f"  - ID {row['record_id']}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
             )
         lines.append("Analyze the records above. There may be more than one group of duplicates in this cluster.")
-        lines.append("For each unique organization, return a JSON object with:")
-        lines.append('- "primary_organization": the main name')
-        lines.append('- "canonical_record": a dict with the merged or picked fields')
-        lines.append('- "record_ids": a list of record IDs belonging to this organization')
-        lines.append("Return a JSON array of these objects. Only output valid JSON, no explanations or formatting.")
+        lines.append("For each unique organization, return a JSON object with the following fields only (all fields are required and must not be blank):")
+        lines.append('- "primary_organization": the canonical name for the group (required, not blank)')
+        lines.append('- "canonical_record": a dict with the merged or picked fields: company_clean, domain_clean, phone_clean, address_clean (company_clean and domain_clean required, not blank)')
+        lines.append('- "record_ids": a list of record IDs belonging to this organization (required, not blank)')
+        lines.append('- "confidence": a number from 0 to 1 indicating your confidence in this grouping (required)')
+        lines.append("Return a JSON array of these objects. Only output valid JSON, no explanations or formatting, and do not include any extra fields. If you cannot provide all required fields for a group, omit that group from the output.")
         prompt_text = "\n".join(lines)
         try:
             resp = client.chat.completions.create(
@@ -160,12 +161,27 @@ def main(
             answer = resp.choices[0].message.content.strip()
             try:
                 canonical_groups = json.loads(answer)
+                # Filter to only keep requested fields
+                filtered_groups = []
+                for group in canonical_groups:
+                    filtered_group = {
+                        "primary_organization": group.get("primary_organization", ""),
+                        "canonical_record": {
+                            "company_clean": group.get("canonical_record", {}).get("company_clean", ""),
+                            "domain_clean": group.get("canonical_record", {}).get("domain_clean", ""),
+                            "phone_clean": group.get("canonical_record", {}).get("phone_clean", ""),
+                            "address_clean": group.get("canonical_record", {}).get("address_clean", ""),
+                        },
+                        "record_ids": group.get("record_ids", []),
+                        "confidence": group.get("confidence", None),
+                    }
+                    filtered_groups.append(filtered_group)
             except Exception as e:
-                canonical_groups = []
+                filtered_groups = []
             return {
                 "cluster_id": cluster_id_int,
                 "record_ids": [str(r) for r in group["record_id"].tolist()],
-                "canonical_groups": canonical_groups,
+                "canonical_groups": filtered_groups,
                 "raw_response": answer,
             }
         except Exception as e:

@@ -1,3 +1,9 @@
+"""
+Utility functions for the deduplication pipeline.
+
+Includes file cleanup, logging, and helper functions used across pipeline steps. See README for details.
+"""
+
 import os
 import glob
 from datetime import datetime

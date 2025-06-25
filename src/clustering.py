@@ -1,4 +1,7 @@
-"""Cluster records based on pairwise similarity features."""
+"""Step 6 of 6: Clustering (Optional Grouping)
+
+Clusters records based on similarity features using DBSCAN. In this implementation, domain similarity is given double weight before clustering. See README for details.
+"""
 
 from __future__ import annotations
 
@@ -68,6 +71,12 @@ def main(
     right = feats[["record_id_2"] + sim_cols].rename(columns={"record_id_2": "record_id"})
     melted = pd.concat([left, right], ignore_index=True)
     melted[sim_cols] = melted[sim_cols].apply(pd.to_numeric, errors="coerce")
+
+    # Give 'company_sim' and 'domain_sim' custom weights before aggregation
+    if "company_sim" in sim_cols:
+        melted["company_sim"] = melted["company_sim"] * 2.0
+    if "domain_sim" in sim_cols:
+        melted["domain_sim"] = melted["domain_sim"] * 1.5
 
     agg = melted.groupby("record_id")[sim_cols].mean()
     agg = agg.reindex(cleaned.index, fill_value=0)

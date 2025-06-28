@@ -47,8 +47,8 @@ def cli(
 def main(
     features_path: str = "data/outputs/features.csv",
     cleaned_path: str = "data/outputs/cleaned.csv",
-    eps: float = 0.5,
-    min_samples: int = 2,
+    eps: float = 0.03,
+    min_samples: int = 4,
     output_path: str = "data/outputs/clusters.csv",
     scale: bool = False,
     agg_path: str = "data/outputs/agg_features.csv",
@@ -63,9 +63,10 @@ def main(
     feats = pd.read_csv(features_path)
     cleaned = pd.read_csv(cleaned_path).set_index("record_id")
 
-    sim_cols = [c for c in ["company_sim", "domain_sim", "address_sim", "phone_exact"] if c in feats.columns]
+    # Only use company_sim and domain_sim for clustering
+    sim_cols = [c for c in ["company_sim", "domain_sim"] if c in feats.columns]
     if not sim_cols:
-        raise ValueError("No similarity columns found in features file")
+        raise ValueError("No similarity columns found in features file (need company_sim and/or domain_sim)")
 
     left = feats[["record_id_1"] + sim_cols].rename(columns={"record_id_1": "record_id"})
     right = feats[["record_id_2"] + sim_cols].rename(columns={"record_id_2": "record_id"})
@@ -74,9 +75,9 @@ def main(
 
     # Give 'company_sim' and 'domain_sim' custom weights before aggregation
     if "company_sim" in sim_cols:
-        melted["company_sim"] = melted["company_sim"] * 2.0
+        melted["company_sim"] = melted["company_sim"] * 1.0
     if "domain_sim" in sim_cols:
-        melted["domain_sim"] = melted["domain_sim"] * 1.5
+        melted["domain_sim"] = melted["domain_sim"] * 1.0
 
     agg = melted.groupby("record_id")[sim_cols].mean()
     agg = agg.reindex(cleaned.index, fill_value=0)

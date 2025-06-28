@@ -124,6 +124,9 @@ def main(
         raise FileNotFoundError(f"Clusters file not found: {clusters_path}")
 
     clusters_df = pd.read_csv(clusters_path)
+    # Ensure record_id is a column, not an index
+    if "record_id" not in clusters_df.columns and clusters_df.index.name == "record_id":
+        clusters_df = clusters_df.reset_index()
     cluster_count = clusters_df["cluster"].nunique()
 
     _check_openai()
@@ -135,21 +138,35 @@ def main(
 
     def process_cluster(args):
         cluster_id, group = args
+        # Always reset index to ensure 'record_id' is a column
+        group = group.reset_index(drop=False)
+        if "record_id" not in group.columns:
+            raise KeyError(f"'record_id' column missing in group DataFrame. Columns: {group.columns.tolist()}, Index name: {group.index.name}, First rows: {group.head().to_dict()}")
         cluster_id_int = int(cast(Any, cluster_id))
         if cluster_id_int == -1 or len(group) <= 1:
             return None
         lines = [f"Cluster {cluster_id_int} contains {len(group)} records:"]
         for _, row in group.iterrows():
             lines.append(
-                f"  - ID {row['record_id']}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}, {row.get('phone_clean', '')}, {row.get('address_clean', '')}"
+                f"  - ID {row['record_id']}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}"
             )
-        lines.append("Analyze the records above. There may be more than one group of duplicates in this cluster.")
-        lines.append("For each unique organization, return a JSON object with the following fields only (all fields are required and must not be blank):")
-        lines.append('- "primary_organization": the canonical name for the group (required, not blank)')
-        lines.append('- "canonical_record": a dict with the merged or picked fields: company_clean, domain_clean, phone_clean, address_clean (company_clean and domain_clean required, not blank)')
+        lines.append(
+            "Take some times to analyze the records above. There may be more than one group of duplicates or companies that are subsidiaries/brands under a parent entity in this cluster."
+        )
+        lines.append(
+            "For each group of records that are duplicates or subsidiaries/brands of the same organization, return a JSON object with these fields (all required and not blank):"
+        )
+        lines.append('- "primary_organization": the canonical name for the group (required, not blank). If all companies are subsidiaries, use the parent company name as the canonical name, based on your knowledge.')
+        lines.append('- "canonical_domains": a list of all domains belonging to this group (required, not blank)')
         lines.append('- "record_ids": a list of record IDs belonging to this organization (required, not blank)')
         lines.append('- "confidence": a number from 0 to 1 indicating your confidence in this grouping (required)')
-        lines.append("Return a JSON array of these objects. Only output valid JSON, no explanations or formatting, and do not include any extra fields. If you cannot provide all required fields for a group, omit that group from the output.")
+        lines.append(
+            "Only include a group if there are actual duplicates or subsidiaries/brands that should be grouped together. "
+            "If all records are unique and unrelated, return an empty JSON array []."
+        )
+        lines.append(
+            "Return a JSON array of these objects. Only output valid JSON, no explanations or formatting, and do not include any extra fields. If you cannot provide all required fields for a group, omit that group from the output."
+        )
         prompt_text = "\n".join(lines)
         try:
             resp = client.chat.completions.create(
@@ -163,17 +180,12 @@ def main(
                 canonical_groups = json.loads(answer)
                 # Filter to only keep requested fields
                 filtered_groups = []
-                for group in canonical_groups:
+                for canonical_group in canonical_groups:
                     filtered_group = {
-                        "primary_organization": group.get("primary_organization", ""),
-                        "canonical_record": {
-                            "company_clean": group.get("canonical_record", {}).get("company_clean", ""),
-                            "domain_clean": group.get("canonical_record", {}).get("domain_clean", ""),
-                            "phone_clean": group.get("canonical_record", {}).get("phone_clean", ""),
-                            "address_clean": group.get("canonical_record", {}).get("address_clean", ""),
-                        },
-                        "record_ids": group.get("record_ids", []),
-                        "confidence": group.get("confidence", None),
+                        "primary_organization": canonical_group.get("primary_organization", ""),
+                        "canonical_domains": canonical_group.get("canonical_domains", []),
+                        "record_ids": canonical_group.get("record_ids", []),
+                        "confidence": canonical_group.get("confidence", None),
                     }
                     filtered_groups.append(filtered_group)
             except Exception as e:
@@ -187,7 +199,7 @@ def main(
         except Exception as e:
             return {
                 "cluster_id": cluster_id_int,
-                "record_ids": [str(r) for r in group["record_id"].tolist()],
+                "record_ids": [str(r) for r in group["record_id"].tolist()] if "record_id" in group.columns else [],
                 "canonical_groups": [],
                 "raw_response": f"ERROR: {str(e)}",
             }

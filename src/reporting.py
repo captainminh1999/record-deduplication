@@ -49,28 +49,22 @@ def main(
             record_ids = entry.get("record_ids")
             canonical_groups = entry.get("canonical_groups")
             raw_response = entry.get("raw_response")
+            # Only process clusters with non-empty canonical_groups
             if canonical_groups and isinstance(canonical_groups, list) and len(canonical_groups) > 0:
                 for group in canonical_groups:
-                    # Required fields: primary_organization, company_clean, domain_clean, record_ids
+                    # Required fields: primary_organization, canonical_domains, record_ids, confidence
                     primary_organization = group.get("primary_organization")
-                    canonical_record = group.get("canonical_record", {}) or {}
-                    company_clean = canonical_record.get("company_clean")
-                    domain_clean = canonical_record.get("domain_clean")
-                    phone_clean = canonical_record.get("phone_clean")
-                    address_clean = canonical_record.get("address_clean")
+                    canonical_domains = group.get("canonical_domains")
                     canonical_record_ids = group.get("record_ids")
                     confidence = group.get("confidence")
                     # Only add if required fields are present and not blank
-                    if primary_organization and company_clean and domain_clean and canonical_record_ids:
+                    if primary_organization and canonical_domains and canonical_record_ids and confidence is not None:
                         gpt_flat.append(
                             {
                                 "cluster_id": cluster_id,
                                 "record_ids": record_ids,
                                 "primary_organization": primary_organization,
-                                "company_clean": company_clean,
-                                "domain_clean": domain_clean,
-                                "phone_clean": phone_clean,
-                                "address_clean": address_clean,
+                                "canonical_domains": canonical_domains,
                                 "canonical_record_ids": canonical_record_ids,
                                 "confidence": confidence,
                                 "raw_response": None,
@@ -82,30 +76,13 @@ def main(
                                 "cluster_id": cluster_id,
                                 "record_ids": record_ids,
                                 "primary_organization": primary_organization or None,
-                                "company_clean": company_clean or None,
-                                "domain_clean": domain_clean or None,
-                                "phone_clean": phone_clean or None,
-                                "address_clean": address_clean or None,
+                                "canonical_domains": canonical_domains or None,
                                 "canonical_record_ids": canonical_record_ids or None,
                                 "confidence": confidence,
                                 "raw_response": raw_response,
                             }
                         )
-            else:
-                gpt_flat.append(
-                    {
-                        "cluster_id": cluster_id,
-                        "record_ids": record_ids,
-                        "primary_organization": None,
-                        "company_clean": None,
-                        "domain_clean": None,
-                        "phone_clean": None,
-                        "address_clean": None,
-                        "canonical_record_ids": None,
-                        "confidence": None,
-                        "raw_response": raw_response,
-                    }
-                )
+            # Skip clusters with empty canonical_groups (do not append anything)
     gpt_df = pd.DataFrame(gpt_flat) if gpt_flat else None
 
     os.makedirs(os.path.dirname(report_path), exist_ok=True)

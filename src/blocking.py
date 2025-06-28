@@ -9,6 +9,7 @@ import os
 import time
 import pandas as pd
 import recordlinkage
+import json
 
 from .utils import log_run, LOG_PATH
 
@@ -82,13 +83,20 @@ def main(
         candidate record pairs.
     """
     start_time = time.time()
+    initial_rows = 0
+    block_counts = {
+        "phone_block": 0,
+        "company_block": 0,
+        "domain_block": 0,
+        "fuzzy_block": 0,
+    }
 
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Cleaned data not found: {input_path}")
 
-    # Read the cleaned dataset. ``generate_candidate_pairs`` will handle
-    # column validation and indexing.
+    # Read the cleaned dataset
     df = pd.read_csv(input_path)
+    initial_rows = len(df)
 
     required_columns = {"record_id", "phone_clean", "company_clean", "domain_clean"}
     missing = required_columns.difference(df.columns)
@@ -96,21 +104,54 @@ def main(
         cols = ", ".join(sorted(missing))
         raise KeyError(f"Missing required columns: {cols}")
 
-    # Delegate the blocking logic to ``generate_candidate_pairs``.
-    candidates = generate_candidate_pairs(df)
+    # Get block sizes with error handling
+    def get_block_size(indexer: recordlinkage.Index, df: pd.DataFrame) -> int:
+        try:
+            pairs = indexer.index(df)
+            return len(pairs) if pairs is not None else 0
+        except Exception:
+            return 0
 
+    # Phone block
+    idx = recordlinkage.Index()
+    idx.block("phone_clean")
+    block_counts["phone_block"] = get_block_size(idx, df)
+
+    # Company block
+    idx = recordlinkage.Index()
+    idx.block("company_clean")
+    block_counts["company_block"] = get_block_size(idx, df)
+
+    # Domain block
+    idx = recordlinkage.Index()
+    idx.block("domain_clean")
+    block_counts["domain_block"] = get_block_size(idx, df)
+
+    # Fuzzy company block
+    idx = recordlinkage.Index()
+    idx.sortedneighbourhood("company_clean", window=5)
+    block_counts["fuzzy_block"] = get_block_size(idx, df)
+
+    # Generate final candidate pairs
+    candidates = generate_candidate_pairs(df)
     pair_df = candidates.to_frame(index=False)
     pair_df.columns = ["record_id_1", "record_id_2"]
 
-    # Print out the number of pairs generated. Additional blocks and thresholds
-    # can be fine-tuned later for better performance.
-    print(f"Generated {len(pair_df)} candidate pairs")
-
+    # Print out stats
+    print(f"Generated {len(pair_df)} candidate pairs from {initial_rows} records")
+    
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     pair_df.to_csv(output_path, index=False)
 
     end_time = time.time()
-    log_run("blocking", start_time, end_time, len(pair_df), log_path=log_path)
+    total_possible_pairs = initial_rows * (initial_rows - 1) / 2
+    stats = {
+        "input_rows": initial_rows,
+        "output_pairs": len(pair_df),
+        "reduction_ratio": 1 - (len(pair_df) / total_possible_pairs if total_possible_pairs > 0 else 0),
+        "block_sizes": block_counts
+    }
+    log_run("blocking", start_time, end_time, len(pair_df), additional_info=json.dumps(stats), log_path=log_path)
 
     return pair_df
 

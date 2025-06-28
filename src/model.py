@@ -13,6 +13,7 @@ import pandas as pd
 from pandas import ExcelWriter  # noqa: F401 - imported for future report steps
 from sklearn.linear_model import LogisticRegression
 from .utils import log_run, LOG_PATH
+import json
 
 
 def _heuristic_labels(df: pd.DataFrame) -> pd.DataFrame:
@@ -72,9 +73,12 @@ def main(
         raise FileNotFoundError(f"Features file not found: {features_path}")
 
     feat_df = pd.read_csv(features_path)
+    input_pairs = len(feat_df)
 
+    # Track label statistics
     if os.path.exists(labels_path):
         label_df = pd.read_csv(labels_path)
+        label_source = "manual"
         # Ignore any extra columns in labels.csv to avoid duplicate feature
         # columns after merging with ``features.csv``.
         label_df = label_df[["record_id_1", "record_id_2", "label"]]
@@ -84,12 +88,24 @@ def main(
             "Using heuristic positive/negative pairs for training."
         )
         label_df = _heuristic_labels(feat_df)
+        label_source = "heuristic"
+
+    label_stats = {
+        "source": label_source,
+        "total_labels": len(label_df),
+        "positive_labels": int(label_df["label"].sum()),
+        "negative_labels": int(len(label_df) - label_df["label"].sum()),
+        "label_ratio": float(label_df["label"].mean())
+    }
 
     train_df = feat_df.merge(label_df, on=["record_id_1", "record_id_2"], how="inner")
+    train_pairs = len(train_df)
 
     # Split into X/y. All similarity columns are used as features and ``label``
     # is the target variable.
-    X = train_df.drop(columns=["record_id_1", "record_id_2", "label"])
+    feature_cols = [col for col in feat_df.columns 
+                   if col.endswith("_sim") or col.endswith("_exact")]
+    X = train_df[feature_cols]
     y = train_df["label"]
 
     if y.nunique() < 2:
@@ -102,20 +118,24 @@ def main(
     # produce ``NaN`` which we replace with ``0`` so the model can still train.
     X = X.apply(pd.to_numeric, errors="coerce").fillna(0)
 
-    # Instantiate a basic logistic regression model. Regularisation strength ``C``
-    # and solver can be tuned later for better performance.
+    # Instantiate and train the model
     model = LogisticRegression(max_iter=1000)
     model.fit(X, y)
 
-    # Persist the trained model for later reuse.
+    # Track model coefficients
+    model_stats = {
+        "features": feature_cols,
+        "coefficients": dict(zip(feature_cols, model.coef_[0].tolist())),
+        "intercept": float(model.intercept_[0])
+    }
+
+    # Persist the trained model
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
     joblib.dump(model, model_path)
 
-    # Score all candidate pairs using the trained model. ``predict_proba`` returns
-    # probabilities for the negative and positive classes; ``[:, 1]`` selects the
-    # duplicate probability.
+    # Score all pairs
     X_all = (
-        feat_df.drop(columns=["record_id_1", "record_id_2"])
+        feat_df[feature_cols]
         .apply(pd.to_numeric, errors="coerce")
         .fillna(0)
     )
@@ -123,14 +143,32 @@ def main(
     scored_df = feat_df.copy()
     scored_df["prob"] = probs
 
-    # Filter pairs with probability above the high-confidence threshold. The
-    # threshold can be adjusted later as needed.
+    # Track prediction statistics
+    prob_stats = {
+        "mean_prob": float(probs.mean()),
+        "prob_dist": {
+            "p90": float(pd.Series(probs).quantile(0.9)),
+            "p95": float(pd.Series(probs).quantile(0.95)),
+            "p99": float(pd.Series(probs).quantile(0.99))
+        }
+    }
+
+    # Filter high-confidence pairs
     high_conf = scored_df[scored_df["prob"] >= 0.9]
+    high_conf_pairs = len(high_conf)
     os.makedirs(os.path.dirname(duplicates_path), exist_ok=True)
     high_conf.to_csv(duplicates_path, index=False)
 
     end_time = time.time()
-    log_run("model", start_time, end_time, len(scored_df), log_path=log_path)
+    stats = {
+        "input_pairs": input_pairs,
+        "training_pairs": train_pairs,
+        "high_confidence_pairs": high_conf_pairs,
+        "label_stats": label_stats,
+        "model_stats": model_stats,
+        "prediction_stats": prob_stats
+    }
+    log_run("model", start_time, end_time, len(scored_df), additional_info=json.dumps(stats), log_path=log_path)
 
     return scored_df
 

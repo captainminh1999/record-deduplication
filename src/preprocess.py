@@ -9,6 +9,7 @@ import os
 import re
 import unicodedata
 import time
+import json
 
 import pandas as pd
 
@@ -80,7 +81,7 @@ def main(
     openai_model: str = "gpt-4o-mini",
     log_path: str = LOG_PATH,
     clear: bool = False,
-) -> int:
+) -> pd.DataFrame:
     """Clean the raw spreadsheet and save a CSV.
 
     The function loads ``input_path`` using :func:`pandas.read_csv` for CSV
@@ -113,7 +114,23 @@ def main(
         raise KeyError("Missing required column: company")
     df["company"] = df[company_key]
 
+    # Track statistics at the beginning
     start_time = time.time()
+    initial_rows = len(df)
+    null_counts = df.isnull().sum()
+    missing_company = df["company"].isnull().sum()
+
+    # Get domain information
+    domain_key = col_map.get("domain") or col_map.get("website")
+    if domain_key:
+        domain_col = df[domain_key]
+        missing_domain = domain_col.isnull().sum()
+    else:
+        domain_col = pd.Series("", index=df.index)
+        missing_domain = len(df)
+
+    # Track company name stats before cleaning
+    unique_companies_before = df["company"].nunique()
 
     if use_openai:
         df["company_clean"] = translate_to_english(
@@ -122,11 +139,11 @@ def main(
     else:
         df["company_clean"] = df["company"].map(normalize_company_name)
 
-    domain_key = col_map.get("domain") or col_map.get("website")
-    if domain_key:
-        domain_col = df[domain_key]
-    else:
-        domain_col = pd.Series("", index=df.index)
+    # Track company name stats after cleaning
+    unique_companies_after = df["company_clean"].nunique()
+    empty_company_names = len(df[df["company_clean"] == ""])
+
+    domain_col = df[domain_key] if domain_key else pd.Series("", index=df.index)
     df["domain_clean"] = domain_col.map(_normalize_domain)
 
     phone_key = col_map.get("companyphone") or col_map.get("phone")
@@ -205,13 +222,27 @@ def main(
 
     df = df[~dup_mask].drop(columns=["_id_str"])
 
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    df.to_csv(output_path, index=False)
+    result = pd.DataFrame(df)
+    result.to_csv(output_path, index=True)
+    print(f"Wrote {len(result)} cleaned records to {output_path}")
 
     end_time = time.time()
-    log_run("preprocess", start_time, end_time, len(df), log_path=log_path)
+    stats = {
+        "input_rows": initial_rows,
+        "output_rows": len(result),
+        "duplicates_removed": len(duplicates),
+        "missing_company": int(missing_company),
+        "missing_domain": int(missing_domain),
+        "null_values": null_counts.to_dict(),
+        "company_cleanup": {
+            "empty_after_clean": empty_company_names,
+            "unique_before": unique_companies_before,
+            "unique_after": unique_companies_after,
+        }
+    }
+    log_run("preprocess", start_time, end_time, len(result), additional_info=json.dumps(stats), log_path=log_path)
 
-    return len(df)
+    return result
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

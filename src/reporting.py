@@ -24,79 +24,114 @@ def main(
     """Create a merge suggestion workbook, now with GPT review results."""
 
     start_time = time.time()
+    report_stats = {
+        "input_stats": {},
+        "probability_bands": {},
+        "gpt_review": {"available": False},
+        "output_sheets": {}
+    }
 
+    # Load and track input data stats
     dupes = pd.read_csv(dupes_path)
     cleaned = pd.read_csv(cleaned_path).set_index("record_id")
+    report_stats["input_stats"] = {
+        "total_pairs": len(dupes),
+        "unique_records": len(cleaned),
+        "mean_probability": float(dupes["prob"].mean()),
+        "probability_quantiles": {
+            "25%": float(dupes["prob"].quantile(0.25)),
+            "50%": float(dupes["prob"].quantile(0.50)),
+            "75%": float(dupes["prob"].quantile(0.75)),
+            "90%": float(dupes["prob"].quantile(0.90))
+        }
+    }
 
     # Combine duplicate pairs with full record details from both sides.
     left = cleaned.loc[dupes["record_id_1"]].add_suffix("_1").reset_index()
     right = cleaned.loc[dupes["record_id_2"]].add_suffix("_2").reset_index()
     merged = pd.concat([dupes.reset_index(drop=True), left, right], axis=1)
 
-    # Probability thresholds may be tuned later.
-    high_conf = merged[merged["prob"] >= 0.9]
-    manual_review = merged[(merged["prob"] >= 0.6) & (merged["prob"] < 0.9)]
+    # Track probability band statistics
+    prob_bands = {
+        "high_confidence": merged[merged["prob"] >= 0.9],
+        "manual_review": merged[(merged["prob"] >= 0.6) & (merged["prob"] < 0.9)],
+        "low_confidence": merged[merged["prob"] < 0.6]
+    }
+    
+    report_stats["probability_bands"] = {
+        band: {
+            "count": len(df),
+            "mean_probability": float(df["prob"].mean()) if len(df) > 0 else 0.0
+        }
+        for band, df in prob_bands.items()
+    }
 
-    # Load and flatten GPT review results if available
+    # Load and process GPT review results if available
     gpt_flat = []
     if os.path.exists(gpt_review_path):
         import json
-
+        
         with open(gpt_review_path, "r", encoding="utf-8") as f:
             gpt_review = json.load(f)
+            
+        # Track GPT review statistics
+        total_clusters = len(gpt_review)
+        processed_clusters = 0
+        total_groups = 0
+        total_records = 0
+        confidence_sum = 0.0
+        
         for entry in gpt_review:
             cluster_id = entry.get("cluster_id")
-            record_ids = entry.get("record_ids")
-            canonical_groups = entry.get("canonical_groups")
-            raw_response = entry.get("raw_response")
+            record_ids = entry.get("record_ids", [])
+            canonical_groups = entry.get("canonical_groups", [])
+            
             # Only process clusters with non-empty canonical_groups
             if canonical_groups and isinstance(canonical_groups, list) and len(canonical_groups) > 0:
+                processed_clusters += 1
+                total_groups += len(canonical_groups)
+                
                 for group in canonical_groups:
-                    # Required fields: primary_organization, canonical_domains, record_ids, confidence
+                    # Required fields
                     primary_organization = group.get("primary_organization")
-                    canonical_domains = group.get("canonical_domains")
-                    canonical_record_ids = group.get("record_ids")
-                    confidence = group.get("confidence")
-                    # Only add if required fields are present and not blank
-                    if primary_organization and canonical_domains and canonical_record_ids and confidence is not None:
-                        gpt_flat.append(
-                            {
-                                "cluster_id": cluster_id,
-                                "record_ids": record_ids,
-                                "primary_organization": primary_organization,
-                                "canonical_domains": canonical_domains,
-                                "canonical_record_ids": canonical_record_ids,
-                                "confidence": confidence,
-                                "raw_response": None,
-                            }
-                        )
-                    else:
-                        gpt_flat.append(
-                            {
-                                "cluster_id": cluster_id,
-                                "record_ids": record_ids,
-                                "primary_organization": primary_organization or None,
-                                "canonical_domains": canonical_domains or None,
-                                "canonical_record_ids": canonical_record_ids or None,
-                                "confidence": confidence,
-                                "raw_response": raw_response,
-                            }
-                        )
-            # Skip clusters with empty canonical_groups (do not append anything)
-    gpt_df = pd.DataFrame(gpt_flat) if gpt_flat else None
+                    canonical_domains = group.get("canonical_domains", [])
+                    canonical_record_ids = group.get("record_ids", [])
+                    confidence = group.get("confidence", 0.0)
+                    
+                    if primary_organization and canonical_record_ids:
+                        total_records += len(canonical_record_ids)
+                        confidence_sum += confidence
+                        gpt_flat.append({
+                            "cluster_id": cluster_id,
+                            "primary_organization": primary_organization,
+                            "canonical_domains": canonical_domains,
+                            "record_ids": canonical_record_ids,
+                            "confidence": confidence
+                        })
+        
+        # Update GPT review stats
+        report_stats["gpt_review"] = {
+            "available": True,
+            "total_clusters": total_clusters,
+            "processed_clusters": processed_clusters,
+            "total_canonical_groups": total_groups,
+            "total_records_processed": total_records,
+            "mean_confidence": float(confidence_sum / len(gpt_flat)) if gpt_flat else 0.0,
+            "records_per_group": float(total_records / total_groups) if total_groups > 0 else 0.0
+        }
 
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with ExcelWriter(report_path, engine="openpyxl") as writer:
-        high_conf.to_excel(writer, sheet_name="high_confidence", index=False)
-        manual_review.to_excel(writer, sheet_name="manual_review", index=False)
-        if gpt_df is not None:
-            gpt_df.to_excel(writer, sheet_name="gpt_review", index=False)
+        prob_bands["high_confidence"].to_excel(writer, sheet_name="high_confidence", index=False)
+        prob_bands["manual_review"].to_excel(writer, sheet_name="manual_review", index=False)
+        if gpt_flat:
+            pd.DataFrame(gpt_flat).to_excel(writer, sheet_name="gpt_review", index=False)
 
         # Optional formatting highlighting borderline pairs for review.
         workbook = writer.book
         review_ws = writer.sheets["manual_review"]
         fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
-        prob_idx = manual_review.columns.get_loc("prob")
+        prob_idx = prob_bands["manual_review"].columns.get_loc("prob")
         if not isinstance(prob_idx, int):
             raise TypeError("Expected a unique 'prob' column")
         score_col = prob_idx + 1
@@ -107,15 +142,17 @@ def main(
                 cell.fill = fill
 
     print(
-        f"Saved {len(high_conf)} high-confidence pairs, {len(manual_review)} pairs for manual review, and {len(gpt_df) if gpt_df is not None else 0} GPT review records to {report_path}"
+        f"Saved {len(prob_bands['high_confidence'])} high-confidence pairs, {len(prob_bands['manual_review'])} pairs for manual review, and {len(gpt_flat) if gpt_flat else 0} GPT review records to {report_path}"
     )
+    print("Reporting statistics:")
+    print(report_stats)
 
     end_time = time.time()
     log_run(
         "reporting",
         start_time,
         end_time,
-        len(high_conf) + len(manual_review),
+        len(prob_bands["high_confidence"]) + len(prob_bands["manual_review"]),
         log_path=log_path,
     )
 

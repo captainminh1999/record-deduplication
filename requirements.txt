@@ -11,3 +11,4 @@ click
 jupyterlab            # or notebook
 ipykernel
 matplotlib            # for plotting in your debug notebook
+kneed

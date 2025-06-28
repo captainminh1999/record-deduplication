@@ -7,6 +7,7 @@ Provides optional integration with OpenAI's GPT for translating company names an
 from __future__ import annotations
 
 from typing import Iterable, List, Dict, Any, cast
+from collections import defaultdict
 
 import json
 import os
@@ -32,6 +33,40 @@ client: Any = None  # type: ignore
 DEFAULT_MODEL = "gpt-4o-mini"
 
 
+def _init_api_stats() -> Dict[str, Any]:
+    """Initialize API call statistics tracking."""
+    return {
+        "calls": 0,
+        "tokens": {
+            "prompt": 0,
+            "completion": 0,
+            "total": 0
+        },
+        "durations": [],
+        "errors": defaultdict(int),
+        "costs": {
+            "total": 0.0
+        }
+    }
+
+
+def _update_api_stats(stats: Dict[str, Any], duration: float, response: Any, error: str | None = None) -> None:
+    """Update API call statistics."""
+    stats["calls"] += 1
+    stats["durations"].append(duration)
+    
+    if error:
+        stats["errors"][error] += 1
+    elif hasattr(response, "usage"):
+        stats["tokens"]["prompt"] += response.usage.prompt_tokens
+        stats["tokens"]["completion"] += response.usage.completion_tokens
+        stats["tokens"]["total"] += response.usage.total_tokens
+        
+        # Estimate costs (can be adjusted based on model pricing)
+        price_per_1k = 0.03  # Example price, adjust based on actual model
+        stats["costs"]["total"] += (response.usage.total_tokens / 1000.0) * price_per_1k
+
+
 def translate_to_english(
     texts: Iterable[str], model: str = DEFAULT_MODEL
 ) -> List[str]:
@@ -50,20 +85,68 @@ def translate_to_english(
         The translated strings in the same order as ``texts``.
     """
     _check_openai()
+    
+    start_time = time.time()
+    api_stats = _init_api_stats()
+    translation_stats = {
+        "total": 0,
+        "non_latin": 0,
+        "changed": 0,
+        "unchanged": 0,
+        "failed": 0
+    }
 
+    texts_list = list(texts)  # Convert iterable to list for len() and iteration
     results: List[str] = []
-    for text in texts:
-        prompt = (
-            "Translate the following company name to English using Latin characters only: "
-            f"{text}"
-        )
-        resp = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        translated = resp.choices[0].message["content"].strip()
-        results.append(translated)
+    for text in texts_list:
+        translation_stats["total"] += 1
+        call_start = time.time()
+        
+        # Check if translation is needed
+        needs_translation = any(ord(c) > 127 for c in text)
+        if needs_translation:
+            translation_stats["non_latin"] += 1
+            try:
+                prompt = (
+                    "Translate the following company name to English using Latin characters only: "
+                    f"{text}"
+                )
+                resp = client.chat.completions.create(
+                    model=model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.0,
+                    max_tokens=60,
+                )
+                call_duration = time.time() - call_start
+                _update_api_stats(api_stats, call_duration, resp)
+                
+                translated = resp.choices[0].message.content.strip()
+                if translated.lower() != text.lower():
+                    translation_stats["changed"] += 1
+                else:
+                    translation_stats["unchanged"] += 1
+                results.append(translated)
+            except Exception as e:
+                call_duration = time.time() - call_start
+                _update_api_stats(api_stats, call_duration, None, str(type(e).__name__))
+                translation_stats["failed"] += 1
+                results.append(text)  # Keep original on failure
+        else:
+            translation_stats["unchanged"] += 1
+            results.append(text)
 
+    end_time = time.time()
+    stats = {
+        "api_stats": api_stats,
+        "translation_stats": translation_stats,
+        "performance": {
+            "total_duration": end_time - start_time,
+            "avg_duration": float(sum(api_stats["durations"]) / len(api_stats["durations"])) if api_stats["durations"] else 0,
+            "success_rate": float((translation_stats["changed"] + translation_stats["unchanged"]) / translation_stats["total"])
+        }
+    }
+    log_run("translate", start_time, end_time, len(texts_list), additional_info=json.dumps(stats), log_path=LOG_PATH)
+    
     return results
 
 

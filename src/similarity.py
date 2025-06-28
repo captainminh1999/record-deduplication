@@ -8,6 +8,7 @@ from __future__ import annotations
 import os
 import re
 import time
+import json
 
 import click
 import pandas as pd
@@ -30,6 +31,7 @@ def main(
         raise FileNotFoundError(f"Cleaned data not found: {cleaned_path}")
 
     df = pd.read_csv(cleaned_path)
+    initial_rows = len(df)
 
     required = {
         "record_id",
@@ -45,14 +47,18 @@ def main(
 
     df = df.set_index("record_id")
 
+    # Track input pair stats
     if os.path.exists(pairs_path):
         pairs_df = pd.read_csv(pairs_path)
         pairs_index = pd.MultiIndex.from_frame(pairs_df)
+        input_pairs = len(pairs_df)
     else:
         pairs_index = generate_candidate_pairs(df)
+        input_pairs = len(pairs_index)
         os.makedirs(os.path.dirname(pairs_path), exist_ok=True)
         pairs_index.to_frame(index=False).to_csv(pairs_path, index=False)
 
+    # Compute similarities
     comp = recordlinkage.Compare()
     comp.string(
         "company_clean",
@@ -70,27 +76,41 @@ def main(
 
     features = comp.compute(pairs_index, df)
 
-    # RapidFuzz token_set_ratio for addresses. Scale to [0,1] as future
-    # thresholds may be tuned later. Additional phonetic or fuzzy-domain
-    # checks can be implemented in future iterations.
+    # Track similarity stats
+    similarity_stats = {
+        "mean": {
+            "company_sim": float(features["company_sim"].mean()),
+            "domain_sim": float(features["domain_sim"].mean()),
+            "phone_exact": float(features["phone_exact"].mean())
+        },
+        "high_similarity": {
+            "company_sim_gt_0.8": int((features["company_sim"] > 0.8).sum()),
+            "domain_sim_gt_0.8": int((features["domain_sim"] > 0.8).sum()),
+            "phone_exact_matches": int(features["phone_exact"].sum())
+        }
+    }
+
+    # Define address ratio helper
     def _addr_ratio(a: object, b: object) -> float:
         a_str = str(a) if a is not None and not (isinstance(a, float) and pd.isna(a)) else ""
         b_str = str(b) if b is not None and not (isinstance(b, float) and pd.isna(b)) else ""
         score = fuzz.token_set_ratio(a_str, b_str)
         return score / 100.0
 
+    # Add address similarity if present
     if address_present:
         addr_scores = [
             _addr_ratio(df.loc[i1, "address_clean"], df.loc[i2, "address_clean"])
             for i1, i2 in pairs_index
         ]
         features["address_sim"] = addr_scores
+        similarity_stats["mean"]["address_sim"] = float(pd.Series(addr_scores).mean())
+        similarity_stats["high_similarity"]["address_sim_gt_0.8"] = sum(1 for score in addr_scores if score > 0.8)
 
     features = features.reset_index()
     os.makedirs(os.path.dirname(features_path), exist_ok=True)
 
-    # Build columns with the cleaned values for each record and
-    # combine them with the similarity features.
+    # Track column stats
     match_cols = ["company_clean", "domain_clean", "phone_clean"]
     if "address_clean" in df.columns:
         match_cols.append("address_clean")
@@ -101,6 +121,7 @@ def main(
     if country_col:
         match_cols.append(country_col)
 
+    # Append original values
     left = df.loc[features["record_id_1"], match_cols].reset_index(drop=True)
     left.columns = [f"{c}_1" for c in match_cols]
     right = df.loc[features["record_id_2"], match_cols].reset_index(drop=True)
@@ -113,8 +134,16 @@ def main(
     print(
         f"Computed {len(features)} feature rows and saved to {features_path}."
     )
+    
     end_time = time.time()
-    log_run("similarity", start_time, end_time, len(features), log_path=log_path)
+    stats = {
+        "input_records": initial_rows,
+        "input_pairs": input_pairs,
+        "output_features": len(features),
+        "columns_used": match_cols,
+        "similarity_metrics": similarity_stats
+    }
+    log_run("similarity", start_time, end_time, len(features), additional_info=json.dumps(stats), log_path=log_path)
     return features
 
 

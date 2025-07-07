@@ -68,7 +68,8 @@ class OpenAIClient:
         
         if error:
             stats["errors"][error] += 1
-        elif hasattr(response, "usage"):
+        elif response and hasattr(response, "usage"):
+            # Handle direct OpenAI response object
             stats["tokens"]["prompt"] += response.usage.prompt_tokens
             stats["tokens"]["completion"] += response.usage.completion_tokens
             stats["tokens"]["total"] += response.usage.total_tokens
@@ -79,6 +80,20 @@ class OpenAIClient:
             
             input_cost = (response.usage.prompt_tokens / 1_000_000) * input_price_per_1m
             output_cost = (response.usage.completion_tokens / 1_000_000) * output_price_per_1m
+            
+            stats["costs"]["total"] += input_cost + output_cost
+        elif response and isinstance(response, dict) and all(k in response for k in ["prompt_tokens", "completion_tokens", "total_tokens"]):
+            # Handle usage dictionary from our make_request method
+            stats["tokens"]["prompt"] += response["prompt_tokens"]
+            stats["tokens"]["completion"] += response["completion_tokens"]
+            stats["tokens"]["total"] += response["total_tokens"]
+            
+            # Calculate costs based on gpt-4o-mini pricing
+            input_price_per_1m = 0.15   # $0.15 per 1M input tokens
+            output_price_per_1m = 0.60  # $0.60 per 1M output tokens
+            
+            input_cost = (response["prompt_tokens"] / 1_000_000) * input_price_per_1m
+            output_cost = (response["completion_tokens"] / 1_000_000) * output_price_per_1m
             
             stats["costs"]["total"] += input_cost + output_cost
     

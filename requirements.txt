@@ -7,6 +7,7 @@ openpyxl
 XlsxWriter
 # CLI utility
 click
+tqdm                  # progress bars
 # openai
 python-dotenv
 jupyterlab            # or notebook

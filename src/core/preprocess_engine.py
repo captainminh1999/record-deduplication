@@ -132,14 +132,20 @@ class PreprocessEngine:
         if not company_key:
             raise ValueError("No company column found")
             
+        id_key = self._detect_id_column(df)
         domain_key = self._detect_domain_column(df)
         phone_key = self._detect_phone_column(df)
         address_keys = self._detect_address_columns(df)
         
-        # Set record_id as index if it exists, otherwise create it
-        if "record_id" in df.columns:
+        # Set record_id as index using detected ID column or existing record_id
+        if id_key and id_key != "record_id":
+            # Use the detected ID column (like "Sys ID") and rename it to record_id for consistency
+            df = df.rename(columns={id_key: "record_id"})
+            df = df.set_index("record_id")
+        elif "record_id" in df.columns:
             df = df.set_index("record_id")
         else:
+            # Generate sequential IDs as fallback
             df.index.name = "record_id"
         
         # Track original unique companies
@@ -227,7 +233,7 @@ class PreprocessEngine:
     
     def _detect_company_column(self, df: pd.DataFrame) -> Optional[str]:
         """Detect the company column."""
-        possible_names = ["company", "company_name", "organization", "org", "business", "firm"]
+        possible_names = ["company", "company_name", "organization", "org", "business", "firm", "name"]
         for col in df.columns:
             if col.lower() in possible_names:
                 return col
@@ -264,3 +270,16 @@ class PreprocessEngine:
             if any(name in col_lower for name in possible_names):
                 address_cols.append(col)
         return address_cols
+    
+    def _detect_id_column(self, df: pd.DataFrame) -> Optional[str]:
+        """Detect the ID/identifier column."""
+        possible_names = ["id", "record_id", "sys id", "system id", "identifier", "key", "sys_id", "system_id"]
+        for col in df.columns:
+            if col.lower() in possible_names:
+                return col
+        # If no exact match, look for columns containing these terms
+        for col in df.columns:
+            col_lower = col.lower()
+            if any(name in col_lower for name in ["id", "key", "identifier"]):
+                return col
+        return None

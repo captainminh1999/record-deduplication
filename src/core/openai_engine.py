@@ -7,7 +7,7 @@ Pure business logic with no I/O or terminal output.
 from __future__ import annotations
 
 import pandas as pd
-from typing import Dict, Any, List, Optional, Iterable
+from typing import Dict, Any, List, Optional, Iterable, Callable
 
 from .openai_client import OpenAIClient
 from .openai_translator import OpenAITranslator
@@ -38,7 +38,8 @@ class OpenAIEngine:
         features_df: pd.DataFrame,
         cleaned_df: pd.DataFrame,
         config: OpenAIConfig,
-        sample_size: Optional[int] = None
+        sample_size: Optional[int] = None,
+        progress_callback: Optional[Callable[[int, int], None]] = None
     ) -> DeduplicationResult:
         """Perform AI-powered deduplication using similarity features."""
-        return self.deduplicator.deduplicate_records(features_df, cleaned_df, config, sample_size)
+        return self.deduplicator.deduplicate_records(features_df, cleaned_df, config, sample_size, progress_callback)

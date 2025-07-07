@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 import time
 import concurrent.futures
-from typing import Dict, Any, List, Set, Optional
+from typing import Dict, Any, List, Set, Optional, Callable, Tuple
 
 import pandas as pd
 
@@ -67,10 +67,10 @@ class OpenAIDeduplicator:
         prompt_text = "\n".join(prompt_lines)
         return [{"role": "user", "content": prompt_text}]
     
-    def _analyze_duplicate_batch(self, batch_data: List[Dict[str, Any]], config: OpenAIConfig) -> List[Dict[str, Any]]:
+    def _analyze_duplicate_batch(self, batch_data: List[Dict[str, Any]], config: OpenAIConfig) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
         """Analyze a batch of candidate duplicate pairs using OpenAI."""
         if not batch_data:
-            return []
+            return [], {}
         
         try:
             messages = self._create_batch_prompt(batch_data)
@@ -96,11 +96,11 @@ class OpenAIDeduplicator:
             except json.JSONDecodeError:
                 analysis_results = []
             
-            return analysis_results
+            return analysis_results, usage
             
         except Exception:
             # Return error results for this batch
-            return [
+            error_results = [
                 {
                     "pair_id": pair['pair_id'],
                     "same_organization": False,
@@ -111,6 +111,7 @@ class OpenAIDeduplicator:
                 }
                 for pair in batch_data
             ]
+            return error_results, {}
     
     def _create_unique_records(
         self,
@@ -119,87 +120,139 @@ class OpenAIDeduplicator:
         ai_results: List[Dict[str, Any]],
         config: OpenAIConfig
     ) -> pd.DataFrame:
-        """Create unique records by merging duplicates based on AI decisions."""
+        """Create unique records by merging duplicates based on AI decisions. Optimized for speed."""
         
-        # Create a mapping of duplicates
-        duplicate_groups: Dict[str, Set[str]] = {}
-        canonical_names: Dict[str, str] = {}
+        # Use Union-Find data structure for efficient group management
+        record_to_group = {}  # record_id -> group_representative
+        canonical_names = {}  # group_representative -> canonical_name
         
-        # Process AI results to build duplicate groups
+        def find_root(record_id: str) -> str:
+            """Find the root representative of a group (with path compression)."""
+            if record_id not in record_to_group:
+                record_to_group[record_id] = record_id
+                return record_id
+            
+            if record_to_group[record_id] != record_id:
+                record_to_group[record_id] = find_root(record_to_group[record_id])  # Path compression
+            return record_to_group[record_id]
+        
+        def union_groups(id1: str, id2: str, primary_id: str, canonical_name: str) -> None:
+            """Union two groups with the specified primary as root."""
+            root1, root2 = find_root(id1), find_root(id2)
+            
+            if root1 != root2:
+                # Make primary_id the root of the merged group
+                if primary_id == id1:
+                    record_to_group[root2] = root1
+                    canonical_names[root1] = canonical_name
+                elif primary_id == id2:
+                    record_to_group[root1] = root2
+                    canonical_names[root2] = canonical_name
+                else:
+                    # Primary is neither root, make it the new root
+                    record_to_group[root1] = primary_id
+                    record_to_group[root2] = primary_id
+                    record_to_group[primary_id] = primary_id
+                    canonical_names[primary_id] = canonical_name
+            else:
+                # Already in same group, just update canonical name
+                canonical_names[root1] = canonical_name
+        
+        # Process AI results to build duplicate groups efficiently
         for result in ai_results:
             if (result.get('same_organization', False) and 
                 result.get('confidence', 0) >= config.confidence_threshold and
                 not result.get('error', False)):
                 
                 pair_id = result['pair_id']
-                # Handle pair_id parsing - assume format is "id1-id2"
                 if '-' in pair_id:
                     id1, id2 = pair_id.split('-', 1)
-                else:
-                    continue
-                
-                primary_id = result.get('primary_record_id', id1)
-                canonical_name = result.get('canonical_name', '')
-                
-                # Find existing group or create new one
-                group_key = None
-                for key, group in duplicate_groups.items():
-                    if id1 in group or id2 in group:
-                        group_key = key
-                        break
-                
-                if group_key is None:
-                    # Create new group with primary record as key
-                    group_key = primary_id
-                    duplicate_groups[group_key] = {id1, id2}
-                else:
-                    # Add to existing group
-                    duplicate_groups[group_key].update({id1, id2})
-                    # Update group key to primary record if needed
-                    if primary_id in duplicate_groups[group_key] and group_key != primary_id:
-                        duplicate_groups[primary_id] = duplicate_groups.pop(group_key)
-                        group_key = primary_id
-                
-                canonical_names[group_key] = canonical_name
+                    primary_id = result.get('primary_record_id', id1)
+                    canonical_name = result.get('canonical_name', '')
+                    union_groups(id1, id2, primary_id, canonical_name)
         
-        # Create unique records dataframe
-        unique_records = []
-        processed_ids = set()
+        # Build group mapping efficiently
+        groups = {}  # group_representative -> list of member_ids
+        for record_id in record_to_group:
+            root = find_root(record_id)
+            if root not in groups:
+                groups[root] = []
+            groups[root].append(record_id)
         
-        # Process duplicate groups
-        for primary_id, group_ids in duplicate_groups.items():
-            if primary_id in processed_ids:
-                continue
+        # Start with a copy of the original dataframe
+        unique_df = cleaned_df.copy()
+        unique_df = unique_df.reset_index()  # Convert index to column
+        
+        # Initialize new columns efficiently
+        unique_df['is_merged'] = False
+        unique_df['merged_from'] = [[] for _ in range(len(unique_df))]
+        unique_df['canonical_company'] = unique_df.get('company_clean', '')
+        
+        # Track which records to keep
+        records_to_remove = set()
+        
+        # Process each group
+        for group_root, group_members in groups.items():
+            if len(group_members) > 1:  # Only process actual groups
+                # Find the primary record in the dataframe
+                primary_idx = unique_df[unique_df['record_id'] == group_root].index
                 
-            # Get primary record
-            if primary_id in cleaned_df.index:
-                primary_record = cleaned_df.loc[primary_id].copy()
-                primary_record['record_id'] = primary_id
-                primary_record['is_merged'] = len(group_ids) > 1
-                primary_record['merged_from'] = list(group_ids) if len(group_ids) > 1 else []
-                primary_record['canonical_company'] = canonical_names.get(primary_id, primary_record.get('company_clean', ''))
-                
-                unique_records.append(primary_record)
-                processed_ids.update(group_ids)
+                if len(primary_idx) > 0:
+                    primary_idx = primary_idx[0]
+                    
+                    # Update primary record
+                    unique_df.at[primary_idx, 'is_merged'] = True
+                    unique_df.at[primary_idx, 'merged_from'] = group_members
+                    if group_root in canonical_names:
+                        unique_df.at[primary_idx, 'canonical_company'] = canonical_names[group_root]
+                    
+                    # Mark other group members for removal
+                    for member_id in group_members:
+                        if member_id != group_root:
+                            records_to_remove.add(member_id)
         
-        # Add records that weren't identified as duplicates
-        for record_id in cleaned_df.index:
-            if record_id not in processed_ids:
-                record = cleaned_df.loc[record_id].copy()
-                record['record_id'] = record_id
-                record['is_merged'] = False
-                record['merged_from'] = []
-                record['canonical_company'] = record.get('company_clean', '')
-                unique_records.append(record)
+        # Remove duplicates efficiently
+        if records_to_remove:
+            unique_df = unique_df[~unique_df['record_id'].isin(records_to_remove)]
         
-        return pd.DataFrame(unique_records)
+        return unique_df
     
+    def _auto_merge_high_similarity_pairs(
+        self,
+        features_df: pd.DataFrame,
+        config: OpenAIConfig,
+        auto_merge_threshold: float = 0.98
+    ) -> Tuple[pd.DataFrame, List[Dict[str, Any]]]:
+        """Auto-merge pairs with very high similarity scores without AI analysis."""
+        
+        # Find pairs with extremely high similarity that are likely exact matches
+        auto_merge_pairs = features_df[features_df['company_sim'] >= auto_merge_threshold].copy()
+        remaining_pairs = features_df[features_df['company_sim'] < auto_merge_threshold].copy()
+        
+        # Create auto-merge results
+        auto_results = []
+        for _, row in auto_merge_pairs.iterrows():
+            id1, id2 = row['record_id_1'], row['record_id_2']
+            
+            # Use the first record as primary by default
+            auto_results.append({
+                "pair_id": f"{id1}-{id2}",
+                "same_organization": True,
+                "confidence": 1.0,  # High confidence for auto-merge
+                "primary_record_id": id1,
+                "canonical_name": row.get('company_clean_1', ''),
+                "auto_merged": True
+            })
+        
+        return remaining_pairs, auto_results
+
     def deduplicate_records(
         self,
         features_df: pd.DataFrame,
         cleaned_df: pd.DataFrame,
         config: OpenAIConfig,
-        sample_size: Optional[int] = None
+        sample_size: Optional[int] = None,
+        progress_callback: Optional[Callable[[int, int], None]] = None
     ) -> DeduplicationResult:
         """
         Perform AI-powered deduplication using similarity features.
@@ -221,10 +274,14 @@ class OpenAIDeduplicator:
             stats = self.client.convert_to_stats(api_stats)
             
             return DeduplicationResult(
-                unique_records_df=unique_df,
-                analysis_results=[],
+                unique_records=unique_df,
+                analysis={"results": [], "summary": "No pairs above similarity threshold"},
                 stats=stats
             )
+        
+        # Auto-merge very high similarity pairs (DISABLED per user request)
+        # high_sim_pairs, auto_merge_results = self._auto_merge_high_similarity_pairs(high_sim_pairs, config)
+        auto_merge_results = []  # Skip auto-merge optimization
         
         # Sample if requested
         if sample_size and len(high_sim_pairs) > sample_size:
@@ -253,47 +310,76 @@ class OpenAIDeduplicator:
             }
             analysis_data.append(pair_info)
         
-        # Split into batches for parallel processing
-        batches = [analysis_data[i:i + config.batch_size] for i in range(0, len(analysis_data), config.batch_size)]
+        # Combine auto-merge results with AI analysis results
+        all_results = auto_merge_results
         
-        # Process batches with AI
-        all_results = []
-        
-        with concurrent.futures.ThreadPoolExecutor(max_workers=config.max_workers) as executor:
-            # Submit all batches
-            future_to_batch = {
-                executor.submit(self._analyze_duplicate_batch, batch, config): batch 
-                for batch in batches
-            }
+        if len(analysis_data) > 0:
+            # Split into batches for parallel processing
+            batches = [analysis_data[i:i + config.batch_size] for i in range(0, len(analysis_data), config.batch_size)]
             
-            # Collect results as they complete
-            for future in concurrent.futures.as_completed(future_to_batch):
-                try:
-                    batch_results = future.result()
-                    all_results.extend(batch_results)
-                    self.client.update_stats(api_stats, 0.0)  # Simplified for business logic
-                except Exception:
-                    # Handle batch failure
-                    failed_batch = future_to_batch[future]
-                    for pair in failed_batch:
-                        all_results.append({
-                            "pair_id": pair['pair_id'],
-                            "same_organization": False,
-                            "confidence": 0.0,
-                            "primary_record_id": pair['record_1']['id'],
-                            "canonical_name": pair['record_1']['company'],
-                            "error": True
-                        })
-                    self.client.update_stats(api_stats, 0.0, None, "batch_failure")
+            # Process batches with AI
+            completed_batches = 0
+            total_batches = len(batches)
+            
+            with concurrent.futures.ThreadPoolExecutor(max_workers=config.max_workers) as executor:
+                # Submit all batches
+                future_to_batch = {
+                    executor.submit(self._analyze_duplicate_batch, batch, config): batch 
+                    for batch in batches
+                }
+                
+                # Collect results as they complete
+                for future in concurrent.futures.as_completed(future_to_batch):
+                    try:
+                        batch_results, usage_stats = future.result()
+                        all_results.extend(batch_results)
+                        
+                        # Update API stats with actual usage
+                        if usage_stats and not usage_stats.get('error'):
+                            self.client.update_stats(
+                                api_stats, 
+                                usage_stats.get('duration', 0.0),
+                                usage_stats
+                            )
+                        else:
+                            self.client.update_stats(api_stats, 0.0, None, "api_error")
+                            
+                    except Exception:
+                        # Handle batch failure
+                        failed_batch = future_to_batch[future]
+                        for pair in failed_batch:
+                            all_results.append({
+                                "pair_id": pair['pair_id'],
+                                "same_organization": False,
+                                "confidence": 0.0,
+                                "primary_record_id": pair['record_1']['id'],
+                                "canonical_name": pair['record_1']['company'],
+                                "error": True
+                            })
+                        self.client.update_stats(api_stats, 0.0, None, "batch_failure")
+                    
+                    # Update progress
+                    completed_batches += 1
+                    if progress_callback:
+                        progress_callback(completed_batches, total_batches)
         
         # Create unique records
         unique_df = self._create_unique_records(features_df, cleaned_df, all_results, config)
+        
+        # Create summary statistics
+        total_pairs = len(all_results)
+        merged_pairs = sum(1 for r in all_results if r.get('same_organization', False))
+        summary_stats = {
+            "total_pairs_analyzed": total_pairs,
+            "pairs_merged": merged_pairs,
+            "merge_rate": merged_pairs / total_pairs if total_pairs > 0 else 0.0
+        }
         
         # Convert to OpenAIStats format
         stats = self.client.convert_to_stats(api_stats)
         
         return DeduplicationResult(
-            unique_records_df=unique_df,
-            analysis_results=all_results,
+            unique_records=unique_df,
+            analysis={"results": all_results, "summary": summary_stats},
             stats=stats
         )

@@ -1,3 +1,0 @@
-record_id,cluster,domain_clean,phone_clean,address_clean
-1,0,acme.com,(123) 456-7890,Street 1
-3,0,widgets.com,,Street 3

@@ -7,6 +7,7 @@ This module orchestrates the OpenAI engine and formatter to provide a clean CLI 
 import time
 import json
 import click
+from tqdm import tqdm
 
 from ..core.openai_engine import OpenAIEngine, OpenAIConfig
 from ..formatters.openai_formatter import OpenAIFormatter
@@ -110,18 +111,45 @@ def openai_deduplication(
         
         # Count candidate pairs
         candidate_pairs = features_df[
-            (features_df.get('company_sim', 0) >= similarity_threshold) |
-            (features_df.get('domain_sim', 0) >= similarity_threshold) |
-            (features_df.get('phone_exact', 0) == 1)
+            (features_df.get('company_sim', 0) >= similarity_threshold)
         ]
         
         if sample_size:
             candidate_pairs = candidate_pairs.sample(n=min(sample_size, len(candidate_pairs)))
         
-        print(formatter.format_deduplication_start(len(candidate_pairs)))
+        print(f"🔗 Analyzing {len(candidate_pairs)} candidate pairs for merging...")
+        print(f"🎯 Using {max_workers} parallel workers with batch size {batch_size}")
         
-        # Perform AI deduplication
-        result = engine.deduplicate_records(features_df, records_df, config)
+        # Calculate number of batches for progress bar
+        total_pairs = len(candidate_pairs)
+        if sample_size:
+            total_pairs = min(sample_size, total_pairs)
+        num_batches = (total_pairs + batch_size - 1) // batch_size  # Ceiling division
+        
+        # Initialize progress bar
+        progress_bar = tqdm(
+            total=num_batches,
+            desc="🤖 Processing AI batches",
+            unit="batch",
+            bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} batches [{elapsed}<{remaining}], {rate_fmt}"
+        )
+        
+        def update_progress(completed: int, total: int):
+            """Update the progress bar."""
+            progress_bar.n = completed
+            progress_bar.refresh()
+        
+        # Perform AI deduplication with progress tracking
+        result = engine.deduplicate_records(
+            features_df, 
+            records_df, 
+            config, 
+            sample_size=sample_size, 
+            progress_callback=update_progress
+        )
+        
+        # Close progress bar
+        progress_bar.close()
         
         # Save results
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -135,13 +163,50 @@ def openai_deduplication(
         output_df.to_csv(output_path, index=False)
         
         with open(analysis_path, 'w') as f:
-            json.dump(result.analysis_data, f, indent=2)
+            json.dump(result.analysis, f, indent=2)
+        
+        # Calculate actual statistics
+        original_count = len(records_df)
+        unique_count = len(result.unique_records)
+        pairs_analyzed = result.analysis.get('summary', {}).get('total_pairs_analyzed', 0)
+        pairs_merged = result.analysis.get('summary', {}).get('pairs_merged', 0)
+        reduction_count = original_count - unique_count
+        reduction_rate = (reduction_count / original_count * 100) if original_count > 0 else 0
         
         # Display comprehensive results
-        results_output = formatter.format_comprehensive_deduplication_results(
-            result.analysis_data, output_path, analysis_path
-        )
-        print(results_output)
+        print("🎯 AI Deduplication Complete!")
+        print("─" * 60)
+        print("📊 Deduplication Summary:")
+        print(f"  • Original records:      {original_count:,}")
+        print(f"  • Unique records:        {unique_count:,}")
+        print(f"  • Records merged:        {reduction_count:,}")
+        print(f"  • Reduction rate:        {reduction_rate:.1f}%")
+        print(f"  • Model used:           {model}")
+        
+        print("🔗 Merge Analysis:")
+        print(f"  • Pairs analyzed:        {pairs_analyzed:,}")
+        print(f"  • Confident merges:      {pairs_merged:,}")
+        print(f"  • Merge groups created:  {pairs_merged:,}")
+        
+        print("🔌 API Usage:")
+        print(f"  • Total API calls:       {result.stats.total_calls:,}")
+        print(f"  • Successful calls:      {result.stats.successful_calls:,}")
+        print(f"  • Failed calls:          {result.stats.failed_calls:,}")
+        print(f"  • Tokens used:           {result.stats.total_tokens.get('total', 0):,}")
+        print(f"    - Prompt tokens:       {result.stats.total_tokens.get('prompt', 0):,}")
+        print(f"    - Completion tokens:   {result.stats.total_tokens.get('completion', 0):,}")
+        
+        # Calculate processing times
+        total_processing_time = sum(result.stats.durations) if result.stats.durations else 0
+        avg_duration = total_processing_time / len(result.stats.durations) if result.stats.durations else 0
+        
+        print(f"  • Total processing time: {total_processing_time:.1f}s")
+        print(f"  • Average call time:     {avg_duration:.1f}s")
+        print(f"  • Total cost estimate:   ${result.stats.total_cost:.4f}")
+        
+        print("💾 Files Created:")
+        print(f"  • Unique records: {output_path}")
+        print(f"  • Analysis data: {analysis_path}")
         
         # Log the run
         end_time = time.time()
@@ -149,11 +214,13 @@ def openai_deduplication(
             "openai_deduplication",
             start_time,
             end_time,
-            result.stats.processed_items,
+            unique_count,
             additional_info=json.dumps({
-                "original_records": result.analysis_data.get("original_records", 0),
-                "unique_records": result.analysis_data.get("unique_records", 0),
-                "reduction_rate": result.analysis_data.get("reduction_rate", 0),
+                "original_records": original_count,
+                "unique_records": unique_count,
+                "pairs_analyzed": pairs_analyzed,
+                "pairs_merged": pairs_merged,
+                "reduction_rate": reduction_rate / 100,
                 "api_calls": result.stats.total_calls,
                 "tokens_used": result.stats.total_tokens.get("total", 0),
                 "model_used": model

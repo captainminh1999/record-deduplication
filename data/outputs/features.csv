@@ -1,2 +1,519 @@
-record_id_1,record_id_2,company_sim,domain_sim,phone_exact,address_sim,company_clean_1,domain_clean_1,company_clean_2,domain_clean_2
-3,1,0.46428571428571425,0,0,0.875,widgets,widgets.com,acme,acme.com
+record_id_1,record_id_2,company_sim,company_clean_1,company_clean_2
+C33610,D01236,1,tech on,tech on
+C37147,D00458,1,envoy,envoy
+C47481,D01171,1,spk and associates,spk and associates
+C50220,D01236,1,tech on,tech on
+D00329,C30666,1,cyber dream technologies,cyber dream technologies
+D00386,C47377,1,digital realty,digital realty
+D00666,C35500,1,it services,it services
+D00681,C31560,1,j and b technologies,j and b technologies
+D00681,C38553,1,j and b technologies,j and b technologies
+D01030,C34953,1,r3,r3
+D01080,C29104,1,systems,systems
+D01080,C34719,1,systems,systems
+D01080,C41048,1,systems,systems
+D01210,C23042,1,tabula rosa systems,tabula rosa systems
+D01306,C24341,1,technologies,technologies
+D01306,C27806,1,technologies,technologies
+D01306,C31574,1,technologies,technologies
+D01306,C43697,1,technologies,technologies
+D01306,C47468,1,technologies,technologies
+C45162,D00198,0.991304348,california tritechnical,california tritechncial
+D00754,C51884,0.991304348,local network solutions,local network solution
+C35240,D01179,0.985714286,stambaughness,stambaugh ness
+D00883,C33206,0.984615385,new comutech,new computech
+C26686,D00976,0.983333333,pka technologies,pk technologies
+D00957,C38082,0.981818182,consultants,consultant
+D00340,C34172,0.98,cybergarde,cybergard
+D00370,C33169,0.977777778,datashops,datashop
+C34984,D01249,0.973913043,technology solutions,technology solutions nm
+D01249,C24631,0.973913043,technology solutions nm,technology solutions
+D01249,C30971,0.973913043,technology solutions nm,technology solutions
+D01249,C37783,0.973913043,technology solutions nm,technology solutions
+D01249,C50254,0.973913043,technology solutions nm,technology solutions
+C28016,D00733,0.973333333,lancord systems,lanco systems
+C49143,D00733,0.973333333,lancord systems,lanco systems
+D00555,C40507,0.971428571,govaged,govage
+C51569,D01039,0.966666667,rd4 technologies,rd3 technologies
+D00475,C45543,0.966666667,exaprobe usa,exaprobe sas
+D00867,C30729,0.966666667,netexe,netex
+D00439,C39118,0.964705882,elite networks us,elite networks
+C39981,D00768,0.964389234,mainstream technology,mainstream technologies
+D00872,C40051,0.963970588,netsec solutions,netsafe solutions
+D00040,C36910,0.963756614,advanced network consulting,advanced network consultants
+D00040,C47695,0.963756614,advanced network consulting,advanced network consultants
+C37628,D00528,0.962727273,frontline technology,frontline technologies
+C34834,D00140,0.961666667,bell integrator,bell integration
+D01248,C35525,0.961666667,technology cure,technology crest
+D01248,C50243,0.961666667,technology cure,technology crest
+C38194,D00945,0.961111111,ownit,own it
+C34633,D00225,0.96,centricsit,centricmit
+C42661,D00056,0.96,aits1,aits
+D00342,C35718,0.96,cybersecom,cybersec
+D01250,C50259,0.96,techplusus,techplus
+D00266,C40772,0.959333333,cmit solutions of fremont,cmit solutions of edmond
+C37997,D00681,0.958888889,j and b technology,j and b technologies
+D00398,C46540,0.958799489,diversified computer services,diversified computer resources
+D01207,C25937,0.957894737,systems integrators,systems integration
+C25442,D00340,0.957777778,cybergear,cybergarde
+C27816,D00340,0.957777778,cybergear,cybergarde
+C39022,D00340,0.957777778,cybergear,cybergarde
+C48307,D00340,0.957777778,cybergear,cybergarde
+C24087,D00667,0.956043956,it specialties,it specialists
+D00772,C34922,0.955731225,manhattantechsupportcom,manhattan tech support
+C29296,D00485,0.955555556,faction 8,faction
+D00075,C45253,0.955555556,amplifire,amplifi
+D00824,C49357,0.954131054,mitchell networks solutions,mitchell network solutions
+D00028,C24749,0.953846154,access online,access one
+C23624,D00987,0.953513072,precision it pros,precision it group
+D00230,C35914,0.952777778,chactech,chacetech
+D00230,C48079,0.952777778,chactech,chacetech
+D01160,C39194,0.952380952,sondhi solutions exos,sondhi solutions
+D01160,C50067,0.952380952,sondhi solutions exos,sondhi solutions
+C23406,D00619,0.952,infinity technology,infinity technology group
+C48891,D00619,0.952,infinity technology,infinity technology group
+D00642,C22940,0.950788458,integrated communications plans,integrated communication solutions
+D00642,C36012,0.950788458,integrated communications plans,integrated communication solutions
+D00642,C48930,0.950788458,integrated communications plans,integrated communication solutions
+C24627,D00876,0.950242424,network consulting group,network consultants group
+C49471,D00876,0.950242424,network consulting group,network consultants group
+C47520,D00256,0.95,cloudian,cloudi
+C51627,D00257,0.95,cloudify,cloudifi
+D00637,C44361,0.95,insource solutions group,insource solutions
+D00957,C25698,0.946666667,consultants,consultantgurus
+C33203,D00878,0.945726496,network security solutions,network security consultans
+D01169,C27525,0.945454545,spectrum av,spectrum
+C45353,D01249,0.944147157,technology solutions of kc,technology solutions nm
+C45117,D00777,0.943636364,marketstar,marketspark
+D00743,C44273,0.943636364,level up it,level up 2
+D00294,C25762,0.942857143,computer world,computer works
+D00294,C32143,0.942857143,computer world,computer works
+D00775,C25053,0.942857143,marcoby,marco
+D00563,C24758,0.942564103,h and amp a security solutions,h and a security solutions
+D00563,C48760,0.942564103,h and amp a security solutions,h and a security solutions
+C35547,D01110,0.941176471,security infrastructures,security infrastructure safeguards
+D00891,C35650,0.939705882,nexus consulting,nexus consultants
+D00891,C46006,0.939705882,nexus consulting,nexus consultancy
+D00891,C49520,0.939705882,nexus consulting,nexus consultants
+D00064,C38716,0.938961039,alliance optix,alliance it
+D00258,C35877,0.937826087,cloudpiles technologies,cloudnexus technologies
+D00258,C48130,0.937826087,cloudpiles technologies,cloudnexus technologies
+C25583,D01106,0.937777778,securemyne,securement
+D01149,C29903,0.937777778,snowman technologies,snowcap technologies
+C22374,D00999,0.9375,progressive technology,progressive technology solutions
+C23830,D00800,0.9375,meredith it,meredith digital
+D00293,C37979,0.9375,computer professionals unlimited,computer professionals
+C40734,D00620,0.936700337,information technology core,information technology consulting
+D00880,C22255,0.935833333,networking pulse,networking labs
+C25271,D00776,0.934615385,mark3 systems,mark iii systems
+D00036,C24780,0.933925037,advanced computer systems,advanced computer specialists
+C30093,D00997,0.933846154,procureit usa,procure it
+D00146,C39024,0.933333333,beyond computers,beyond computer services
+D00146,C47929,0.933333333,beyond computers,beyond computer services
+D00350,C33192,0.933333333,cymbrella,cymbel
+D00350,C48315,0.933333333,cymbrella,cymbel
+D00910,C34340,0.933333333,novatech msp,novatech
+D00910,C49554,0.933333333,novatech msp,novatech
+D01226,C35844,0.933333333,teamlogic it 60925,teamlogic it
+D00643,C41380,0.932616487,integrated technology solutions,integrated technology group
+D01271,C51821,0.931649832,cet group,cetra group
+D00518,C39445,0.930769231,fortress networks,fortress network solutions
+C45403,D00234,0.930555556,chasetek,chasetech
+D00642,C31726,0.930422505,integrated communications plans,integrated communication networks
+D00642,C48929,0.930422505,integrated communications plans,integrated communication networks
+D00212,C45163,0.929901961,case technology services,case technologies
+D00268,C40818,0.92945845,cmit solutions of portland central,cmit solutions of pleasanton
+D00236,C45087,0.929411765,cibernetica group,cibernetica
+C34613,D00542,0.928571429,global it,global insight
+C47400,D00542,0.928571429,global it,global insight
+D00990,C42385,0.928571429,premier technology solutions,premier technology
+D00146,C38529,0.928,beyond computers,beyond computer solutions
+D00643,C28697,0.927956989,integrated technology solutions,integrated technology services
+D00188,C26524,0.927905428,business technology professionals,business technology partners
+D00188,C45793,0.927905428,business technology professionals,business technology partners
+C24315,D01080,0.927272727,systemhouse,systems
+C38566,D00998,0.927272727,prodigyteks,prodigy
+C23363,D00026,0.926984127,accelerated solutions,accelerated cloud solutions
+C41410,D00453,0.92627451,enterprise bank,enterprise admins
+D00386,C42955,0.926190476,digital realty,digital planet
+D00482,C25712,0.925960432,expert technology solutions,expert technology associates
+D00990,C27040,0.925960432,premier technology solutions,premier technology advisors
+C32294,D00398,0.925517241,diversified computer solutions,diversified computer services
+C41773,D00343,0.925417957,cybersmith networks,cybershield networks
+D00620,C29126,0.925108225,information technology consulting,information technology associates
+D00233,C45422,0.925,charles river it,charles it
+C35011,D00339,0.924342105,cyberforce services,cyberforce security
+C37724,D00323,0.923863636,cutting edge tek,cutting edge computers
+D00039,C40708,0.923351159,advanced information technology consulting services,advanced information technologies
+D00878,C49482,0.923349436,network security consultans,network security associates
+D00457,C36222,0.923232323,envisitek,envisiotech
+C39554,D00071,0.923102823,american business machines,american business equipment
+D00620,C32900,0.922661397,information technology consulting,information technology consultants of oklahoma
+D00250,C38326,0.92173913,cloud advisory services,cloud advisors
+D00667,C51745,0.92173913,it specialists,it specialists of texas
+C31373,D01104,0.92119883,secure intervention,secure integration
+D00420,C22904,0.92010582,eastern technology solutions,eastern technology services
+D00186,C36154,0.920014652,business mobility systems,business mobility partners
+C34979,D00736,0.92,launch pad,launch msp
+D00406,C38102,0.92,donnellon mccarthy enterprises,donnellon mccarthy
+D00189,C37572,0.919456469,business telecommunication system,business telecom consultants
+C26266,D00040,0.919116632,advanced network design,advanced network consulting
+D00333,C48301,0.918233083,cyber soft technology,cyber shift technologies
+D00996,C40126,0.918181818,pro computers,pro computer solutions
+C33684,D00328,0.917934783,cyber consulting,cyber consultancy group
+D00268,C23516,0.917902813,cmit solutions of portland central,cmit solutions of plano
+D01307,C45676,0.91765873,trustnet solutions,trustmarque solutions
+D00636,C28337,0.917647059,insights infinity,insightifi
+D00972,C30184,0.917647059,phoenix secure it,phoenix it
+C22049,D00643,0.917625385,integrated technology systems nyc,integrated technology solutions
+C23975,D01236,0.916666667,tech on call,tech on
+C28106,D00988,0.916666667,precision technology,precision tech pro
+C49731,D00988,0.916666667,precision technology,precision tech pro
+D01416,C43266,0.916666667,your it cure,your it
+D00447,C50655,0.915897436,encompass msp,encompass group
+C26199,D00801,0.915789474,meridian it,meridian it systems
+C49312,D00801,0.915789474,meridian it,meridian it systems
+D00067,C39072,0.915789474,alpha omega systems,alpha omega
+D00666,C49006,0.915789474,it services,it services express
+D00801,C40006,0.915789474,meridian it systems,meridian it
+D00801,C45594,0.915789474,meridian it systems,meridian it
+D01261,C34621,0.915441176,telefonica miami,telefonica mexico
+C22930,D00615,0.91518797,infinit technology solutions,infinit technologies
+D01103,C22438,0.915,secure cyber usa,secure cyber defense
+D00037,C35331,0.914916667,advanced cybersecurity solutions,advanced cybersecurity experts
+D00306,C26752,0.914285714,core support partners,core support
+D00878,C25395,0.91416122,network security consultans,network securitas
+D00878,C40061,0.91416122,network security consultans,network securitas
+D00878,C49481,0.91416122,network security consultans,network securitas
+D00293,C29149,0.91412037,computer professionals unlimited,computer professionals cb20
+C26525,D00188,0.91408658,business technology services,business technology professionals
+C29548,D00035,0.914011914,advanced business software,advanced business resources
+D00039,C26447,0.913983488,advanced information technology consulting services,advanced information technologies /ait
+C34917,D00733,0.913675214,lanconnect systems,lanco systems
+D00109,C25033,0.913636364,atomic zero,atomic group
+D00109,C47859,0.913636364,atomic zero,atomic group
+D01167,C37230,0.913333333,spartanit group,spartan it
+D01167,C42226,0.913333333,spartanit group,spartan it
+D01167,C50092,0.913333333,spartanit group,spartan it
+D00583,C48800,0.912777778,hexaroot solutions,hexagon it solutions
+D00291,C41490,0.912745098,computer dude pro,computer doc
+D00929,C22296,0.912745098,on demand service,on demand it
+C50671,D01045,0.912605042,red thread spaces,red team sauce
+C41577,D00096,0.9125,architech,architech global
+C41905,D01240,0.9125,tech team nation,tech team
+D00410,C42687,0.912,dss management of florida,dss management
+D00410,C48448,0.912,dss management of florida,dss management
+C41092,D01172,0.911111111,splicenet,splice it
+C47970,D00166,0.911111111,boulderit,boulder tech
+D00075,C45254,0.911111111,amplifire,amplified it
+D01240,C47595,0.911111111,tech team,tech systems
+D01348,C47521,0.911111111,vectro it,vectra ai
+C51674,D00881,0.910732323,networking systems,networking specialists
+C25340,D00845,0.910530303,mvp technology systems,mvp technologies
+C36785,D01022,0.910344828,quantum services group jw tek,quantum services
+D00343,C26058,0.91,cybershield networks,cybershield
+D00343,C48309,0.91,cybershield networks,cybershield
+C25419,D00332,0.909730849,cyber security services,cyber security pro it
+D01306,C40930,0.909649123,technologies,technologic systems
+C26298,D00828,0.90952381,mobile doctors,mobile depot
+D00873,C27350,0.90952381,netspi,netspec
+D00256,C35008,0.909090909,cloudi,cloudhesive
+D01158,C43951,0.908571429,solutionsinfra,solutions3
+D01228,C26910,0.908545727,teamlogic it of orange county,teamlogic it of oklahoma city
+D00332,C42505,0.908407225,cyber security pro it,cyber security consulting ops
+D00298,C22832,0.908333333,connectivity wireless,connectivity two
+D00877,C24627,0.908333333,network controls,network consulting group
+D00877,C49471,0.908333333,network controls,network consulting group
+C31431,D00512,0.907893414,focus technology solutions,focus technologies
+D00193,C45989,0.90685112,caddo technology group,caddis technology group
+D01277,C22407,0.906818182,reynolds company,reynolds av
+D01266,C44006,0.906666667,testing ctap login,testing consulting
+D00818,C51596,0.906,millennium computers,millennium communications
+C24807,D00501,0.905989663,first link technologies,first landing technologies
+C32455,D00609,0.905454545,image soft,image quest
+C45918,D00963,0.905454545,performive,performitus
+D00147,C28301,0.9053467,beyondsoft consulting,beyondnet solutions
+C22294,D00928,0.904761905,omni soft,omni it
+C24554,D00457,0.904761905,envista,envisitek
+C24924,D00928,0.904761905,omni soft,omni it
+D00622,C30234,0.904761905,infosix,infosight
+D00622,C48900,0.904761905,infosix,infosight
+D00633,C25667,0.904761905,innovodel,innovex
+D00928,C33208,0.904761905,omni it,omni data
+C25105,D00642,0.90471464,integrated computer consultants,integrated communications plans
+D00987,C40121,0.904408213,precision it group,precision it consulting
+D01368,C40337,0.903735294,volo technology solutions,volo technologies
+D01228,C43714,0.903612479,teamlogic it of orange county,teamlogic it of north naples
+D00784,C27496,0.903333333,matrix software,matrix networks
+D00988,C23856,0.903333333,precision tech pro,precision task group
+D00988,C49730,0.903333333,precision tech pro,precision task group
+C30921,D01004,0.902272727,provelocity,provecta
+D01142,C43334,0.902272727,smart brain,smart av
+D00387,C25077,0.902061192,digital services agency,digital service consultants
+C38270,D01122,0.901984127,sharetech,sharenet
+D00999,C33213,0.901839827,progressive technology solutions,progressive security technologies
+D00644,C22050,0.901777778,integration professionals,integration partners
+D00644,C39868,0.901777778,integration professionals,integration partners
+D00395,C42767,0.901016043,disruptive solutions,disruptive innovations
+C21940,D00516,0.900854701,fortifire,fortified one
+C45553,D00547,0.900854701,globalconnect,globalcom
+C49849,D01055,0.90075188,renaissance systems,renaissance institute
+C26132,D00880,0.900714286,networking solutions,networking pulse
+C34003,D00028,0.900512821,access point,access online
+C48878,D00613,0.90037594,incite technology management,incite technologies
+C46719,D00266,0.900242424,cmit solutions of greater danbury,cmit solutions of fremont
+C22478,D01144,0.9,smart spaces group,smart source
+C24575,D00957,0.9,consultants consortium,consultants
+C26273,D00593,0.9,hotline,hotline heroes
+C26415,D00984,0.9,power it,power industrial
+C26556,D01293,0.9,toss,tosinso
+C26742,D01155,0.9,softwyre,softwise
+C27898,D00984,0.9,power it,power industrial
+C37776,D00820,0.9,milwaukee,milwaukee it group
+C41081,D01332,0.9,urban it,urban industries
+C45054,D01416,0.9,your it guys,your it cure
+C49673,D00593,0.9,hotline,hotline heroes
+C50310,D00957,0.9,consultants consortium,consultants
+C50373,D01293,0.9,toss,tosinso
+D00257,C47520,0.9,cloudifi,cloudian
+D00458,C44676,0.9,envoy,envoy data
+D00997,C42572,0.9,procure it,procure advisor
+D01305,C27345,0.9,tech,tech 2 u
+D01384,C38788,0.9,wedoitbetter,wedoit
+C22957,D00737,0.899803922,layer 3 technologies,layer 3 solutions
+C46877,D01031,0.899803922,rackspace technology,rackspace hosting
+D00737,C22956,0.899500891,layer 3 solutions,layer 3 communications
+C26034,D00879,0.899465241,network solutions,network six
+C30462,D00879,0.899465241,network solutions,network six
+C40747,D00879,0.899465241,network solutions,network six
+C49486,D00879,0.899465241,network solutions,network six
+D00994,C26502,0.899465241,prioritytek,priority partners
+C43172,D00281,0.899366516,commonwealth technology consulting,commonwealth it consulting
+C26457,D00036,0.89847619,advanced computer technologies,advanced computer systems
+D00377,C30570,0.898232323,deploy-tech,deploynet
+D00669,C51298,0.898232323,it system,it symmetry
+C44721,D00197,0.898095238,california technology services,california technical experts
+C27460,D00265,0.897971014,cmit solutions of durango and farmington,cmit solutions of denton
+D00290,C25915,0.897744361,computer aware,computer associates
+D00447,C28621,0.896703297,encompass msp,encompass iowa
+D01227,C36948,0.89616476,teamlogic it madison wi,teamlogic it grand rapids
+D00287,C23534,0.896111801,complete technical solutions,complete tablet solutions
+D01306,C36038,0.896,technologies,technologies for tomorrow
+D00892,C35650,0.895938375,nexus controls,nexus consultants
+D00892,C49520,0.895938375,nexus controls,nexus consultants
+D01022,C32990,0.895833333,quantum services,quantum network services
+C42387,D01126,0.895555556,shields it,shieldnet
+C49988,D01126,0.895555556,shields it,shieldnet
+D00172,C27466,0.895555556,breezeline,breeze it
+D00342,C21814,0.895555556,cybersecom,cybersafe
+D00619,C30541,0.895333333,infinity technology group,infinity technologies infinity computers
+D00619,C48890,0.895333333,infinity technology group,infinity technologies infinity computers
+C51425,D00990,0.894718615,premier technology systems pts,premier technology solutions
+D00290,C29737,0.894642857,computer aware,computer atlanta
+C47171,D00428,0.894541295,effective technology management,effective technology and communication services
+D00627,C39858,0.894358974,inline networks,inline network integration
+D00263,C24789,0.894126984,cmit solutions of cincinnati and nky,cmit solutions of chicagoland north
+C38109,D00445,0.894117647,empowert,empower solutions
+C30601,D00092,0.894047619,applied technology group,applied technology and cable
+C32783,D00092,0.894047619,applied technology group,applied technology and cable
+D01229,C44731,0.894,teamlogicit of carrollton,teamlogicit of austin tx
+C44290,D01229,0.893846154,teamlogicit of new orleans,teamlogicit of carrollton
+C23703,D00588,0.893809524,hill country it,hill country data protection
+C45729,D00872,0.893796992,netsec technologies,netsec solutions
+D00658,C22948,0.893538193,iron forge technologies,iron bow technologies
+D00658,C45575,0.893538193,iron forge technologies,iron bow technologies
+C23649,D00764,0.893333333,m and a technology,m and a it tech
+C24484,D00864,0.893333333,netbringer,netbridge360
+C35514,D01108,0.893333333,secureside,securescript
+C44134,D00632,0.893333333,innovatica,innovateitio
+C49442,D00864,0.893333333,netbringer,netbridge360
+D00434,C48502,0.893333333,elegis telecom elegis networks,elegis telecom
+D01244,C29142,0.893333333,techmicrousa,techmedics
+C31960,D00810,0.89300671,micro computer systems microk12,micro computer center
+D00906,C47262,0.892954545,north coast technology,north coast electric
+D00778,C51301,0.892661064,martin tech solutions,martin consulting
+D00265,C24033,0.892424242,cmit solutions of denton,cmit solutions of cleveland-south and hudson
+D00528,C44967,0.892424242,frontline technologies,frontline it
+D00267,C46719,0.892373005,cmit solutions of las vegas,cmit solutions of greater danbury
+C29027,D00937,0.892307692,open systems,open systems international
+C23544,D01165,0.891789474,southern technology group,southern technology and communications
+D00278,C29437,0.891690009,colorado tech pros,colorado networks
+C35801,D00203,0.891666667,capstone,capsec
+D00288,C32919,0.891666667,compuone,compunet usa
+D00880,C26804,0.891559829,networking pulse,networking matters
+D01248,C38861,0.891515152,technology cure,technology contracting
+C51431,D01107,0.891452991,securenet msp,securenet kinetics
+D01159,C41371,0.891452991,solutionstack,solutions4networks
+D01243,C42406,0.891428571,techbayusa,techary
+D01108,C35684,0.891414141,securescript,securepoint
+D01205,C43586,0.891111111,synapseone,synapse technology
+D01169,C47208,0.890909091,spectrum av,spectruecom
+C23560,D00268,0.890887021,cmit solutions of san antonio north,cmit solutions of portland central
+C30177,D00287,0.890685177,complete technology resources,complete technical solutions
+D00527,C27641,0.890497738,frontier networks,frontier computer
+D00527,C39786,0.890497738,frontier networks,frontier computer
+C44009,D00075,0.890277778,amplify services,amplifire
+D01133,C35288,0.89000999,simply tech us,simply secure
+D01029,C26133,0.89,r and d it solutions,r and d industries
+D01029,C40410,0.89,r and d it solutions,r and d industries
+D01107,C26312,0.89,securenet kinetics,securenet associates
+D00744,C22139,0.889122807,lighthill solutions,lightedge solutions
+D00341,C42368,0.888888889,cyberonyx security,cyberone
+D00341,C47048,0.888888889,cyberonyx security,cyberone
+D00523,C45428,0.888888889,frankel zacharia technology services,frankel zacharia
+D01305,C42637,0.888888889,tech,tech 2 it
+D01306,C23045,0.888888889,technologies,technologies of north texas
+C39600,D00146,0.888548951,beyond secure,beyond computers
+C36856,D00813,0.888522589,midwest networking services,midwest network consulting
+C49344,D00813,0.888522589,midwest networking services,midwest network consulting
+D00507,C28646,0.8875,flex it services,flex it
+C36626,D01237,0.887412587,tech solution,tech service solutions
+C50222,D01237,0.887412587,tech solution,tech service solutions
+D00036,C21561,0.885748918,advanced computer systems,advanced computer solutions group
+D00072,C30439,0.885714286,american cyber,american computer net
+D00092,C21797,0.885714286,applied technology and cable,applied tech
+D00092,C34873,0.885714286,applied technology and cable,applied tech
+D00092,C46714,0.885714286,applied technology and cable,applied tech
+D00461,C31065,0.885714286,equifax,equidex
+D00898,C39430,0.885714286,nimbous,nimboip
+D01172,C50098,0.885714286,splice it,splice communications
+D01186,C25684,0.885704116,strategic business technologies,strategic allied technologies
+C27308,D00386,0.885627706,digital scepter,digital realty
+C24384,D00155,0.885335498,bluegrass technologies,bluegrass innovations
+C47958,D00155,0.885335498,bluegrass technologies,bluegrass innovations
+D00318,C46643,0.885319917,crosstalk solutions,crossroad data solutions
+C41502,D00456,0.885020243,envision consulting,envision cctv
+D00818,C26024,0.885017921,millennium computers,millennium communications group
+C36621,D00294,0.884848485,computer world sales and services,computer world
+C48212,D00294,0.884848485,computer world sales and services,computer world
+D00346,C34749,0.884845938,cyberwolf industries,cybervirtue solutions
+C27841,D01129,0.884671946,silicon networks,silicon forensics
+D00666,C39459,0.884615385,it services,it services and consulting
+D01085,C27306,0.884615385,sage secureit,sage it services
+D00144,C25061,0.884561404,bernal it solutions,bernal consultants
+D00144,C47924,0.884561404,bernal it solutions,bernal consultants
+C51808,D00421,0.884509804,easy it support,easy it solutions
+C35175,D00910,0.884313725,novatech services,novatech msp
+D00259,C44943,0.884313725,cloudtechone,cloudtech systems
+D01129,C35238,0.884313725,silicon forensics,silicon east
+D01188,C42989,0.884313725,stratify security,stratify msp
+D00481,C45722,0.884210526,experian it service,experian
+C26579,D01261,0.884166667,telefonica tech,telefonica miami
+C50283,D01261,0.884166667,telefonica tech,telefonica miami
+D01360,C22779,0.883931624,viridian tek,virginia tech
+C28580,D00644,0.883921053,integration systems,integration professionals
+D00080,C41640,0.883918129,anchor network solutions,anchor it solutions
+D00754,C29533,0.883887468,local network solutions,local network engineers
+C29367,D00812,0.883846154,mid valley it,mid hudson valley it
+D00520,C39268,0.883799172,forward thinking technology solutions mcit,forward thinking systems
+D00198,C37119,0.883768116,california tritechncial,california telecom
+D00777,C41428,0.883636364,marketspark,marketsmart rga
+D00853,C34929,0.883502875,national pentesters,national networks
+C22662,D01329,0.883333333,uptime it,uptic io
+C25687,D00080,0.883333333,anchor solutions,anchor network solutions
+C26138,D00088,0.883333333,aomega,aom
+D00217,C22784,0.883333333,ccsi,ccsf
+D00899,C46155,0.883333333,nistechs,nisc
+D00961,C29130,0.883333333,peloda systems,pelasys
+D01122,C35435,0.883333333,sharenet,shared it
+D01306,C43906,0.883333333,technologies,technologic consulting
+D01324,C50452,0.883333333,unity it,unity eld
+D00941,C41828,0.883137255,outsource solutions group,outsource orlando
+C22041,D00634,0.883076923,inova tech,inova systems
+D00644,C29106,0.882947368,integration professionals,integration international
+D00548,C48705,0.882828283,globalinkit,globalgig
+D00833,C51080,0.882828283,modernops,modernguest
+D00413,C38003,0.882769726,dtl communications,dtel telecommunications
+D01050,C51970,0.8825,reflex it management,reflex integrated us
+D00413,C32206,0.882440087,dtl communications,dtech communications
+C31887,D00544,0.882060606,global network security solutions,global network architects
+C50260,D01252,0.881818182,techsavvy it solutions,techsavvi
+D00348,C36092,0.881818182,cygnus labs,cyglass
+C42766,D00935,0.881666667,onset solutions,onset it
+D00061,C47312,0.881533181,alcantara it consulting,alcala it consulting
+C39684,D00293,0.88125,computer pros,computer professionals unlimited
+C50723,D00293,0.88125,computer pros,computer professionals unlimited
+D00178,C32239,0.88122807,broadband technology,broadband solutions
+D00064,C47168,0.881077694,alliance optix,alliance networking
+D00516,C28829,0.880911681,fortified one,fortified network solutions
+C29157,D01080,0.880519481,systemgo it,systems
+D01145,C50045,0.880519481,smartkid808,smartit
+D00881,C26132,0.880454545,networking specialists,networking solutions
+C51704,D00112,0.880042017,audio video illusions,audio video design group
+D00355,C45697,0.88,cytechnica,cytech usa
+D00378,C26611,0.88,designdata,design red
+D00544,C25037,0.88,global network architects,global net
+D01205,C30951,0.88,synapseone,synapse technologies
+D00046,C46523,0.879904762,affiliated resource group,affiliated computer services
+C45308,D00196,0.87987568,california media solutions,california low voltage
+D01055,C38406,0.879761905,renaissance institute,renaissance computing
+C45730,D01377,0.879693487,waypoint solutions,waypoint government solutions
+C37119,D00197,0.879563492,california telecom,california technical experts
+C34365,D00641,0.879458042,integrated communication designs,integrated cloud solutions
+C22033,D00623,0.879406208,infotech associates,infotec i itsco
+D01158,C41371,0.879365079,solutionsinfra,solutions4networks
+C40281,D01280,0.879271709,thinkit solutions,thinking tools
+C34896,D00395,0.879230769,disruptivetek,disruptive solutions
+D00746,C44853,0.879166667,lightspeed technology consulting,lightspeed hosting
+C35988,D01225,0.878787879,team trinet,team traders
+C36026,D00882,0.878787879,networxgrid,networxarmor
+C50214,D01225,0.878787879,team trinet,team traders
+D00994,C33550,0.878787879,prioritytek,priority1pos
+C26745,D00747,0.878754579,limetechsolutions.com,lime solutions
+D00443,C23645,0.878435673,empigo technologies,emphasys technologies
+D00443,C48523,0.878435673,empigo technologies,emphasys technologies
+C28251,D00384,0.878365013,digital intelligence systems dexian disys,digital intelligence networks
+C21648,D00132,0.87826087,bastionpoint technology,bastionne
+C51697,D01307,0.877891446,trustpoint it solutions,trustnet solutions
+C36370,D00535,0.877777778,geek easy,geek 3
+C44895,D00663,0.877777778,it goat,it global solution
+D00194,C38834,0.877777778,cadenza consulting,cadenza
+D01107,C22444,0.877777778,securenet kinetics,securenation
+D01253,C50743,0.877777778,techunifi,techue
+D00885,C46235,0.877692308,new horizon stem solutions,new horizon communications
+D00647,C48946,0.87762572,interactive media operation,interactive management services
+C41205,D00215,0.877470356,catalyst it,catalyst data solutions
+C27113,D00908,0.877460317,northwest computer solutions,northwest communications cooperative
+D00101,C29522,0.877419355,armstrong it,armstrong communication systems
+D00632,C24767,0.877419355,innovateitio,innovatech it service solutions
+D00292,C51394,0.877239819,computer enterprises,computer engineering group
+D00666,C34027,0.877056277,it services,it service architechs
+D00811,C38557,0.877056277,microtrol enterprises,microtrends
+D00092,C32655,0.876984127,applied technology and cable,applied technical solutions
+C35621,D00417,0.876923077,eagle technology solutions,eagle tech
+D00381,C36531,0.876923077,dfw secure it,dfnd security
+D00381,C48391,0.876923077,dfw secure it,dfnd security
+C48888,D00616,0.876862611,infinite consulting services,infinite cloud systems
+C51412,D00616,0.876862611,infinite consulting services,infinite cloud systems
+D01068,C43251,0.8767507,rosetech it solutions,rosenman it solutions
+C46223,D01102,0.876703297,secure bearing,secure antics
+D01032,C22395,0.876703297,raine ventures,rain networks
+C21892,D00444,0.876666667,empire tech system,empire security
+C22185,D00808,0.876666667,michigan state university,michigan retail services
+C35206,D00267,0.876455026,cmit solutions of morristown,cmit solutions of las vegas
+D00037,C31837,0.876395782,advanced cybersecurity solutions,advanced consulting enterprises
+D00037,C41698,0.876395782,advanced cybersecurity solutions,advanced consulting enterprises
+D01182,C31301,0.876375598,stevens it services,stevens and stevens co
+C38336,D00573,0.876190476,hardware nation,hardware junky
+C51823,D00735,0.876190476,landmark technologies,landmark
+C50654,D00367,0.876175214,data projections,data professionals
+D00706,C31114,0.876175214,k and h holdings,k and e consulting
+D00706,C46558,0.876175214,k and h holdings,k and e consulting
+D00905,C28352,0.876092191,norcal tech solutions,nor-cal controls es
+D00040,C44025,0.876084656,advanced network consulting,advanced netcom
+C24936,D00972,0.876078431,phoenix synergy,phoenix secure it
+C34483,D00972,0.876078431,phoenix synergy,phoenix secure it
+C35846,D00972,0.876078431,phoenix synergy,phoenix secure it
+D00260,C43207,0.875854701,cloudxpertize,cloudwerx
+C24102,D00226,0.875776398,certified nets,certified data solutios
+D00187,C41779,0.875776398,business nexus,business network design
+D00187,C48009,0.875776398,business nexus,business network design
+C25248,D01356,0.875555556,veytec,veyer
+C38839,D00118,0.875555556,avrem technologies,avona technologies
+C25691,D00877,0.875,network coverage,network controls
+C32907,D00876,0.875,network consulting services ncsi,network consultants group
+C34530,D00877,0.875,network coverage,network controls
+C34613,D00543,0.875,global it,global it communications
+C50727,D01016,0.875,quantasi,quanta systems
+D00096,C27544,0.875,architech global,archit
+D00543,C47400,0.875,global it communications,global it

@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import tempfile
 import unittest
-from src import preprocess
+from src.core.preprocess_engine import PreprocessEngine
 
 
 class PreprocessTest(unittest.TestCase):

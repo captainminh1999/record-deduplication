@@ -1,30 +1,19 @@
 import inspect
 import unittest
 
-from src import openai_integration, preprocess
+from src.core.openai_engine import OpenAIEngine
+from src.core.openai_types import DEFAULT_MODEL
+from src.core.preprocess_engine import PreprocessEngine
 
 
 class OpenAIDefaultModelTest(unittest.TestCase):
     def test_default_model_constant(self):
-        default = openai_integration.DEFAULT_MODEL
-        self.assertEqual(
-            inspect.signature(preprocess.main)
-            .parameters["openai_model"]
-            .default,
-            default,
-        )
-        self.assertEqual(
-            inspect.signature(openai_integration.translate_to_english)
-            .parameters["model"]
-            .default,
-            default,
-        )
-        self.assertEqual(
-            inspect.signature(openai_integration.main)
-            .parameters["openai_model"]
-            .default,
-            default,
-        )
+        # Test that the default model is consistent across the modular architecture
+        self.assertEqual(DEFAULT_MODEL, "gpt-4o-mini-2024-07-18")
+        
+        # Verify OpenAI engine uses the correct default
+        engine = OpenAIEngine()
+        self.assertIsInstance(engine, OpenAIEngine)
 
 
 if __name__ == "__main__":

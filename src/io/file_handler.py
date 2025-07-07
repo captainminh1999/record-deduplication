@@ -5,9 +5,32 @@ File I/O utilities for reading and writing data files.
 from __future__ import annotations
 
 import os
-from typing import Optional
+import glob
+from typing import Optional, Iterable
 
 import pandas as pd
+
+from ..tracking.iteration_tracker import ITERATION_FILE
+
+
+def clear_files(paths: Iterable[str]) -> None:
+    """Remove files if they exist."""
+    for path in paths:
+        if os.path.exists(path):
+            os.remove(path)
+
+
+def clear_all_data(data_dir: str = "data/outputs", exclude: Iterable[str] | None = None) -> None:
+    """Delete all files in ``data_dir`` except those in ``exclude``."""
+    exclude = set(exclude or [])
+    # Add iteration tracker to excluded files
+    exclude.add(os.path.basename(ITERATION_FILE))
+    
+    for file_path in glob.glob(os.path.join(data_dir, "*")):
+        if os.path.basename(file_path) in exclude:
+            continue
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
 
 class FileReader:

@@ -480,8 +480,7 @@ C45983,Accelerate Partners,accelerate partners,False,[],accelerate partners
 C34965,Accelerate Tech,accelerate tech,False,[],accelerate tech
 C27458,Accelerate Technologies LLC,accelerate technologies,False,[],accelerate technologies
 C47660,Accelerate Technology Partners,accelerate technology partners,False,[],accelerate technology partners
-D00026,"Accelerated Cloud Solutions, LLC",accelerated cloud solutions,False,[],accelerated cloud solutions
-C23363,"Accelerated Solutions, LLC",accelerated solutions,False,[],accelerated solutions
+C23363,"Accelerated Solutions, LLC",accelerated solutions,True,"['C23363', 'D00026']",accelerated solutions
 C41853,Accelerated Technologies,accelerated technologies,False,[],accelerated technologies
 C28818,"Accelerated Technology, Llc",accelerated technology,False,[],accelerated technology
 C22839,Accelink USA,accelink usa,False,[],accelink usa
@@ -507,8 +506,7 @@ C39526,Access Networks,access networks,False,[],access networks
 C39527,ACCESS NETWORKS INC.,access networks,False,[],access networks
 C51408,"ACCESS NETWORKS, INC.",access networks,False,[],access networks
 C21541,Access Office Technologies,access office technologies,False,[],access office technologies
-C24749,Access One Inc.,access one,False,[],access one
-D00028,Access Online Inc,access online,False,[],access online
+D00028,Access Online Inc,access online,True,"['D00028', 'C24749']",access online
 C51418,Access Point Consulting,access point consulting,False,[],access point consulting
 C34003,Access Point Corp,access point,False,[],access point
 D00029,"Access Scanning Document Services, LLC",access scanning document services,False,[],access scanning document services
@@ -774,8 +772,7 @@ C34110,Advanced Approach,advanced approach,False,[],advanced approach
 C37640,Advanced Automation,advanced automation,False,[],advanced automation
 C39535,Advanced Automation. Inc,advanced automation,False,[],advanced automation
 C35349,Advanced Broadband Supply,advanced broadband supply,False,[],advanced broadband supply
-D00035,Advanced Business Resources,advanced business resources,False,[],advanced business resources
-C29548,Advanced Business Software,advanced business software,False,[],advanced business software
+C29548,Advanced Business Software,advanced business software,True,"['C29548', 'D00035']",advanced business software
 C28386,Advanced Business Solutions,advanced business solutions,False,[],advanced business solutions
 C47687,Advanced Business Systems,advanced business systems,False,[],advanced business systems
 C24862,"Advanced Business Technology, Inc.",advanced business technology,False,[],advanced business technology
@@ -795,18 +792,14 @@ C31576,"Advanced Computer Connections, Inc.",advanced computer connections,False
 C29439,ADVANCED COMPUTER ELECTRONICS INC,advanced computer electronics,False,[],advanced computer electronics
 C47690,ADVANCED COMPUTER ELECTRONICS INC,advanced computer electronics,False,[],advanced computer electronics
 C38034,Advanced Computer Solutions,advanced computer solutions,False,[],advanced computer solutions
-C21561,Advanced Computer Solutions Group,advanced computer solutions group,False,[],advanced computer solutions group
-C24780,"Advanced Computer Specialists, Inc.",advanced computer specialists,False,[],advanced computer specialists
-D00036,Advanced Computer Systems,advanced computer systems,False,[],advanced computer systems
-C26457,"Advanced Computer Technologies, LLC",advanced computer technologies,False,[],advanced computer technologies
+C26457,"Advanced Computer Technologies, LLC",advanced computer technologies,True,"['D00036', 'C24780', 'C26457', 'C21561']",advanced computer systems
 C32501,Advanced Computing Networking and Web Design LLC,advanced computing networking and web design,False,[],advanced computing networking and web design
 C38035,"Advanced Concepts, Inc.",advanced concepts,False,[],advanced concepts
 C41698,Advanced Consulting Enterprises,advanced consulting enterprises,False,[],advanced consulting enterprises
 C31837,"Advanced Consulting Enterprises, Inc.",advanced consulting enterprises,False,[],advanced consulting enterprises
 C33135,"Advanced Consulting, LLC",advanced consulting,False,[],advanced consulting
 C32643,Advanced Corp Networking,advanced networking,False,[],advanced networking
-C35331,Advanced Cybersecurity Experts LLC,advanced cybersecurity experts,False,[],advanced cybersecurity experts
-D00037,"Advanced Cybersecurity Solutions, LLC",advanced cybersecurity solutions,False,[],advanced cybersecurity solutions
+D00037,"Advanced Cybersecurity Solutions, LLC",advanced cybersecurity solutions,True,"['D00037', 'C35331']",advanced cybersecurity solutions
 C28000,Advanced Data and Network Solutions,advanced data and network solutions,False,[],advanced data and network solutions
 D00038,Advanced Data Infrastructure,advanced data infrastructure,False,[],advanced data infrastructure
 C25141,Advanced Data Technologies,advanced data technologies,False,[],advanced data technologies
@@ -826,9 +819,7 @@ C30646,Advanced Imaging Solutions Inc,advanced imaging solutions,False,[],advanc
 C31714,"Advanced Industrial Devices, Inc. DBA DominoComp, Inc.",advanced industrial devices dominocomp,False,[],advanced industrial devices dominocomp
 C47692,"Advanced Industrial Devices, Inc. DBA DominoComp, Inc.",advanced industrial devices dominocomp,False,[],advanced industrial devices dominocomp
 C47693,"ADVANCED INFORMATICS AND MEDICAL SOLUTIONS, LLC",advanced informatics and medical solutions,False,[],advanced informatics and medical solutions
-C26447,Advanced Information Technologies Inc/AIT,advanced information technologies /ait,False,[],advanced information technologies /ait
-C40708,"Advanced Information Technologies, Inc",advanced information technologies,False,[],advanced information technologies
-D00039,Advanced Information Technology Consulting Services Inc,advanced information technology consulting services,False,[],advanced information technology consulting services
+D00039,Advanced Information Technology Consulting Services Inc,advanced information technology consulting services,True,"['D00039', 'C40708', 'C26447']",advanced information technology consulting services
 C31744,Advanced InfoSec LLC,advanced infosec,False,[],advanced infosec
 C44905,"Advanced Integrated Solutions, Inc.",advanced integrated solutions,False,[],advanced integrated solutions
 C44239,"Advanced Integrated Systems, Inc.",advanced integrated systems,False,[],advanced integrated systems
@@ -856,11 +847,7 @@ C31592,"Advanced Microelectronics, Inc.",advanced microelectronics,False,[],adva
 C32859,Advanced Micrographic Systems Inc.,advanced micrographic systems,False,[],advanced micrographic systems
 C41160,"Advanced MicroSystems, inc.",advanced microsystems,False,[],advanced microsystems
 C34234,Advanced Mobile Group,advanced mobile group,False,[],advanced mobile group
-C44025,Advanced Netcom Corp,advanced netcom,False,[],advanced netcom
-C36910,Advanced Network Consultants Incorporated,advanced network consultants,False,[],advanced network consultants
-C47695,"Advanced Network Consultants, Inc",advanced network consultants,False,[],advanced network consultants
-D00040,Advanced Network Consulting Inc,advanced network consulting,False,[],advanced network consulting
-C26266,Advanced Network Design,advanced network design,False,[],advanced network design
+C26266,Advanced Network Design,advanced network design,True,"['D00040', 'C36910', 'C47695', 'C26266', 'C44025']",advanced network consulting
 C21562,Advanced Network Devices Inc.,advanced network devices,False,[],advanced network devices
 C33102,Advanced Network Innovations Corp,advanced network innovations,False,[],advanced network innovations
 C30558,"Advanced Network Management, Incorporated",advanced network management,False,[],advanced network management
@@ -1123,8 +1110,7 @@ C47728,"AIS, Inc",ais,False,[],ais
 C47310,AISERA,aisera,False,[],aisera
 C45250,AIT - Technology Design Solutions,ait - technology design solutions,False,[],ait - technology design solutions
 C27180,AITA CONSULTING SERVICES,aita consulting services,False,[],aita consulting services
-D00056,AITS Corp.,aits,False,[],aits
-C42661,AITS1,aits1,False,[],aits1
+C42661,AITS1,aits1,True,"['C42661', 'D00056']",aits1
 C23137,AIXTEK DBA Eaton & Associates,aixtek eaton and associates,False,[],aixtek eaton and associates
 C25952,AJ Enterprise,aj enterprise,False,[],aj enterprise
 C42496,"AJB Digital, LLC",ajb digital,False,[],ajb digital
@@ -1301,8 +1287,7 @@ C37708,Alliance Ground International,alliance ground international,False,[],alli
 C28926,"Alliance InfoSystems, LLC",alliance infosystems,False,[],alliance infosystems
 C35811,Alliance Integrated Technology,alliance integrated technology,False,[],alliance integrated technology
 C38716,Alliance IT LLC,alliance it,False,[],alliance it
-C47168,Alliance Networking LLC,alliance networking,False,[],alliance networking
-D00064,"Alliance Optix, Inc",alliance optix,False,[],alliance optix
+D00064,"Alliance Optix, Inc",alliance optix,True,"['D00064', 'C47168']",alliance optix
 D00065,Alliance Security,alliance security,False,[],alliance security
 C25475,Alliance Technologies,alliance technologies,False,[],alliance technologies
 C39546,ALLIANCE TECHNOLOGIES LLC,alliance technologies,False,[],alliance technologies
@@ -1383,9 +1368,8 @@ C24485,Alpha Laser and Imaging,alpha laser and imaging,False,[],alpha laser and 
 C39551,Alpha NetSolutions Inc.,alpha netsolutions,False,[],alpha netsolutions
 C21581,Alpha Network Systems,alpha network systems,False,[],alpha network systems
 C37187,Alpha Networks Support Services LLC,alpha networks support services,False,[],alpha networks support services
-C39072,ALPHA OMEGA,alpha omega,False,[],alpha omega
 C24795,Alpha Omega Business Solutions,alpha omega business solutions,False,[],alpha omega business solutions
-D00067,Alpha Omega Systems,alpha omega systems,False,[],alpha omega systems
+D00067,Alpha Omega Systems,alpha omega systems,True,"['D00067', 'C39072']",alpha omega systems
 C47752,Alpha Omega Technical Services,alpha omega technical services,False,[],alpha omega technical services
 C37495,Alpha One Networks,alpha one networks,False,[],alpha one networks
 C27346,Alpha Ridge,alpha ridge,False,[],alpha ridge
@@ -1512,8 +1496,7 @@ C26492,"America One Technologies, Inc.",america one technologies,False,[],americ
 C45326,AMERICA TECHNOLOGIES AND SYSTEMS INC.,america technologies and systems,False,[],america technologies and systems
 C47052,American Accel LLC,american accel,False,[],american accel
 C32757,"American Broadband, Inc",american broadband,False,[],american broadband
-D00071,"American Business Equipment, Inc.",american business equipment,False,[],american business equipment
-C39554,American Business Machines,american business machines,False,[],american business machines
+C39554,American Business Machines,american business machines,True,"['C39554', 'D00071']",american business machines
 C51983,American Business solutions inc,american business solutions,False,[],american business solutions
 C36563,American Communications,american communications,False,[],american communications
 C27807,"American Communications and Information Technologies, Inc.",american communications and information technologies,False,[],american communications and information technologies
@@ -1587,10 +1570,7 @@ C28602,Ampcus Inc,ampcus,False,[],ampcus
 C35640,Ampere Computing,ampere computing,False,[],ampere computing
 C25670,Ampito Group Inc,ampito group,False,[],ampito group
 C51649,Ampito Group Inc.,ampito group,False,[],ampito group
-C45253,Amplifi,amplifi,False,[],amplifi
-C45254,Amplified IT,amplified it,False,[],amplified it
-D00075,"Amplifire, Inc",amplifire,False,[],amplifire
-C44009,"Amplify Services, LLC",amplify services,False,[],amplify services
+C44009,"Amplify Services, LLC",amplify services,True,"['D00075', 'C45253', 'C45254', 'C44009']",amplify services
 D00076,Amplify Systems Integration,amplify systems integration,False,[],amplify systems integration
 C23434,Amplitel Technologies,amplitel technologies,False,[],amplitel technologies
 C47783,Amplitel Technologies,amplitel technologies,False,[],amplitel technologies
@@ -1625,10 +1605,8 @@ C39556,Anavon Technology,anavon technology,False,[],anavon technology
 D00079,ANC Systems,anc systems,False,[],anc systems
 C34871,Ancero,ancero,False,[],ancero
 C30602,Anchor Consulting DBA Nexario Solutions,anchor consulting nexario solutions,False,[],anchor consulting nexario solutions
-C41640,Anchor IT Solutions LLC,anchor it solutions,False,[],anchor it solutions
 C34872,Anchor Managed Solutions,anchor managed solutions,False,[],anchor managed solutions
-D00080,Anchor Network Solutions,anchor network solutions,False,[],anchor network solutions
-C25687,Anchor Solutions,anchor solutions,False,[],anchor solutions
+C25687,Anchor Solutions,anchor solutions,True,"['C25687', 'D00080', 'C41640']",anchor network solutions
 C41556,Anchor Systems,anchor systems,False,[],anchor systems
 C47787,Anchor Systems,anchor systems,False,[],anchor systems
 C29085,"Anchor Technologies, Inc.",anchor technologies,False,[],anchor technologies
@@ -1718,8 +1696,7 @@ D00087,Anziani Technology Services LLC,anziani technology services,False,[],anzi
 C41805,AO IT Consulting,it consulting,False,[],it consulting
 C38308,AO Technical Solutions LLC,technical solutions,False,[],technical solutions
 C27768,"AOKNetworking, LLC",aoknetworking,False,[],aoknetworking
-D00088,AOM,aom,False,[],aom
-C26138,"AOmega, LLC",aomega,False,[],aomega
+C26138,"AOmega, LLC",aomega,True,"['C26138', 'D00088']",aomega
 C47320,AOS Consulting,aos consulting,False,[],aos consulting
 C42482,Aos Solutions inc.,aos solutions,False,[],aos solutions
 C41345,AOSS INC HOUSTON,aoss houston,False,[],aoss houston
@@ -1818,13 +1795,8 @@ C37132,"Applied Network Consulting Group, Inc DBA ANC Group",applied network con
 C21600,Applied Network Security,applied network security,False,[],applied network security
 C21601,Applied Network Solutions LLC,applied network solutions,False,[],applied network solutions
 C33175,Applied Software Technologies,applied software technologies,False,[],applied software technologies
-C21797,Applied Tech,applied tech,False,[],applied tech
-C34873,Applied Tech,applied tech,False,[],applied tech
-C46714,Applied Tech,applied tech,False,[],applied tech
 C32655,Applied Technical Solutions,applied technical solutions,False,[],applied technical solutions
-D00092,Applied Technology and Cable Corp,applied technology and cable,False,[],applied technology and cable
-C30601,Applied Technology Group,applied technology group,False,[],applied technology group
-C32783,"Applied Technology Group, Inc",applied technology group,False,[],applied technology group
+C32783,"Applied Technology Group, Inc",applied technology group,True,"['C30601', 'D00092', 'C32783', 'C21797', 'C34873', 'C46714']",applied technology and cable
 C25972,Applied Technology Services,applied technology services,False,[],applied technology services
 C32906,Applied Technology Solutions Inc,applied technology solutions,False,[],applied technology solutions
 C33546,Applied Technology Solutions Inc.,applied technology solutions,False,[],applied technology solutions
@@ -1894,9 +1866,7 @@ C51117,"Archetype SC, Inc,",archetype sc,False,[],archetype sc
 C42469,Archimedes Consulting LLC,archimedes consulting,False,[],archimedes consulting
 C47811,Archimedes Consulting LLC,archimedes consulting,False,[],archimedes consulting
 C25746,Archis Technologies,archis technologies,False,[],archis technologies
-C27544,ARCHIT INC.,archit,False,[],archit
-D00096,ArchiTech Global,architech global,False,[],architech global
-C41577,Architech LLC,architech,False,[],architech
+C41577,Architech LLC,architech,True,"['C41577', 'D00096', 'C27544']",architech global
 C36729,Architecture Solutions LLC,architecture solutions,False,[],architecture solutions
 C31471,Architel Holdings L.L.C.,architel holdings,False,[],architel holdings
 C38046,Architronics,architronics,False,[],architronics
@@ -2021,8 +1991,7 @@ C44498,ArmorPoint,armorpoint,False,[],armorpoint
 C41812,Armory5 Inc,armory5,False,[],armory5
 C38910,Armour Eye,armour eye,False,[],armour eye
 C50751,ARMS Cyber,arms cyber,False,[],arms cyber
-C29522,Armstrong Communication Systems Inc,armstrong communication systems,False,[],armstrong communication systems
-D00101,Armstrong IT LLC,armstrong it,False,[],armstrong it
+D00101,Armstrong IT LLC,armstrong it,True,"['D00101', 'C29522']",armstrong communication systems
 C46768,Armus Ltd,armus,False,[],armus
 C47824,Army National Guard,army national guard,False,[],army national guard
 C47825,Army Of Quants,army of quants,False,[],army of quants
@@ -2181,7 +2150,6 @@ C43196,Associated Data Products,associated data products,False,[],associated dat
 C36963,Associated Management Group,associated management group,False,[],associated management group
 C31434,"Associated Technology Consultants, Inc",associated technology consultants,False,[],associated technology consultants
 C41485,Associated Veterans LLC,associated veterans,False,[],associated veterans
-C43697,Association Technologies,technologies,False,[],technologies
 C47094,"Assura, Inc.",assura,False,[],assura
 C22859,Assurance Data Inc.,assurance data,False,[],assurance data
 C32693,"Assurance Group, Inc.",assurance group,False,[],assurance group
@@ -2305,9 +2273,7 @@ C44331,"Atom Creek, LLC",atom creek,False,[],atom creek
 C38291,"Atom Networks, LLC",atom networks,False,[],atom networks
 C37739,"Atomic Computers and Design, LLC",atomic computers and design,False,[],atomic computers and design
 C35057,Atomic Data LLC,atomic data,False,[],atomic data
-C25033,Atomic Group,atomic group,False,[],atomic group
-C47859,Atomic Group,atomic group,False,[],atomic group
-D00109,"Atomic Zero, LLC",atomic zero,False,[],atomic zero
+D00109,"Atomic Zero, LLC",atomic zero,True,"['D00109', 'C25033', 'C47859']",atomic zero
 C46130,Atomiton,atomiton,False,[],atomiton
 C36027,ATON Computing,aton computing,False,[],aton computing
 C22860,"Atonarp US, Inc.",atonarp us,False,[],atonarp us
@@ -2358,8 +2324,7 @@ C25893,Audio Concepts,audio concepts,False,[],audio concepts
 C46268,Audio Experts Corridor Inc,audio experts corridor,False,[],audio experts corridor
 C29037,Audio Impact Inc,audio impact,False,[],audio impact
 C37389,Audio One Sound and Video Inc.,audio one sound and video,False,[],audio one sound and video
-D00112,Audio Video Design Group,audio video design group,False,[],audio video design group
-C51704,"Audio Video Illusions, Inc.",audio video illusions,False,[],audio video illusions
+C51704,"Audio Video Illusions, Inc.",audio video illusions,True,"['C51704', 'D00112']",audio video illusions
 C51077,Audio Video Solutions Texas LLC,audio video solutions texas,False,[],audio video solutions texas
 C37473,Audio Video Systems Inc.,audio video systems,False,[],audio video systems
 C25146,Audio Video Technology,audio video technology,False,[],audio video technology
@@ -2752,8 +2717,7 @@ C25099,Basic Solutons Corp,basic solutons,False,[],basic solutons
 C51152,"Basis Digital Biotech, LLC",basis digital biotech,False,[],basis digital biotech
 C32019,Bastion Information Systems LLC.,bastion information systems,False,[],bastion information systems
 C27848,Bastion Services and Solutions,bastion services and solutions,False,[],bastion services and solutions
-D00132,Bastionne Inc,bastionne,False,[],bastionne
-C21648,Bastionpoint Technology,bastionpoint technology,False,[],bastionpoint technology
+C21648,Bastionpoint Technology,bastionpoint technology,True,"['C21648', 'D00132']",Bastionpoint Technology
 C28471,Batchnet,batchnet,False,[],batchnet
 D00133,Bateman Holdings Group,bateman holdings group,False,[],bateman holdings group
 C35821,Baton Rouge IT,baton rouge it,False,[],baton rouge it
@@ -2900,8 +2864,7 @@ C47919,Belflower Computer Consulting,belflower computer consulting,False,[],belf
 C22782,Bell Canada,bell canada,False,[],bell canada
 D00139,Bell Enterprises and Systems Technology,bell enterprises and systems technology,False,[],bell enterprises and systems technology
 C26397,Bell Industries,bell industries,False,[],bell industries
-D00140,Bell Integration Inc,bell integration,False,[],bell integration
-C34834,Bell Integrator,bell integrator,False,[],bell integrator
+C34834,Bell Integrator,bell integrator,True,"['C34834', 'D00140']",bell integrator
 C23608,Bell IT Services,bell it services,False,[],bell it services
 C28504,Bell TCG,bell tcg,False,[],bell tcg
 C47555,Bell Tech LLC,bell tech,False,[],bell tech
@@ -2997,10 +2960,7 @@ C30230,"Better Technology Systems, Inc",better technology systems,False,[],bette
 C43200,"BetterWorld Technology, LLC",betterworld technology,False,[],betterworld technology
 C28753,BEYIN INFORMATION TECHNOLOGY LLC,beyin information technology,False,[],beyin information technology
 C29285,Beyond Computer LLC,beyond computer,False,[],beyond computer
-C39024,Beyond Computer Services,beyond computer services,False,[],beyond computer services
-C47929,Beyond Computer Services,beyond computer services,False,[],beyond computer services
-C38529,Beyond Computer Solutions,beyond computer solutions,False,[],beyond computer solutions
-D00146,"Beyond Computers, Inc",beyond computers,False,[],beyond computers
+D00146,"Beyond Computers, Inc",beyond computers,True,"['D00146', 'C39024', 'C47929', 'C38529']",beyond computer solutions
 C39600,Beyond Secure Inc.,beyond secure,False,[],beyond secure
 C43853,BEYOND TECH HOLDING LLC,beyond tech holding,False,[],beyond tech holding
 C47338,"Beyond the Arc, Inc.",beyond the arc,False,[],beyond the arc
@@ -3299,9 +3259,7 @@ C35447,Bluefin Technology Group,bluefin technology group,False,[],bluefin techno
 C44899,BlueFlame Technology Solutions,blueflame technology solutions,False,[],blueflame technology solutions
 C40713,Bluefox Group,bluefox group,False,[],bluefox group
 C45795,"Bluegrass Computer Systems, LLC",bluegrass computer systems,False,[],bluegrass computer systems
-D00155,"Bluegrass Innovations, LLC",bluegrass innovations,False,[],bluegrass innovations
-C24384,"Bluegrass Technologies, LLC",bluegrass technologies,False,[],bluegrass technologies
-C47958,"Bluegrass Technologies, LLC",bluegrass technologies,False,[],bluegrass technologies
+C47958,"Bluegrass Technologies, LLC",bluegrass technologies,True,"['C24384', 'D00155', 'C47958']",bluegrass technologies
 C24387,BlueGrass Technology LLC,bluegrass technology,False,[],bluegrass technology
 C47959,BlueGrass Technology LLC,bluegrass technology,False,[],bluegrass technology
 D00156,"BlueHaven Holdings, Inc",bluehaven holdings,False,[],bluehaven holdings
@@ -3769,12 +3727,9 @@ C24686,"Business IT Source, Inc",business it source,False,[],business it source
 C48008,"Business IT Source, Inc",business it source,False,[],business it source
 C27082,Business Knowledge Systems,business knowledge systems,False,[],business knowledge systems
 C34884,Business Machine Technologies (BMT),business machine technologies bmt,False,[],business machine technologies bmt
-C36154,Business Mobility Partners,business mobility partners,False,[],business mobility partners
-D00186,Business Mobility Systems,business mobility systems,False,[],business mobility systems
+D00186,Business Mobility Systems,business mobility systems,True,"['D00186', 'C36154']",business mobility systems
 C36620,Business Network Consulting,business network consulting,False,[],business network consulting
-C41779,Business Network Design,business network design,False,[],business network design
-C48009,Business Network Design,business network design,False,[],business network design
-D00187,Business Nexus LLC,business nexus,False,[],business nexus
+D00187,Business Nexus LLC,business nexus,True,"['D00187', 'C41779', 'C48009']",business nexus
 C50796,Business Optimization & Technology Experts,business optimization and technology experts,False,[],business optimization and technology experts
 C35581,Business Partner Solutions,business partner solutions,False,[],business partner solutions
 C30938,"Business Phone Systems of Florida, LLC",business phone systems of florida,False,[],business phone systems of florida
@@ -3801,14 +3756,10 @@ C24530,"Business Technology Group, LLC",business technology group,False,[],busin
 C48014,"Business Technology Group, LLC",business technology group,False,[],business technology group
 C25119,"Business Technology Group, LLC aka BTG",business technology group aka btg,False,[],business technology group aka btg
 C31840,Business Technology Management & Innovations Corporation,business technology management and innovations,False,[],business technology management and innovations
-C26524,Business Technology Partners,business technology partners,False,[],business technology partners
-C45793,"Business Technology Partners, LLC",business technology partners,False,[],business technology partners
-D00188,Business Technology Professionals,business technology professionals,False,[],business technology professionals
-C26525,"Business Technology Services, Inc.",business technology services,False,[],business technology services
+C26525,"Business Technology Services, Inc.",business technology services,True,"['D00188', 'C26524', 'C45793', 'C26525']",business technology services
 C30284,"Business Technology, LLC",business technology,False,[],business technology
 C30148,Business Techology Architects LLC,business techology architects,False,[],business techology architects
-C37572,Business Telecom Consultants,business telecom consultants,False,[],business telecom consultants
-D00189,Business Telecommunication System,business telecommunication system,False,[],business telecommunication system
+D00189,Business Telecommunication System,business telecommunication system,True,"['D00189', 'C37572']",business telecommunication system
 C23360,Business Telephone & Data Systems,business telephone and data systems,False,[],business telephone and data systems
 C47343,Business Telephone eXchange,business telephone exchange,False,[],business telephone exchange
 C21691,Business World Inc.,business world,False,[],business world
@@ -3922,11 +3873,9 @@ C30343,"Cad Technologies, Inc.",cad technologies,False,[],cad technologies
 C39634,Cadan Corporation,cadan,False,[],cadan
 C26989,Cadan Technologies,cadan technologies,False,[],cadan technologies
 C48024,Cadan Technologies,cadan technologies,False,[],cadan technologies
-C45989,Caddis Technology Group,caddis technology group,False,[],caddis technology group
-D00193,Caddo Technology Group LLC,caddo technology group,False,[],caddo technology group
+D00193,Caddo Technology Group LLC,caddo technology group,True,"['D00193', 'C45989']",caddo technology group
 C28730,Cadence Team,cadence team,False,[],cadence team
-C38834,Cadenza,cadenza,False,[],cadenza
-D00194,"Cadenza Consulting, LLC",cadenza consulting,False,[],cadenza consulting
+D00194,"Cadenza Consulting, LLC",cadenza consulting,True,"['D00194', 'C38834']",cadenza consulting
 C26479,Cadian Security,cadian security,False,[],cadian security
 C42843,CadillacTech Services,cadillactech services,False,[],cadillactech services
 C26060,CadillacTech Services LLC,cadillactech services,False,[],cadillactech services
@@ -3963,11 +3912,9 @@ C21697,CALIFORNIA INTEGRATED SOLUTIONS INC,california integrated solutions,False
 D00196,"California Low Voltage, LLC",california low voltage,False,[],california low voltage
 C45308,California Media Solutions,california media solutions,False,[],california media solutions
 C41265,California Meditech Solutions,california meditech solutions,False,[],california meditech solutions
-D00197,California Technical Experts Inc,california technical experts,False,[],california technical experts
-C44721,"California Technology Services, LLC.",california technology services,False,[],california technology services
+C44721,"California Technology Services, LLC.",california technology services,True,"['C44721', 'D00197']",california technology services
 C37119,"California Telecom, Inc.",california telecom,False,[],california telecom
-D00198,California Tritechncial,california tritechncial,False,[],california tritechncial
-C45162,California Tritechnical,california tritechnical,False,[],california tritechnical
+C45162,California Tritechnical,california tritechnical,True,"['C45162', 'D00198']",california tritechnical
 C21698,Caliism Data Solutions,caliism data solutions,False,[],caliism data solutions
 C35343,Calista Networks,calista networks,False,[],calista networks
 C30062,Call for Help LLC,call for help,False,[],call for help
@@ -4143,8 +4090,7 @@ C30336,Casco Communications Inc DBA PEAK Internet LLC,casco communications peak 
 C45934,"Casco Security Systems, Inc.",casco security systems,False,[],casco security systems
 C47244,"Case Consulting, Inc",case consulting,False,[],case consulting
 C43761,"CASE Management Consulting, LLC",case management consulting,False,[],case management consulting
-C45163,Case Technologies Inc,case technologies,False,[],case technologies
-D00212,"Case Technology Services, LLC",case technology services,False,[],case technology services
+D00212,"Case Technology Services, LLC",case technology services,True,"['D00212', 'C45163']",case technology services
 C38894,CASEMaker Inc.,casemaker,False,[],casemaker
 C30623,"Casgan, Inc.",casgan,False,[],casgan
 C42300,Casillas Corp DBA LATechNet,casillas latechnet,False,[],casillas latechnet
@@ -4167,8 +4113,7 @@ C28262,Catalyst,catalyst,False,[],catalyst
 C28368,"Catalyst 10 Group, LLC",catalyst 10 group,False,[],catalyst 10 group
 C36971,Catalyst Computer Services Inc.,catalyst computer services,False,[],catalyst computer services
 C45810,Catalyst Crew Technology LLC,catalyst crew technology,False,[],catalyst crew technology
-D00215,Catalyst Data Solutions,catalyst data solutions,False,[],catalyst data solutions
-C41205,"Catalyst IT, LLC",catalyst it,False,[],catalyst it
+C41205,"Catalyst IT, LLC",catalyst it,True,"['C41205', 'D00215']",catalyst it
 C31804,"Catalyst Solutions, Inc.",catalyst solutions,False,[],catalyst solutions
 C48047,"Catalyst Solutions, Inc.",catalyst solutions,False,[],catalyst solutions
 C24932,Catalyst Technology Group,catalyst technology group,False,[],catalyst technology group
@@ -4389,8 +4334,7 @@ C47280,"Cermak Technologies, Inc.",cermak technologies,False,[],cermak technolog
 C28143,Cerner Corporation,cerner,False,[],cerner
 C33101,Cerner Corporation - Etreby,cerner - etreby,False,[],cerner - etreby
 C26773,Cerno LLc,cerno,False,[],cerno
-D00226,Certified Data Solutios,certified data solutios,False,[],certified data solutios
-C24102,Certified NETS,certified nets,False,[],certified nets
+C24102,Certified NETS,certified nets,True,"['C24102', 'D00226']",certified nets
 C23822,Certified Network Engineers,certified network engineers,False,[],certified network engineers
 C26755,CERTIFIED ON CALL,certified on call,False,[],certified on call
 C37573,CERTIFIED PHONE SOLUTIONS,certified phone solutions,False,[],certified phone solutions
@@ -4403,7 +4347,6 @@ C39648,Certus Technologies LLC,certus technologies,False,[],certus technologies
 C32626,"CES Computer Enhancement Systems, Inc.",ces computer enhancement systems,False,[],ces computer enhancement systems
 C39090,"CES COMPUTERS, INC DBA MANAGED SOLUTIONS GROUP",ces computers managed solutions group,False,[],ces computers managed solutions group
 C29013,Cetan Corp,cetan,False,[],cetan
-C51821,Cetra Group Inc,cetra group,False,[],cetra group
 C30640,Cetra Technology,cetra technology,False,[],cetra technology
 C34887,Cetrom,cetrom,False,[],cetrom
 C51258,CEU Technologies Inc.,ceu technologies,False,[],ceu technologies
@@ -4432,9 +4375,7 @@ C45265,"CGPC Solutions, Inc.",cgpc solutions,False,[],cgpc solutions
 D00229,CGTS CORP,cgts,False,[],cgts
 C46443,CGuilbert Technologies LLC,cguilbert technologies,False,[],cguilbert technologies
 C30146,"CH Technologies, Inc",ch technologies,False,[],ch technologies
-C35914,ChaceTech,chacetech,False,[],chacetech
-C48079,ChaceTech,chacetech,False,[],chacetech
-D00230,CHACTECH LLC,chactech,False,[],chactech
+D00230,CHACTECH LLC,chactech,True,"['D00230', 'C35914', 'C48079']",chactech
 D00231,CHAD WMH SOTO LTD,chad wmh soto,False,[],chad wmh soto
 C33308,Chafee County Telecom dba Colorado Central Telecom,chafee county telecom colorado central telecom,False,[],chafee county telecom colorado central telecom
 C22848,Chafee County Telecom dba Colorado Central Telecom : AFFINITI,chafee county telecom colorado central telecom affiniti,False,[],chafee county telecom colorado central telecom affiniti
@@ -4468,8 +4409,7 @@ C27880,Charity IT,charity it,False,[],charity it
 C21725,Charles Ange IT Consulting,charles ange it consulting,False,[],charles ange it consulting
 C29782,Charles Computer Services,charles computer services,False,[],charles computer services
 C42612,Charles D. Craft d/b/a Middle South Computer,charles d. craft middle south computer,False,[],charles d. craft middle south computer
-C45422,Charles IT,charles it,False,[],charles it
-D00233,"Charles River IT, Inc.",charles river it,False,[],charles river it
+D00233,"Charles River IT, Inc.",charles river it,True,"['D00233', 'C45422']",charles river it
 C37791,"Charleston Tech Advisor, LLC",charleston tech advisor,False,[],charleston tech advisor
 C25825,Charlie Bravo Group Inc.,charlie bravo group,False,[],charlie bravo group
 C45913,"Charlie Work, Inc.",charlie work,False,[],charlie work
@@ -4485,8 +4425,7 @@ C43652,Charter Technology Solutions,charter technology solutions,False,[],charte
 C41492,Charter Telecom Inc dba Charter,charter telecom charter,False,[],charter telecom charter
 C51885,Charting Cyber LLC,charting cyber,False,[],charting cyber
 C40769,Chase Network Services,chase network services,False,[],chase network services
-D00234,chasetech,chasetech,False,[],chasetech
-C45403,ChaseTek,chasetek,False,[],chasetek
+C45403,ChaseTek,chasetek,True,"['C45403', 'D00234']",chasetek
 C50754,Chat Tech Solutions,chat tech solutions,False,[],chat tech solutions
 C42799,ChattyWire,chattywire,False,[],chattywire
 C30941,Chautauqua Technology / Digital eXtravaganza,chautauqua technology / digital extravaganza,False,[],chautauqua technology / digital extravaganza
@@ -4560,8 +4499,7 @@ C34026,CIASecure LLC,ciasecure,False,[],ciasecure
 C24512,"Ciber, Inc.",ciber,False,[],ciber
 C48095,"Ciber, Inc.",ciber,False,[],ciber
 C38310,Cibercall USA Corp,cibercall usa,False,[],cibercall usa
-C45087,Cibernetica,cibernetica,False,[],cibernetica
-D00236,Cibernetica Group,cibernetica group,False,[],cibernetica group
+D00236,Cibernetica Group,cibernetica group,True,"['D00236', 'C45087']",cibernetica group
 D00237,"Cicada, LLC",cicada,False,[],cicada
 D00238,"Ciconic, LLC",ciconic,False,[],ciconic
 C39654,Ciegate Technologies,ciegate technologies,False,[],ciegate technologies
@@ -4783,8 +4721,7 @@ C23613,Cloud 9 Computing LLC,cloud 9 computing,False,[],cloud 9 computing
 C31849,"Cloud 9 Networks, LLC",cloud 9 networks,False,[],cloud 9 networks
 C31838,Cloud 9 Technology,cloud 9 technology,False,[],cloud 9 technology
 C48121,Cloud Adrenaline,cloud adrenaline,False,[],cloud adrenaline
-C38326,Cloud Advisors,cloud advisors,False,[],cloud advisors
-D00250,"Cloud Advisory Services, Inc.",cloud advisory services,False,[],cloud advisory services
+D00250,"Cloud Advisory Services, Inc.",cloud advisory services,True,"['D00250', 'C38326']",cloud advisory services
 C39661,Cloud and Wire,cloud and wire,False,[],cloud and wire
 D00251,Cloud Arch Technologies LLC,cloud arch technologies,False,[],cloud arch technologies
 C40422,Cloud Aurora LLC,cloud aurora,False,[],cloud aurora
@@ -4848,12 +4785,9 @@ C28593,"CloudFast, LLC",cloudfast,False,[],cloudfast
 C43553,CloudFirst,cloudfirst,False,[],cloudfirst
 C44770,"CloudFirst Technology Solutions, Inc.",cloudfirst technology solutions,False,[],cloudfirst technology solutions
 C47356,CloudGeometry,cloudgeometry,False,[],cloudgeometry
-C35008,"CloudHesive, LLC",cloudhesive,False,[],cloudhesive
-D00256,Cloudi LLC,cloudi,False,[],cloudi
-C47520,Cloudian,cloudian,False,[],cloudian
-D00257,Cloudifi Inc,cloudifi,False,[],cloudifi
+C47520,Cloudian,cloudian,True,"['C47520', 'D00256', 'C35008']",cloudi
 C27264,Cloudify Legal LLC,cloudify legal,False,[],cloudify legal
-C51627,"Cloudify, Inc.",cloudify,False,[],cloudify
+C51627,"Cloudify, Inc.",cloudify,True,"['C51627', 'D00257']",cloudify
 C27717,CloudInsyte,cloudinsyte,False,[],cloudinsyte
 C28747,"cloudIT, LLC",cloudit,False,[],cloudit
 C48128,"cloudIT, LLC",cloudit,False,[],cloudit
@@ -4881,8 +4815,7 @@ C51017,CloudSolved IT dba Cloud Solutions Inc,cloudsolved it cloud solutions,Fal
 C38726,CloudSpaRQ,cloudsparq,False,[],cloudsparq
 C26907,Cloudstar,cloudstar,False,[],cloudstar
 C29171,"CloudStrategies, Inc.",cloudstrategies,False,[],cloudstrategies
-C44943,Cloudtech Systems LLC,cloudtech systems,False,[],cloudtech systems
-D00259,CloudTechOne LLC,cloudtechone,False,[],cloudtechone
+D00259,CloudTechOne LLC,cloudtechone,True,"['D00259', 'C44943']",cloudtechone
 C35009,Cloudticity,cloudticity,False,[],cloudticity
 C29365,"Cloudtrek Division of Rackbolt, LLC",cloudtrek division of rackbolt,False,[],cloudtrek division of rackbolt
 C43206,CloudWav,cloudwav,False,[],cloudwav
@@ -4933,25 +4866,15 @@ C37697,CMIT Solutions of Central RI,cmit solutions of central ri,False,[],cmit s
 C28503,CMIT Solutions of Centreville,cmit solutions of centreville,False,[],cmit solutions of centreville
 C39275,CMIT Solutions of Chapel Hill,cmit solutions of chapel hill,False,[],cmit solutions of chapel hill
 C41708,CMIT Solutions of Cherry Hill,cmit solutions of cherry hill,False,[],cmit solutions of cherry hill
-C24789,CMIT Solutions of Chicagoland North,cmit solutions of chicagoland north,False,[],cmit solutions of chicagoland north
-D00263,CMIT Solutions of Cincinnati & NKY,cmit solutions of cincinnati and nky,False,[],cmit solutions of cincinnati and nky
+D00263,CMIT Solutions of Cincinnati & NKY,cmit solutions of cincinnati and nky,True,"['D00263', 'C24789']",cmit solutions
 D00264,CMIT Solutions of Cleveland NE & NW,cmit solutions of cleveland ne and nw,False,[],cmit solutions of cleveland ne and nw
-C24033,CMIT Solutions of Cleveland-South and Hudson,cmit solutions of cleveland-south and hudson,False,[],cmit solutions of cleveland-south and hudson
-D00265,CMIT SOLUTIONS OF DENTON,cmit solutions of denton,False,[],cmit solutions of denton
-C27460,CMIT Solutions of Durango and Farmington,cmit solutions of durango and farmington,False,[],cmit solutions of durango and farmington
+C27460,CMIT Solutions of Durango and Farmington,cmit solutions of durango and farmington,True,"['C27460', 'D00265', 'C24033']",cmit solutions
 C37452,CMIT Solutions of Edison-Piscataway dba R. Badge Enterprises Inc,cmit solutions of edison-piscataway r. badge enterprises,False,[],cmit solutions of edison-piscataway r. badge enterprises
-C40772,CMIT Solutions of Edmond,cmit solutions of edmond,False,[],cmit solutions of edmond
-D00266,CMIT Solutions Of Fremont,cmit solutions of fremont,False,[],cmit solutions of fremont
-C46719,CMIT Solutions of Greater Danbury,cmit solutions of greater danbury,False,[],cmit solutions of greater danbury
-D00267,CMIT Solutions of Las Vegas,cmit solutions of las vegas,False,[],cmit solutions of las vegas
-C35206,CMIT Solutions of Morristown,cmit solutions of morristown,False,[],cmit solutions of morristown
+C35206,CMIT Solutions of Morristown,cmit solutions of morristown,True,"['D00266', 'C40772', 'C46719', 'D00267', 'C35206']",cmit solutions
 C36467,CMIT Solutions of North Fulton,cmit solutions of north fulton,False,[],cmit solutions of north fulton
 C36089,CMIT Solutions of North Lake County,cmit solutions of north lake county,False,[],cmit solutions of north lake county
 C33597,CMIT Solutions of Pittsburgh South,cmit solutions of pittsburgh south,False,[],cmit solutions of pittsburgh south
-C23516,CMIT Solutions of Plano,cmit solutions of plano,False,[],cmit solutions of plano
-C40818,CMIT Solutions of Pleasanton,cmit solutions of pleasanton,False,[],cmit solutions of pleasanton
-D00268,CMIT Solutions of Portland Central,cmit solutions of portland central,False,[],cmit solutions of portland central
-C23560,CMIT Solutions of San Antonio North,cmit solutions of san antonio north,False,[],cmit solutions of san antonio north
+C23560,CMIT Solutions of San Antonio North,cmit solutions of san antonio north,True,"['D00268', 'C40818', 'C23516', 'C23560']",cmit solutions
 C43712,CMIT Solutions of South Scottsdale,cmit solutions of south scottsdale,False,[],cmit solutions of south scottsdale
 C45877,CMIT Solutions of Southwest Silicon Valley,cmit solutions of southwest silicon valley,False,[],cmit solutions of southwest silicon valley
 C34611,CMIT Solutions of Virginia Beach Metro,cmit solutions of virginia beach metro,False,[],cmit solutions of virginia beach metro
@@ -5149,8 +5072,7 @@ C30564,Common Knowledge Technology,common knowledge technology,False,[],common k
 C46134,Common Knowledge Technology Inc,common knowledge technology,False,[],common knowledge technology
 D00280,"Common Methods Group, Inc",common methods group,False,[],common methods group
 C32986,"Common Sense Computing, CS Computing",common sense computing cs computing,False,[],common sense computing cs computing
-D00281,Commonwealth IT Consulting LLC,commonwealth it consulting,False,[],commonwealth it consulting
-C43172,Commonwealth Technology Consulting Inc,commonwealth technology consulting,False,[],commonwealth technology consulting
+C43172,Commonwealth Technology Consulting Inc,commonwealth technology consulting,True,"['C43172', 'D00281']",commonwealth technology consulting
 C51318,"Commonwealth Trading Company, Inc., DBA Commonwealth Computer Co.",commonwealth trading company commonwealth computer co,False,[],commonwealth trading company commonwealth computer co
 C39669,Commprise. Inc,commprise,False,[],commprise
 C35010,"CommPutercations, Inc.",commputercations,False,[],commputercations
@@ -5405,11 +5327,9 @@ C39682,Computer Development Systems. Inc,computer development systems,False,[],c
 C30786,"Computer Dimensions, Inc.",computer dimensions,False,[],computer dimensions
 C25704,"Computer Directions, Inc.",computer directions,False,[],computer directions
 C26632,Computer Discount Center dba Remote Technology Management,computer discount center remote technology management,False,[],computer discount center remote technology management
-C41490,Computer Doc,computer doc,False,[],computer doc
 C43659,"Computer Drive of Skokie, INC",computer drive of skokie,False,[],computer drive of skokie
-D00291,Computer Dude Pro,computer dude pro,False,[],computer dude pro
-C51394,Computer Engineering Group,computer engineering group,False,[],computer engineering group
-D00292,"Computer Enterprises, Inc.",computer enterprises,False,[],computer enterprises
+D00291,Computer Dude Pro,computer dude pro,True,"['D00291', 'C41490']",computer dude pro
+D00292,"Computer Enterprises, Inc.",computer enterprises,True,"['D00292', 'C51394']",computer enterprises
 C36720,Computer Equipment and Technologies,computer equipment and technologies,False,[],computer equipment and technologies
 C34134,"Computer Equipment Services, Inc.",computer equipment services,False,[],computer equipment services
 C30874,Computer escape,computer escape,False,[],computer escape
@@ -5479,12 +5399,8 @@ C32798,Computer Pro,computer pro,False,[],computer pro
 C33072,"Computer Products Company Dba B & C Supply, Inc",computer products company b and c supply,False,[],computer products company b and c supply
 C36023,Computer Products Corp,computer products,False,[],computer products
 C30003,Computer Products Incorporated aka CPI,computer products aka cpi,False,[],computer products aka cpi
-C29149,Computer Professionals dba CB20,computer professionals cb20,False,[],computer professionals cb20
-C37979,Computer Professionals Inc,computer professionals,False,[],computer professionals
-D00293,COMPUTER PROFESSIONALS UNLIMITED,computer professionals unlimited,False,[],computer professionals unlimited
-C39684,Computer Pros,computer pros,False,[],computer pros
 C26120,Computer Pros Inc dba ACES,computer pros aces,False,[],computer pros aces
-C50723,"Computer Pros, Inc.",computer pros,False,[],computer pros
+C50723,"Computer Pros, Inc.",computer pros,True,"['D00293', 'C37979', 'C29149', 'C39684', 'C50723']",computer pros
 C44750,Computer Related Technologies,computer related technologies,False,[],computer related technologies
 C34893,Computer Rescue 911,computer rescue 911,False,[],computer rescue 911
 C48200,"Computer Resource Specialists, Inc.",computer resource specialists,False,[],computer resource specialists
@@ -5568,11 +5484,7 @@ C51489,Computer Warehouse LLC,computer warehouse,False,[],computer warehouse
 C42010,"Computer Warehouse of North Carolina, Inc.",computer warehouse of north carolina,False,[],computer warehouse of north carolina
 C46406,Computer Whatever,computer whatever,False,[],computer whatever
 C29420,"Computer Wizz, LLC dba Integrative IT",computer wizz integrative it,False,[],computer wizz integrative it
-C25762,Computer Works,computer works,False,[],computer works
-C32143,Computer Works Inc,computer works,False,[],computer works
-D00294,Computer World,computer world,False,[],computer world
-C36621,Computer World Sales & Services,computer world sales and services,False,[],computer world sales and services
-C48212,Computer World Sales & Services,computer world sales and services,False,[],computer world sales and services
+C48212,Computer World Sales & Services,computer world sales and services,True,"['D00294', 'C25762', 'C32143', 'C36621', 'C48212']",computer world sales and services
 C27633,"Computer Worx, Inc.",computer worx,False,[],computer worx
 C34517,"Computer Wranglers, LLC",computer wranglers,False,[],computer wranglers
 C39098,COMPUTER XPRESS,computer xpress,False,[],computer xpress
@@ -5735,8 +5647,7 @@ C44470,Connectivity Inc,connectivity,False,[],connectivity
 C25729,Connectivity Systems,connectivity systems,False,[],connectivity systems
 C29988,"Connectivity Systems, Inc.",connectivity systems,False,[],connectivity systems
 C46955,Connectivity Technology Solutions,connectivity technology solutions,False,[],connectivity technology solutions
-C22832,"Connectivity Two, Inc.",connectivity two,False,[],connectivity two
-D00298,Connectivity Wireless,connectivity wireless,False,[],connectivity wireless
+D00298,Connectivity Wireless,connectivity wireless,True,"['D00298', 'C22832']",connectivity wireless
 C45284,Connectmatic LLC,connectmatic,False,[],connectmatic
 C29707,ConnectNet Solutions Inc,connectnet solutions,False,[],connectnet solutions
 C42855,ConnectOn,connecton,False,[],connecton
@@ -5782,7 +5693,6 @@ C28048,Constructure Technologies,constructure technologies,False,[],constructure
 D00299,"ConsulHaus, LLC",consulhaus,False,[],consulhaus
 C48233,"Consult Dynamics, Inc. does business as DCANet",consult dynamics does business dcanet,False,[],consult dynamics does business dcanet
 C34520,CONSULT IT,consult it,False,[],consult it
-C38082,Consultant,consultant,False,[],consultant
 C25698,Consultantgurus,consultantgurus,False,[],consultantgurus
 C28149,ConsulTech,consultech,False,[],consultech
 C48234,ConsulTech,consultech,False,[],consultech
@@ -5943,8 +5853,7 @@ C46136,Core Office Systems,core office systems,False,[],core office systems
 D00305,"Core Professional Technology Solutions, LLC",core professional technology solutions,False,[],core professional technology solutions
 C35638,Core Signum,core signum,False,[],core signum
 C48247,Core Signum,core signum,False,[],core signum
-C26752,Core Support LLC,core support,False,[],core support
-D00306,Core Support Partners,core support partners,False,[],core support partners
+D00306,Core Support Partners,core support partners,True,"['D00306', 'C26752']",core support partners
 C25134,Core Technologies,core technologies,False,[],core technologies
 C26920,Core Technologies Inc,core technologies,False,[],core technologies
 C23643,Core technology Services INC,core technology services,False,[],core technology services
@@ -6388,8 +6297,7 @@ C44150,Customized Systems Technologies,customized systems technologies,False,[],
 C24844,Custom-PC Computers,custom- computers,False,[],custom- computers
 C28040,Customware Inc,customware,False,[],customware
 C27946,Custos Engineering,custos engineering,False,[],custos engineering
-D00323,Cutting Edge Computers,cutting edge computers,False,[],cutting edge computers
-C37724,Cutting Edge Tek,cutting edge tek,False,[],cutting edge tek
+C37724,Cutting Edge Tek,cutting edge tek,True,"['C37724', 'D00323']",cutting edge tek
 C36201,"CV Enterprises, Inc dba Compuvision/Vision",enterprises compuvision/vision,False,[],enterprises compuvision/vision
 C36541,CVE Technologies,cve technologies,False,[],cve technologies
 C36542,CVE Technologies Group,cve technologies group,False,[],cve technologies group
@@ -6422,7 +6330,6 @@ C43897,CYBER BUYER LLC,cyber buyer,False,[],cyber buyer
 C37780,Cyber Chasse Inc,cyber chasse,False,[],cyber chasse
 C36188,Cyber Cloud Pro,cyber cloud pro,False,[],cyber cloud pro
 C37517,"Cyber Command, LLC",cyber command,False,[],cyber command
-D00328,"Cyber Consultancy Group, LLC",cyber consultancy group,False,[],cyber consultancy group
 C23369,"Cyber Consulting and Security, LLC",cyber consulting and security,False,[],cyber consulting and security
 C48298,"Cyber Consulting and Security, LLC",cyber consulting and security,False,[],cyber consulting and security
 C48299,"Cyber Crisis Response, a service of Cyber Security Training and Consulting LLC",cyber crisis response a service of cyber security training and consulting,False,[],cyber crisis response a service of cyber security training and consulting
@@ -6430,8 +6337,7 @@ C45968,Cyber Dana,cyber dana,False,[],cyber dana
 C36816,"Cyber Defense International, LLC",cyber defense international,False,[],cyber defense international
 C48300,"Cyber Defense International, LLC",cyber defense international,False,[],cyber defense international
 C38629,"Cyber Dojo Solutions, LLC",cyber dojo solutions,False,[],cyber dojo solutions
-C30666,Cyber Dream Technologies,cyber dream technologies,False,[],cyber dream technologies
-D00329,Cyber Dream Technologies Corporation,cyber dream technologies,False,[],cyber dream technologies
+D00329,Cyber Dream Technologies Corporation,cyber dream technologies,True,"['D00329', 'C30666']",cyber dream technologies
 C30819,Cyber Exchange,cyber exchange,False,[],cyber exchange
 C29925,"Cyber Front Security, LLC",cyber front security,False,[],cyber front security
 C41114,Cyber Inspired LLC,cyber inspired,False,[],cyber inspired
@@ -6469,7 +6375,7 @@ C27667,"Cyber Tech Cafe, LLC",cyber tech cafe,False,[],cyber tech cafe
 C51012,Cyber Tech Dynamic LLC,cyber tech dynamic,False,[],cyber tech dynamic
 C36267,Cyber Tech Systems,cyber tech systems,False,[],cyber tech systems
 C28079,Cyber Technology Security,cyber technology security,False,[],cyber technology security
-C33684,Cyber Trust Consulting,cyber consulting,False,[],cyber consulting
+C33684,Cyber Trust Consulting,cyber consulting,True,"['C33684', 'D00328']",cyber consulting
 D00334,Cyber Veterans LLC,cyber veterans,False,[],cyber veterans
 C23331,Cyber Watch Systems,cyber watch systems,False,[],cyber watch systems
 C47138,Cyber World Solutions LLC,cyber world solutions,False,[],cyber world solutions
@@ -6496,13 +6402,11 @@ C48305,"CyberEdge Technologies, LLC",cyberedge technologies,False,[],cyberedge t
 C31900,cyberfiche USA Inc (No Longer in business),cyberfiche usa no longer in business,False,[],cyberfiche usa no longer in business
 C44255,Cyberficient LLC,cyberficient,False,[],cyberficient
 C35157,"CyberFire IT Solutions, LLC",cyberfire it solutions,False,[],cyberfire it solutions
-D00339,Cyberforce Security LLC,cyberforce security,False,[],cyberforce security
-C35011,CyberForce Services,cyberforce services,False,[],cyberforce services
+C35011,CyberForce Services,cyberforce services,True,"['C35011', 'D00339']",cyberforce services
 C43957,CyberForceQ,cyberforceq,False,[],cyberforceq
 C48306,CyberFore Systems Corp,cyberfore systems,False,[],cyberfore systems
 C45092,CyberFortress,cyberfortress,False,[],cyberfortress
-C34172,Cybergard,cybergard,False,[],cybergard
-D00340,CyberGarde,cybergarde,False,[],cybergarde
+D00340,CyberGarde,cybergarde,True,"['D00340', 'C34172']",cybergarde
 C25442,CyberGear,cybergear,False,[],cybergear
 C27816,CyberGear,cybergear,False,[],cybergear
 C39022,"Cybergear, Inc.",cybergear,False,[],cybergear
@@ -6535,22 +6439,17 @@ C28490,CyberNorth,cybernorth,False,[],cybernorth
 C23773,Cybernut Solutions LLC,cybernut solutions,False,[],cybernut solutions
 C42886,CYBERNUT SOLUTIONS LLC,cybernut solutions,False,[],cybernut solutions
 C46681,CYBEROGUE CORP,cyberogue,False,[],cyberogue
-C47048,Cyberone LLC,cyberone,False,[],cyberone
-C42368,"CyberOne, LLC.",cyberone,False,[],cyberone
-D00341,Cyberonyx Security LLC,cyberonyx security,False,[],cyberonyx security
+D00341,Cyberonyx Security LLC,cyberonyx security,True,"['D00341', 'C47048', 'C42368']",cyberonyx security
 C51449,Cyberpacket Technology Consulting LLC,cyberpacket technology consulting,False,[],cyberpacket technology consulting
 C26945,Cyberpeak Solutions LLC,cyberpeak solutions,False,[],cyberpeak solutions
 C47369,CyberProof,cyberproof,False,[],cyberproof
 C46820,"CyberQ Group US, LLC",cyberq group us,False,[],cyberq group us
 C43663,CyberQ Technologies Inc,cyberq technologies,False,[],cyberq technologies
 C21814,Cybersafe,cybersafe,False,[],cybersafe
-C35718,Cybersec Corp,cybersec,False,[],cybersec
-D00342,Cybersecom,cybersecom,False,[],cybersecom
+D00342,Cybersecom,cybersecom,True,"['D00342', 'C35718']",cybersecom
 C37415,CyberSecOp LLC dba Cyber Security Operations Consulting,cybersecop cyber security operations consulting,False,[],cybersecop cyber security operations consulting
 C25043,Cybersecurity1st,cybersecurity1st,False,[],cybersecurity1st
-C26058,CYBERSHIELD INC,cybershield,False,[],cybershield
-C48309,CYBERSHIELD INC,cybershield,False,[],cybershield
-D00343,CyberShield Networks LLC,cybershield networks,False,[],cybershield networks
+D00343,CyberShield Networks LLC,cybershield networks,True,"['D00343', 'C26058', 'C48309']",cybershield networks
 C41773,"Cybersmith Networks, LLC",cybersmith networks,False,[],cybersmith networks
 C30989,CyberSOLUTIONS,cybersolutions,False,[],cybersolutions
 C44104,Cybersphere Cybersecurity Solutions,cybersphere cybersecurity solutions,False,[],cybersphere cybersecurity solutions
@@ -6605,9 +6504,7 @@ C26762,"Cyipcom, Inc.",cyipcom,False,[],cyipcom
 D00349,CyIT,cyit,False,[],cyit
 C42923,"CyKor, LLC",cykor,False,[],cykor
 C43303,CYMA IT LLC,cyma it,False,[],cyma it
-C33192,Cymbel Corp,cymbel,False,[],cymbel
-C48315,Cymbel Corp,cymbel,False,[],cymbel
-D00350,Cymbrella LLC,cymbrella,False,[],cymbrella
+D00350,Cymbrella LLC,cymbrella,True,"['D00350', 'C33192', 'C48315']",cymbrella
 C51064,Cymorth IT LLC,cymorth it,False,[],cymorth it
 C41732,Cynaxa LLC,cynaxa,False,[],cynaxa
 C37753,CYNC Solutions,cync solutions,False,[],cync solutions
@@ -6642,8 +6539,7 @@ C45368,Cysero LLC,cysero,False,[],cysero
 C35634,Cyseso,cyseso,False,[],cyseso
 D00353,Cysystems,cysystems,False,[],cysystems
 D00354,CySystems LLC,cysystems,False,[],cysystems
-C45697,CyTech USA LLC,cytech usa,False,[],cytech usa
-D00355,"Cytechnica, LLC",cytechnica,False,[],cytechnica
+D00355,"Cytechnica, LLC",cytechnica,True,"['D00355', 'C45697']",cytechnica
 C24143,Cytek Corporation,cytek,False,[],cytek
 C48321,Cytek Corporation,cytek,False,[],cytek
 C45991,Cytellix Corporation,cytellix,False,[],cytellix
@@ -6905,8 +6801,7 @@ C24007,"DataServ Integrations, LLC dba DataServ, a Skoda Minotti Technology Firm
 C48354,"DataServ Integrations, LLC dba DataServ, a Skoda Minotti Technology Firm",dataserv integrations dataserv a skoda minotti technology firm,False,[],dataserv integrations dataserv a skoda minotti technology firm
 C39724,Dataserv LLC,dataserv,False,[],dataserv
 C21825,Data-Serv Technologies,data-serv technologies,False,[],data-serv technologies
-C33169,Datashop,datashop,False,[],datashop
-D00370,Datashops,datashops,False,[],datashops
+D00370,Datashops,datashops,True,"['D00370', 'C33169']",datashops
 C30289,Data-Smart Computers,data-smart computers,False,[],data-smart computers
 C29308,Datasmith Network Soulutions,datasmith network soulutions,False,[],datasmith network soulutions
 C48355,Datasmith Network Soulutions,datasmith network soulutions,False,[],datasmith network soulutions
@@ -7379,13 +7274,11 @@ C41501,"Digital One Technology / Digital 1 Enterprises, Inc",digital one technol
 C36340,Digital Persistence,digital persistence,False,[],digital persistence
 C39735,Digital Plains LLC,digital plains,False,[],digital plains
 C42955,Digital Planet,digital planet,False,[],digital planet
-C47377,Digital Realty,digital realty,False,[],digital realty
-D00386,Digital Realty Trust,digital realty,False,[],digital realty
+D00386,Digital Realty Trust,digital realty,True,"['D00386', 'C47377']",digital realty
 C23387,Digital River Computer Technologies,digital river computer technologies,False,[],digital river computer technologies
 C27308,Digital Scepter Corporation,digital scepter,False,[],digital scepter
 C35717,"Digital Seattle, Inc.",digital seattle,False,[],digital seattle
-C25077,Digital Service Consultants,digital service consultants,False,[],digital service consultants
-D00387,Digital Services Agency LLC,digital services agency,False,[],digital services agency
+D00387,Digital Services Agency LLC,digital services agency,True,"['D00387', 'C25077']",digital services agency
 C46930,"Digital Solutions of Ohio, LLC",digital solutions of ohio,False,[],digital solutions of ohio
 C36317,"Digital Solutions, Inc",digital solutions,False,[],digital solutions
 C36049,Digital South Communications,digital south communications,False,[],digital south communications
@@ -7490,9 +7383,7 @@ C42192,DISGRALCO US,disgralco us,False,[],disgralco us
 C28336,"Disk-O-Tape, Inc.",disk-o-tape,False,[],disk-o-tape
 C48420,"Disk-O-Tape, Inc.",disk-o-tape,False,[],disk-o-tape
 C44637,"Dispatch Tech, Inc.",dispatch tech,False,[],dispatch tech
-C42767,Disruptive Innovations,disruptive innovations,False,[],disruptive innovations
-D00395,"Disruptive Solutions, LLC",disruptive solutions,False,[],disruptive solutions
-C34896,DisruptiveTek,disruptivetek,False,[],disruptivetek
+C34896,DisruptiveTek,disruptivetek,True,"['D00395', 'C42767', 'C34896']",disruptivetek
 C36773,Distec Latam LLC,distec latam,False,[],distec latam
 C47378,Distillery,distillery,False,[],distillery
 C31040,Distinctive I.T. Consulting,distinctive i.t. consulting,False,[],distinctive i.t. consulting
@@ -7520,9 +7411,7 @@ C48424,DiverseNet,diversenet,False,[],diversenet
 C26995,Diversified,diversified,False,[],diversified
 C43860,Diversified Business Computers Inc,diversified business computers,False,[],diversified business computers
 C42824,Diversified Business Systems Inc.,diversified business systems,False,[],diversified business systems
-C46540,"Diversified Computer Resources, Inc.",diversified computer resources,False,[],diversified computer resources
-D00398,"Diversified Computer Services, LLC",diversified computer services,False,[],diversified computer services
-C32294,"Diversified Computer Solutions, Inc.",diversified computer solutions,False,[],diversified computer solutions
+C32294,"Diversified Computer Solutions, Inc.",diversified computer solutions,True,"['D00398', 'C46540', 'C32294']",diversified computer solutions
 C39738,Diversified Integration Systems,diversified integration systems,False,[],diversified integration systems
 C32238,Diversified Media Group,diversified media group,False,[],diversified media group
 C24340,Diversified Networks Inc.,diversified networks,False,[],diversified networks
@@ -7618,8 +7507,7 @@ C51436,DOMOTECH LLC,domotech,False,[],domotech
 C21871,Donaho Computers Services,donaho computers services,False,[],donaho computers services
 C31718,"Dondada Innovations, LLC",dondada innovations,False,[],dondada innovations
 C21831,"Donet Inc, DBA Data Yard",donet data yard,False,[],donet data yard
-C38102,Donnellon Mccarthy,donnellon mccarthy,False,[],donnellon mccarthy
-D00406,Donnellon McCarthy Enterprises,donnellon mccarthy enterprises,False,[],donnellon mccarthy enterprises
+D00406,Donnellon McCarthy Enterprises,donnellon mccarthy enterprises,True,"['D00406', 'C38102']",donnellon mccarthy enterprises
 C29274,Don't Panic IT,don t panic it,False,[],don t panic it
 C39742,Dont Sweat IT Solutions,dont sweat it solutions,False,[],dont sweat it solutions
 C45523,DOORWAY AS,doorway,False,[],doorway
@@ -7713,9 +7601,7 @@ C28228,DSN Group,dsn group,False,[],dsn group
 C48446,DSN Group,dsn group,False,[],dsn group
 C28450,"DSR, inc.",dsr,False,[],dsr
 C48447,"DSR, inc.",dsr,False,[],dsr
-C42687,DSS Management Inc,dss management,False,[],dss management
-C48448,DSS Management Inc,dss management,False,[],dss management
-D00410,DSS Management of Florida LLC,dss management of florida,False,[],dss management of florida
+D00410,DSS Management of Florida LLC,dss management of florida,True,"['D00410', 'C42687', 'C48448']",dss management of florida
 C30790,Dssc Solutions Company,dssc solutions company,False,[],dssc solutions company
 C28683,DSTECH,dstech,False,[],dstech
 C39745,DSTech Solutions,dstech solutions,False,[],dstech solutions
@@ -7726,9 +7612,7 @@ D00412,DTA Cloud Solutions,dta cloud solutions,False,[],dta cloud solutions
 C47381,DTC Computer Supplies,dtc computer supplies,False,[],dtc computer supplies
 C38103,"Dtcm, Inc.",dtcm,False,[],dtcm
 C39746,DTE Networks,dte networks,False,[],dte networks
-C32206,DTech Communications,dtech communications,False,[],dtech communications
-C38003,DTEL Telecommunications,dtel telecommunications,False,[],dtel telecommunications
-D00413,DTL Communications,dtl communications,False,[],dtl communications
+D00413,DTL Communications,dtl communications,True,"['D00413', 'C38003', 'C32206']",dtl communications
 C45525,DTM Systems Corp,dtm systems,False,[],dtm systems
 C26249,DTMT LLC,dtmt,False,[],dtmt
 C38362,DTRI Global,dtri global,False,[],dtri global
@@ -7849,8 +7733,7 @@ D00416,Eagle Powers Tech LLC,eagle powers tech,False,[],eagle powers tech
 C39298,Eagle Secure Solutions,eagle secure solutions,False,[],eagle secure solutions
 C40603,Eagle Software dba Eagle Technologies,eagle software eagle technologies,False,[],eagle software eagle technologies
 C48465,Eagle Software dba Eagle Technologies,eagle software eagle technologies,False,[],eagle software eagle technologies
-D00417,Eagle Tech Corp,eagle tech,False,[],eagle tech
-C35621,Eagle Technology Solutions LLC,eagle technology solutions,False,[],eagle technology solutions
+C35621,Eagle Technology Solutions LLC,eagle technology solutions,True,"['C35621', 'D00417']",eagle technology solutions
 C39750,Eagle Wings Enterprises,eagle wings enterprises,False,[],eagle wings enterprises
 C46440,"Eagles Nest Global IT Solutions, LLC",eagles nest global it solutions,False,[],eagles nest global it solutions
 C35681,"Eagle's Wings Technologies, LLC",eagle s wings technologies,False,[],eagle s wings technologies
@@ -7887,12 +7770,10 @@ C43559,Eastern Data,eastern data,False,[],eastern data
 C28923,Eastern Data of Virginia,eastern data of virginia,False,[],eastern data of virginia
 C31140,"Eastern Data, Inc.",eastern data,False,[],eastern data
 C32769,"Eastern IT Group, LLC",eastern it group,False,[],eastern it group
-C22904,Eastern Technology services,eastern technology services,False,[],eastern technology services
-D00420,"Eastern Technology Solutions, LLC",eastern technology solutions,False,[],eastern technology solutions
+D00420,"Eastern Technology Solutions, LLC",eastern technology solutions,True,"['D00420', 'C22904']",eastern technology solutions
 C36982,Eastern Telephone and Technologies,eastern telephone and technologies,False,[],eastern telephone and technologies
 C23910,Easton Technology,easton technology,False,[],easton technology
-D00421,"Easy IT Solutions, LLC",easy it solutions,False,[],easy it solutions
-C51808,"Easy IT Support, LLC",easy it support,False,[],easy it support
+C51808,"Easy IT Support, LLC",easy it support,True,"['C51808', 'D00421']",easy it support
 C34023,Easy Networks Cabling Inc,easy networks cabling,False,[],easy networks cabling
 C43216,Easy Soft Intergrading Tech,easy soft intergrading tech,False,[],easy soft intergrading tech
 C34763,EasyIT,easyit,False,[],easyit
@@ -8030,8 +7911,7 @@ C48486,EFC Systems,efc systems,False,[],efc systems
 C21882,Effective Consulting LLC,effective consulting,False,[],effective consulting
 C48487,"Effective Consulting, LLC",effective consulting,False,[],effective consulting
 C43560,Effective Data Inc.,effective data,False,[],effective data
-D00428,Effective Technology and Communication Services LLC,effective technology and communication services,False,[],effective technology and communication services
-C47171,Effective Technology Management,effective technology management,False,[],effective technology management
+C47171,Effective Technology Management,effective technology management,True,"['C47171', 'D00428']",effective technology management
 C27463,EFFICIENT COMPUTER SYSTEMS INC,efficient computer systems,False,[],efficient computer systems
 C21883,Efficient Technology Solutions Inc.,efficient technology solutions,False,[],efficient technology solutions
 D00429,"Efficium, LLC",efficium,False,[],efficium
@@ -8147,8 +8027,7 @@ C43053,Electropedia LLC,electropedia,False,[],electropedia
 C27704,ElectroTech Solutions,electrotech solutions,False,[],electrotech solutions
 C25410,Electrotek Corporation,electrotek,False,[],electrotek
 C44440,ElectSys Tech LLC,electsys tech,False,[],electsys tech
-C48502,Elegis Telecom,elegis telecom,False,[],elegis telecom
-D00434,Elegis Telecom DBA Elegis Networks,elegis telecom elegis networks,False,[],elegis telecom elegis networks
+D00434,Elegis Telecom DBA Elegis Networks,elegis telecom elegis networks,True,"['D00434', 'C48502']",elegis telecom
 C48503,Eleite Technologies Inc.,eleite technologies,False,[],eleite technologies
 C27053,ELEMENT BOX INC,element box,False,[],element box
 C48504,ELEMENT BOX INC,element box,False,[],element box
@@ -8198,8 +8077,7 @@ C38955,Elite It,elite it,False,[],elite it
 C51417,"Elite Laser Technologies, LLC",elite laser technologies,False,[],elite laser technologies
 C24031,Elite Multimedia,elite multimedia,False,[],elite multimedia
 C48508,Elite Multimedia,elite multimedia,False,[],elite multimedia
-C39118,ELITE NETWORKS LLC,elite networks,False,[],elite networks
-D00439,Elite Networks US,elite networks us,False,[],elite networks us
+D00439,Elite Networks US,elite networks us,True,"['D00439', 'C39118']",elite networks
 C29738,ELITE ONE SOLUTIONS LLC,elite one solutions,False,[],elite one solutions
 C48509,Elite Pro Solutions,elite pro solutions,False,[],elite pro solutions
 C42024,Elite Pro Solutions Inc.,elite pro solutions,False,[],elite pro solutions
@@ -8306,8 +8184,7 @@ C28920,"Empower Digital Solutions, Inc.",empower digital solutions,False,[],empo
 C27013,Empower Information Systems Inc.,empower information systems,False,[],empower information systems
 C48525,Empower Information Systems Inc.,empower information systems,False,[],empower information systems
 C51366,"Empower IT Services, LLC",empower it services,False,[],empower it services
-D00445,"Empower Solutions, LLC",empower solutions,False,[],empower solutions
-C38109,Empowert Llc,empowert,False,[],empowert
+D00445,"Empower Solutions, LLC",empower solutions,True,"['C38109', 'D00445']",empower solutions
 D00446,EMQU TECHNOLOGIES LLC,emqu technologies,False,[],emqu technologies
 C38862,EMR CPR LLC,emr cpr,False,[],emr cpr
 C23920,EMSCO Solutions,emsco solutions,False,[],emsco solutions
@@ -8331,9 +8208,8 @@ C36120,Enabling Technologies Corp of Florida - numerous attempts no response,ena
 C34389,ENC Solutions Inc,enc solutions,False,[],enc solutions
 C44079,EnCircle Technology,encircle technology,False,[],encircle technology
 C39419,Encom Technologies,encom technologies,False,[],encom technologies
-C50655,Encompass Group LLC,encompass group,False,[],encompass group
 C28621,EnCompass Iowa LLC,encompass iowa,False,[],encompass iowa
-D00447,Encompass MSP LLC,encompass msp,False,[],encompass msp
+D00447,Encompass MSP LLC,encompass msp,True,"['D00447', 'C50655']",encompass msp
 D00448,Encor360 Technologies LLC,encor360 technologies,False,[],encor360 technologies
 C35068,Encore Business Solutions,encore business solutions,False,[],encore business solutions
 C25409,"Encore Communications, Inc.",encore communications,False,[],encore communications
@@ -8501,15 +8377,12 @@ C26392,"Envision Technologies, Inc.",envision technologies,False,[],envision tec
 C35284,Envision Technology Advisors LLC,envision technology advisors,False,[],envision technology advisors
 C38114,"Envisionit Of Ms, Llc",envisionit of ms,False,[],envisionit of ms
 C39765,EnvisionWare. Inc,envisionware,False,[],envisionware
-C36222,Envisiotech LLC,envisiotech,False,[],envisiotech
-D00457,EnvisiTEK,envisitek,False,[],envisitek
+D00457,EnvisiTEK,envisitek,True,"['D00457', 'C36222']",envisitek
 C24554,enVista,envista,False,[],envista
 C34683,Envolve Technical Solutions,envolve technical solutions,False,[],envolve technical solutions
-C44676,Envoy Data Corporation,envoy data,False,[],envoy data
-D00458,Envoy Inc.,envoy,False,[],envoy
 C35957,Envoy Managed Services,envoy managed services,False,[],envoy managed services
 C48545,Envoy Managed Services,envoy managed services,False,[],envoy managed services
-C37147,"Envoy, Inc.",envoy,False,[],envoy
+C37147,"Envoy, Inc.",envoy,True,"['C37147', 'D00458', 'C44676']",envoy
 C48546,Enzu Inc,enzu,False,[],enzu
 C25482,EO Johnson,eo johnson,False,[],eo johnson
 C31287,"EoH Enterprises, LLC dba Envision Networked Solutions",eoh enterprises envision networked solutions,False,[],eoh enterprises envision networked solutions
@@ -8762,8 +8635,7 @@ D00473,Exact Infotech Solutions LP DBA Prosperity IT,exact infotech solutions pr
 C46063,Exact Tech Solutions LLC,exact tech solutions,False,[],exact tech solutions
 C36035,Exact Technology Partners,exact technology partners,False,[],exact technology partners
 D00474,Exactpoint Technologies,exactpoint technologies,False,[],exactpoint technologies
-C45543,EXAPROBE SAS,exaprobe sas,False,[],exaprobe sas
-D00475,"EXAPROBE USA, Inc.",exaprobe usa,False,[],exaprobe usa
+D00475,"EXAPROBE USA, Inc.",exaprobe usa,True,"['D00475', 'C45543']",exaprobe
 C38282,EXATA LLC,exata,False,[],exata
 C27112,Exbabylon IT,exbabylon it,False,[],exbabylon it
 C39248,EXC Computer Consulting LLC,exc computer consulting,False,[],exc computer consulting
@@ -9435,8 +9307,7 @@ D00480,Expansicom LLc,expansicom,False,[],expansicom
 C31654,"Expedient Technology Solutions, LLC",expedient technology solutions,False,[],expedient technology solutions
 C37779,Expel,expel,False,[],expel
 C45994,Expereo,expereo,False,[],expereo
-C45722,Experian,experian,False,[],experian
-D00481,Experian IT Service,experian it service,False,[],experian it service
+D00481,Experian IT Service,experian it service,True,"['D00481', 'C45722']",experian it service
 C24515,Experienced Office Solutions,experienced office solutions,False,[],experienced office solutions
 C48583,Experienced Office Solutions,experienced office solutions,False,[],experienced office solutions
 C44005,"Experis Technology Group, Inc",experis technology group,False,[],experis technology group
@@ -9457,8 +9328,7 @@ C48587,"Expert Networks, Inc",expert networks,False,[],expert networks
 C46829,"Expert Reaction, Inc.",expert reaction,False,[],expert reaction
 C32081,Expert Server Group,expert server group,False,[],expert server group
 C21915,EXPERT SOLUTIONS LLC,expert solutions,False,[],expert solutions
-C25712,Expert Technology Associates,expert technology associates,False,[],expert technology associates
-D00482,"Expert Technology Solutions, LLC",expert technology solutions,False,[],expert technology solutions
+D00482,"Expert Technology Solutions, LLC",expert technology solutions,True,"['D00482', 'C25712']",expert technology solutions
 C41560,"Expertip, LLC",expertip,False,[],expertip
 C48588,"ExpertIP, LLC dba AT-NET Services",expertip at-net services,False,[],expertip at-net services
 C23337,Expetec of Aberdeen,expetec of aberdeen,False,[],expetec of aberdeen
@@ -9538,8 +9408,7 @@ C48597,Facilitated IT Solutions LLC,facilitated it solutions,False,[],facilitate
 C43628,Facilitex LLC,facilitex,False,[],facilitex
 C48598,Facorne Technologies,facorne technologies,False,[],facorne technologies
 C29414,Facsimilie Communications Industries Inc.,facsimilie communications industries,False,[],facsimilie communications industries
-D00485,Faction,faction,False,[],faction
-C29296,"Faction 8, LLC.",faction 8,False,[],faction 8
+C29296,"Faction 8, LLC.",faction 8,True,"['C29296', 'D00485']",faction 8
 C47255,Factor Technology Solutions Inc,factor technology solutions,False,[],factor technology solutions
 C38117,"Factory Insite, Inc.",factory insite,False,[],factory insite
 C32405,"Factory7, LLC",factory7,False,[],factory7
@@ -9819,8 +9688,7 @@ C46545,Flatirons Solutions,flatirons solutions,False,[],flatirons solutions
 C26247,Fleetwood Networks,fleetwood networks,False,[],fleetwood networks
 C46968,Fletcher & Company LLC,fletcher and company,False,[],fletcher and company
 C41414,Flex,flex,False,[],flex
-C28646,Flex IT,flex it,False,[],flex it
-D00507,Flex IT Services,flex it services,False,[],flex it services
+D00507,Flex IT Services,flex it services,True,"['D00507', 'C28646']",flex it services
 C22340,Flexential Corp,flexential,False,[],flexential
 C48628,Flexential Corp.,flexential,False,[],flexential
 C45548,FLEXI SOFTWARE,flexi software,False,[],flexi software
@@ -9881,8 +9749,7 @@ C41902,"Focus Communication Solutions, Inc.",focus communication solutions,False
 C44264,FOCUS Government Affairs,focus government affairs,False,[],focus government affairs
 C36690,Focus Group Inc.,focus group,False,[],focus group
 C30201,Focus Media Solutions,focus media solutions,False,[],focus media solutions
-D00512,FOCUS Technologies LLC,focus technologies,False,[],focus technologies
-C31431,"Focus Technology Solutions, Inc.",focus technology solutions,False,[],focus technology solutions
+C31431,"Focus Technology Solutions, Inc.",focus technology solutions,True,"['C31431', 'D00512']",focus technology solutions
 C45008,FocusConnect,focusconnect,False,[],focusconnect
 C33141,Focused Networks LLC,focused networks,False,[],focused networks
 C35874,FocusPlanIT,focusplanit,False,[],focusplanit
@@ -9937,9 +9804,7 @@ C44683,Fortezza Cyber LLC,fortezza cyber,False,[],fortezza cyber
 C35962,Forthphaze Technology Inc,forthphaze technology,False,[],forthphaze technology
 C34619,Forthright Technology Partners,forthright technology partners,False,[],forthright technology partners
 C37525,FORTHRIGHT TECHNOLOGY PARTNERS,forthright technology partners,False,[],forthright technology partners
-C28829,FortiFied Network Solutions,fortified network solutions,False,[],fortified network solutions
-D00516,FORTIFIED ONE,fortified one,False,[],fortified one
-C21940,"FortiFire, Inc",fortifire,False,[],fortifire
+C21940,"FortiFire, Inc",fortifire,True,"['C21940', 'D00516', 'C28829']",fortified one
 C35018,Fortify 24x7,fortify 24x7,False,[],fortify 24x7
 C39781,Fortify IT,fortify it,False,[],fortify it
 C34173,Fortify IT Services LLC,fortify it services,False,[],fortify it services
@@ -9963,8 +9828,7 @@ C51861,Fortiway LLC,fortiway,False,[],fortiway
 C48639,Fortress Data Management,fortress data management,False,[],fortress data management
 C26847,Fortress Information Security,fortress information security,False,[],fortress information security
 C38297,Fortress IT Solution LLC,fortress it solution,False,[],fortress it solution
-C39445,"Fortress Network Solutions, Inc",fortress network solutions,False,[],fortress network solutions
-D00518,Fortress Networks LLC,fortress networks,False,[],fortress networks
+D00518,Fortress Networks LLC,fortress networks,True,"['D00518', 'C39445']",fortress networks
 C38660,Fortress Security & Automation,fortress security and automation,False,[],fortress security and automation
 C28442,Fortuna Business Management Consulting,fortuna business management consulting,False,[],fortuna business management consulting
 D00519,Fortuna Cysec Inc,fortuna cysec,False,[],fortuna cysec
@@ -9987,8 +9851,6 @@ C28222,Fotis Networks LLC,fotis networks,False,[],fotis networks
 C28508,FOUGH3 ENTERPRISES LLC,fough3 enterprises,False,[],fough3 enterprises
 C38122,Found It Data Cybersecurity,found it data cybersecurity,False,[],found it data cybersecurity
 C21944,Foundation Republic LLC,republic,False,[],republic
-C31574,"Foundation Technologies, Inc.",technologies,False,[],technologies
-C24341,"Foundation Technologies, LLC",technologies,False,[],technologies
 C30126,"Founders Technology Group, LLC",founders technology group,False,[],founders technology group
 C36048,"Founders Technology Group, LLC",founders technology group,False,[],founders technology group
 C51851,Fountain Hills Technologies LLC,fountain hills technologies,False,[],fountain hills technologies
@@ -10012,8 +9874,7 @@ C25139,FRABR Consulting,frabr consulting,False,[],frabr consulting
 C44892,"Fractal EMS, Inc.",fractal ems,False,[],fractal ems
 C38855,Francisco Perez dba Digital Ethic,francisco perez digital ethic,False,[],francisco perez digital ethic
 C35433,Frank Parsons Paper Company,frank parsons paper company,False,[],frank parsons paper company
-C45428,Frankel Zacharia,frankel zacharia,False,[],frankel zacharia
-D00523,Frankel Zacharia Technology Services,frankel zacharia technology services,False,[],frankel zacharia technology services
+D00523,Frankel Zacharia Technology Services,frankel zacharia technology services,True,"['D00523', 'C45428']",frankel zacharia technology services
 C36464,"Franklin Computer Services Group, Inc",franklin computer services group,False,[],franklin computer services group
 C30452,"Frantic, LLC.",frantic,False,[],frantic
 C39784,Fraser Advanced Info Systems (Imageze),fraser advanced info systems imageze,False,[],fraser advanced info systems imageze
@@ -10078,9 +9939,7 @@ C32187,"Frontier Technologies, Inc.",frontier technologies,False,[],frontier tec
 C21948,Frontier Technology DBA MicroAge,frontier technology microage,False,[],frontier technology microage
 C45549,"Frontier Technology, LLC",frontier technology,False,[],frontier technology
 C46045,"Frontline Computer Services, LLC",frontline computer services,False,[],frontline computer services
-C44967,Frontline IT LLC,frontline it,False,[],frontline it
-D00528,Frontline Technologies Corp.,frontline technologies,False,[],frontline technologies
-C37628,Frontline Technology,frontline technology,False,[],frontline technology
+C37628,Frontline Technology,frontline technology,True,"['C37628', 'D00528', 'C44967']",frontline technologies
 C51229,"Frontline, LLC",frontline,False,[],frontline
 C26020,Frontrunner,frontrunner,False,[],frontrunner
 C28797,Frontrunner Network Systems Corporation,frontrunner network systems,False,[],frontrunner network systems
@@ -10529,19 +10388,14 @@ C29460,"Global Gossip, LLC (USA)",global gossip usa,False,[],global gossip usa
 C45552,Global Imaging Systems,global imaging systems,False,[],global imaging systems
 C42675,"Global Indirect Markets, LLC",global indirect markets,False,[],global indirect markets
 C22754,"Global Information Network Ideas, Inc. DB",global information network ideas db,False,[],global information network ideas db
-D00542,Global Insight,global insight,False,[],global insight
 C48700,Global Integrated Solutions Inc,global integrated solutions,False,[],global integrated solutions
-C47400,Global IT,global it,False,[],global it
-D00543,"Global IT Communications, Inc.",global it communications,False,[],global it communications
-C34613,Global IT Corp,global it,False,[],global it
+D00543,"Global IT Communications, Inc.",global it communications,True,"['C34613', 'D00542', 'C47400', 'D00543']",global it
 C24712,GLOBAL IT DATACENTER INC.,global it datacenter,False,[],global it datacenter
 C48701,GLOBAL IT DATACENTER INC.,global it datacenter,False,[],global it datacenter
 C39458,Global It Services Inc,global it services,False,[],global it services
 C30734,"Global Light Stream, LLC",global light stream,False,[],global light stream
 C28816,"Global Market Innovators, Inc. (GMI)",global market innovators gmi,False,[],global market innovators gmi
-C25037,Global Net,global net,False,[],global net
-D00544,Global Network Architects,global network architects,False,[],global network architects
-C31887,Global Network Security Solutions LLC,global network security solutions,False,[],global network security solutions
+C31887,Global Network Security Solutions LLC,global network security solutions,True,"['C31887', 'D00544', 'C25037']",global network architects
 C44474,"Global Network Solutions, LLC",global network solutions,False,[],global network solutions
 C30371,"Global Network Technologies, Inc dba Global Business Technologies",global network technologies global business technologies,False,[],global network technologies global business technologies
 C37965,Global One IT Solutions Inc,global one it solutions,False,[],global one it solutions
@@ -10572,8 +10426,7 @@ D00545,Global Traffic Technologies,global traffic technologies,False,[],global t
 D00546,Global Upsilon solutions,global upsilon solutions,False,[],global upsilon solutions
 C43676,"Global Vision Technology, Inc.",global vision technology,False,[],global vision technology
 C29743,Global4PL,global4pl,False,[],global4pl
-D00547,"Globalcom,Inc",globalcom,False,[],globalcom
-C45553,Globalconnect AS,globalconnect,False,[],globalconnect
+C45553,Globalconnect AS,globalconnect,True,"['C45553', 'D00547']",globalconnect
 C48705,Globalgig,globalgig,False,[],globalgig
 D00548,GlobalinkIT,globalinkit,False,[],globalinkit
 D00549,GlobalKlass Groupe INC,globalklass groupe,False,[],globalklass groupe
@@ -10712,8 +10565,7 @@ C44532,GoTo,goto,False,[],goto
 C45287,Goto Direct Inc.,goto direct,False,[],goto direct
 C36308,Gould-Sherwood Consulting,gould-sherwood consulting,False,[],gould-sherwood consulting
 C48724,Gould-Sherwood Consulting,gould-sherwood consulting,False,[],gould-sherwood consulting
-C40507,GovAge Inc,govage,False,[],govage
-D00555,"GovAged, Inc.",govaged,False,[],govaged
+D00555,"GovAged, Inc.",govaged,True,"['D00555', 'C40507']",govaged
 C25124,GovAssure,govassure,False,[],govassure
 C28572,GovConnection,govconnection,False,[],govconnection
 C24089,"GovDirect, INC.",govdirect,False,[],govdirect
@@ -11005,11 +10857,9 @@ D00562,GXA Network Solutions,gxa network solutions,False,[],gxa network solution
 C38980,"GY6 Technologies, Inc.",gy6 technologies,False,[],gy6 technologies
 C28492,Gyver Networks,gyver networks,False,[],gyver networks
 C48759,Gyver Networks,gyver networks,False,[],gyver networks
-C24758,H & A Security Solutions,h and a security solutions,False,[],h and a security solutions
-C48760,H & A Security Solutions,h and a security solutions,False,[],h and a security solutions
 C46549,H & H Mailing Services,h and h mailing services,False,[],h and h mailing services
 C51322,H & H Solutions LaGrange LLC,h and h solutions lagrange,False,[],h and h solutions lagrange
-D00563,H &amp; A Security Solutions,h and amp a security solutions,False,[],h and amp a security solutions
+D00563,H &amp; A Security Solutions,h and amp a security solutions,True,"['D00563', 'C24758', 'C48760']",h and a security solutions
 C27291,H and H Equipment DBA Lewis and Lewis Computer Store,h and h equipment lewis and lewis computer store,False,[],h and h equipment lewis and lewis computer store
 C21984,H K Computers Inc.,h k computers,False,[],h k computers
 C42996,H&A,h and a,False,[],h and a
@@ -11277,9 +11127,8 @@ C48798,Heusinkvelt Technology LLC,heusinkvelt technology,False,[],heusinkvelt te
 C45710,Hewlett Packard Enterprise,hewlett packard enterprise,False,[],hewlett packard enterprise
 C48799,"Hex Cloud Security Solutions, Inc.",hex cloud security solutions,False,[],hex cloud security solutions
 D00582,Hexacode Technologies LLC,hexacode technologies,False,[],hexacode technologies
-C48800,Hexagon IT Solutions,hexagon it solutions,False,[],hexagon it solutions
 C26709,Hexagon Manufacturing Intelligence,hexagon manufacturing intelligence,False,[],hexagon manufacturing intelligence
-D00583,Hexaroot Solutions LLC,hexaroot solutions,False,[],hexaroot solutions
+D00583,Hexaroot Solutions LLC,hexaroot solutions,True,"['D00583', 'C48800']",hexagon it solutions
 C45431,Hexaware Technologies Limited,hexaware technologies,False,[],hexaware technologies
 C46108,HexDaemon,hexdaemon,False,[],hexdaemon
 C28277,HF Tech Services Inc.,hf tech services,False,[],hf tech services
@@ -11351,8 +11200,7 @@ C29700,"Highwire Solutions, LLC",highwire solutions,False,[],highwire solutions
 C41745,HIKTECH,hiktech,False,[],hiktech
 C46839,Hikvision,hikvision,False,[],hikvision
 C25685,Hi-link,hi-link,False,[],hi-link
-D00588,"Hill Country Data Protection, LLC",hill country data protection,False,[],hill country data protection
-C23703,Hill Country IT,hill country it,False,[],hill country it
+C23703,Hill Country IT,hill country it,True,"['C23703', 'D00588']",hill country it
 C41241,Hill Country Tech Guys,hill country tech guys,False,[],hill country tech guys
 C42891,Hill Tech Solutions LLC,hill tech solutions,False,[],hill tech solutions
 C51255,"Hilliard Office Solutions, Ltd",hilliard office solutions,False,[],hilliard office solutions
@@ -11500,7 +11348,6 @@ C39836,Hot Shot Media Group. Inc,hot shot media group,False,[],hot shot media gr
 C26806,Hotel Internet Services,hotel internet services,False,[],hotel internet services
 C43402,"Hotel Internet Services, LLC",hotel internet services,False,[],hotel internet services
 C41421,HOTELES REAL INN,hoteles real inn,False,[],hoteles real inn
-D00593,"Hotline Heroes, LLC",hotline heroes,False,[],hotline heroes
 C46841,Hotman Group,hotman group,False,[],hotman group
 C35462,Hott Solutions Corp,hott solutions,False,[],hott solutions
 C47276,Hotwire Communications LTD,hotwire communications,False,[],hotwire communications
@@ -11926,8 +11773,7 @@ C26378,Incentra Solutions,incentra solutions,False,[],incentra solutions
 C27597,Inception Technologies Inc,inception technologies,False,[],inception technologies
 C35287,"Inceptus, LLC",inceptus,False,[],inceptus
 C25977,Incision Audio,incision audio,False,[],incision audio
-D00613,"Incite Technologies, LLC",incite technologies,False,[],incite technologies
-C48878,"Incite Technology Management, LLC",incite technology management,False,[],incite technology management
+C48878,"Incite Technology Management, LLC",incite technology management,True,"['C48878', 'D00613']",incite technology management
 C35969,Incitu Inc.,incitu,False,[],incitu
 C48879,Incitu Inc.,incitu,False,[],incitu
 C44269,"Incline Technology Consulting, LLC",incline technology consulting,False,[],incline technology consulting
@@ -12007,8 +11853,7 @@ C46729,InfinIAM,infiniam,False,[],infiniam
 C45401,"InfiniG, Inc",infinig,False,[],infinig
 C22025,"InfinIT IT Consulting, Inc.",infinit it consulting,False,[],infinit it consulting
 C48887,"InfinIT IT Consulting, Inc.",infinit it consulting,False,[],infinit it consulting
-D00615,"INFINIT TECHNOLOGIES, LLC",infinit technologies,False,[],infinit technologies
-C22930,INFINIT TECHNOLOGY SOLUTIONS,infinit technology solutions,False,[],infinit technology solutions
+C22930,INFINIT TECHNOLOGY SOLUTIONS,infinit technology solutions,True,"['C22930', 'D00615']",infinit technology solutions
 C30366,"Infinite Business Solutions, LLC",infinite business solutions,False,[],infinite business solutions
 D00616,Infinite Cloud Systems,infinite cloud systems,False,[],infinite cloud systems
 C48888,Infinite Consulting Services,infinite consulting services,False,[],infinite consulting services
@@ -12044,12 +11889,8 @@ C41939,"Infinity Networking Solutions, LLC",infinity networking solutions,False,
 C42246,Infinity Sky Technology LLC,infinity sky technology,False,[],infinity sky technology
 C35847,Infinity Solutions,infinity solutions,False,[],infinity solutions
 C48889,Infinity Solutions,infinity solutions,False,[],infinity solutions
-C30541,Infinity Technologies dba Infinity Computers Inc,infinity technologies infinity computers,False,[],infinity technologies infinity computers
-C48890,Infinity Technologies dba Infinity Computers Inc,infinity technologies infinity computers,False,[],infinity technologies infinity computers
 C43698,"Infinity Technologies, Inc.",infinity technologies,False,[],infinity technologies
-D00619,"Infinity Technology Group, LLC",infinity technology group,False,[],infinity technology group
-C23406,"Infinity Technology, Inc.",infinity technology,False,[],infinity technology
-C48891,"Infinity Technology, Inc.",infinity technology,False,[],infinity technology
+C48891,"Infinity Technology, Inc.",infinity technology,True,"['C23406', 'D00619', 'C48891', 'C30541', 'C48890']",infinity technology group
 C44536,Infinium Networks Inc,infinium networks,False,[],infinium networks
 C39851,Infiniwiz,infiniwiz,False,[],infiniwiz
 C22027,Infinix Inc.,infinix,False,[],infinix
@@ -12117,9 +11958,7 @@ C31298,Information Technologies Reserve,information technologies reserve,False,[
 C24600,Information Technology and Security,information technology and security,False,[],information technology and security
 C24542,Information Technology Architects Inc.,information technology architects,False,[],information technology architects
 C29126,Information Technology Associates,information technology associates,False,[],information technology associates
-C32900,"Information Technology Consultants of Oklahoma, LLC",information technology consultants of oklahoma,False,[],information technology consultants of oklahoma
-D00620,Information Technology Consulting,information technology consulting,False,[],information technology consulting
-C40734,Information Technology Core,information technology core,False,[],information technology core
+C40734,Information Technology Core,information technology core,True,"['C40734', 'D00620', 'C32900']",information technology consulting
 C43350,"INFORMATION TECHNOLOGY EXPERTS ALLIANCE, LLC DBA DISCOUNT TECH SUPPLIES",information technology experts alliance discount tech supplies,False,[],information technology experts alliance discount tech supplies
 C29359,Information Technology Group CT LLC,information technology group ct,False,[],information technology group ct
 C46117,Information Technology Partners Inc.,information technology partners,False,[],information technology partners
@@ -12139,9 +11978,7 @@ C23419,InfoSec Institute,infosec institute,False,[],infosec institute
 C48899,InfoSec Institute,infosec institute,False,[],infosec institute
 C34828,Infosec Partners,infosec partners,False,[],infosec partners
 C29117,infoSecure,infosecure,False,[],infosecure
-C30234,InfoSight Inc,infosight,False,[],infosight
-C48900,InfoSight Inc,infosight,False,[],infosight
-D00622,InfoSix,infosix,False,[],infosix
+D00622,InfoSix,infosix,True,"['D00622', 'C30234', 'C48900']",infosix
 C23522,InfoSoda,infosoda,False,[],infosoda
 C48901,InfoSoda,infosoda,False,[],infosoda
 C27554,InfoStream Inc,infostream,False,[],infostream
@@ -12155,8 +11992,7 @@ C43736,Infosys Limited,infosys,False,[],infosys
 C32261,"Infosys, LLC dba/Midwest Info Systems",infosys /midwest info systems,False,[],infosys /midwest info systems
 C28333,InfoSystems,infosystems,False,[],infosystems
 C22933,"INFOSYSTEMS, INC.",infosystems,False,[],infosystems
-D00623,Infotec I DBA ITSco,infotec i itsco,False,[],infotec i itsco
-C22033,Infotech Associates,infotech associates,False,[],infotech associates
+C22033,Infotech Associates,infotech associates,True,"['C22033', 'D00623']",infotech associates
 C42623,"Infotech Holdings Inc. DBA CMIT Solutions of Boston, Newton, Waltham",infotech holdings cmit solutions of boston newton waltham,False,[],infotech holdings cmit solutions of boston newton waltham
 C23449,"INFOTECH IT SUOLOTIONS, LLC",infotech it suolotions,False,[],infotech it suolotions
 C48902,"INFOTECH IT SUOLOTIONS, LLC",infotech it suolotions,False,[],infotech it suolotions
@@ -12211,8 +12047,7 @@ C27651,Inland Productivity Solutions,inland productivity solutions,False,[],inla
 C40546,"Inland Technology Solutions, LLC dba TeamLogic IT #64713",inland technology solutions teamlogic it 64713,False,[],inland technology solutions teamlogic it 64713
 D00625,INLEARN,inlearn,False,[],inlearn
 D00626,In-Line Corporate Solutions LLC,in-line corporate solutions,False,[],in-line corporate solutions
-C39858,Inline Network Integration,inline network integration,False,[],inline network integration
-D00627,Inline Networks,inline networks,False,[],inline networks
+D00627,Inline Networks,inline networks,True,"['D00627', 'C39858']",inline networks
 C22037,"InLine-InCare Technologies,Inc",inline-incare technologies,False,[],inline-incare technologies
 C30375,Inmotion PC LLC,inmotion,False,[],inmotion
 C43710,InMotion Technical Support,inmotion technical support,False,[],inmotion technical support
@@ -12361,11 +12196,9 @@ C32966,Insight Systems,insight systems,False,[],insight systems
 C48920,Insight Systems,insight systems,False,[],insight systems
 C29997,insightel llc,insightel,False,[],insightel
 C25127,"Insightful Networks, Inc.",insightful networks,False,[],insightful networks
-C28337,"Insightifi, Ltd.",insightifi,False,[],insightifi
-D00636,Insights Infinity LLC,insights infinity,False,[],insights infinity
+D00636,Insights Infinity LLC,insights infinity,True,"['D00636', 'C28337']",insights infinity
 C51967,"InsITe Business Solutions, Inc.",insite business solutions,False,[],insite business solutions
-C44361,InSource Solutions,insource solutions,False,[],insource solutions
-D00637,Insource Solutions Group,insource solutions group,False,[],insource solutions group
+D00637,Insource Solutions Group,insource solutions group,True,"['D00637', 'C44361']",insource solutions group
 C22045,"Insource Technology Direct, LLC.",insource technology direct,False,[],insource technology direct
 C42146,Inspira Enterprise Inc,inspira enterprise,False,[],inspira enterprise
 C44707,Inspiration IT Inc,inspiration it,False,[],inspiration it
@@ -12436,12 +12269,7 @@ C26965,Integrated Business Technologies,integrated business technologies,False,[
 C48928,Integrated Business Technologies,integrated business technologies,False,[],integrated business technologies
 D00641,Integrated Cloud Solutions,integrated cloud solutions,False,[],integrated cloud solutions
 C34365,Integrated Communication Designs Inc.,integrated communication designs,False,[],integrated communication designs
-C31726,"Integrated Communication Networks, Inc",integrated communication networks,False,[],integrated communication networks
-C48929,"Integrated Communication Networks, Inc",integrated communication networks,False,[],integrated communication networks
-C22940,INTEGRATED COMMUNICATION SOLUTIONS,integrated communication solutions,False,[],integrated communication solutions
-C36012,Integrated Communication Solutions,integrated communication solutions,False,[],integrated communication solutions
-C48930,Integrated Communication Solutions,integrated communication solutions,False,[],integrated communication solutions
-D00642,"Integrated Communications Plans, LLC",integrated communications plans,False,[],integrated communications plans
+D00642,"Integrated Communications Plans, LLC",integrated communications plans,True,"['D00642', 'C22940', 'C36012', 'C48930', 'C31726', 'C48929']",integrated communications plans
 C25105,Integrated Computer Consultants,integrated computer consultants,False,[],integrated computer consultants
 C27169,Integrated Computer Consulting,integrated computer consulting,False,[],integrated computer consulting
 C32901,Integrated Computer Solutions dba FUTUREWARE DISTRIBUTING,integrated computer solutions futureware distributing,False,[],integrated computer solutions futureware distributing
@@ -12490,18 +12318,13 @@ C36466,"Integrated Technologies, Inc.",integrated technologies,False,[],integrat
 C25168,Integrated Technology and Security (CAPTAIN ENTERPRISES),integrated technology and security captain enterprises,False,[],integrated technology and security captain enterprises
 C43797,"Integrated Technology Corporate Solutions, Inc",integrated technology corporate solutions,False,[],integrated technology corporate solutions
 C41380,Integrated Technology Group,integrated technology group,False,[],integrated technology group
-C28697,Integrated Technology Services,integrated technology services,False,[],integrated technology services
-D00643,"Integrated Technology Solutions, LLC",integrated technology solutions,False,[],integrated technology solutions
-C22049,Integrated Technology Systems NYC LLC,integrated technology systems nyc,False,[],integrated technology systems nyc
+C22049,Integrated Technology Systems NYC LLC,integrated technology systems nyc,True,"['D00643', 'C28697', 'C22049']",integrated technology systems nyc
 C27431,Integrated Techware,integrated techware,False,[],integrated techware
 C27863,Integrated Telecom Solutions Inc,integrated telecom solutions,False,[],integrated telecom solutions
 C40813,Integrated Voice Services,integrated voice services,False,[],integrated voice services
 C45921,Integration Engineers,integration engineers,False,[],integration engineers
 C29106,"Integration International, Inc.",integration international,False,[],integration international
-C22050,INTEGRATION PARTNERS CORP,integration partners,False,[],integration partners
-C39868,Integration Partners Corporation,integration partners,False,[],integration partners
-D00644,Integration Professionals,integration professionals,False,[],integration professionals
-C28580,Integration Systems,integration systems,False,[],integration systems
+C28580,Integration Systems,integration systems,True,"['D00644', 'C22050', 'C39868', 'C28580']",integration systems
 C33160,Integration Technologies,integration technologies,False,[],integration technologies
 C48934,Integration Technologies,integration technologies,False,[],integration technologies
 C36868,"Integration Technologies Group, Inc",integration technologies group,False,[],integration technologies group
@@ -12620,8 +12443,7 @@ C26246,Inter Connect Intl,inter connect intl,False,[],inter connect intl
 C25317,"Interactive Automation, Inc.",interactive automation,False,[],interactive automation
 C48945,"Interactive Automation, Inc.",interactive automation,False,[],interactive automation
 C30840,Interactive Business Technologies,interactive business technologies,False,[],interactive business technologies
-C48946,"Interactive Management Services, Inc",interactive management services,False,[],interactive management services
-D00647,"Interactive Media Operation, LLC",interactive media operation,False,[],interactive media operation
+D00647,"Interactive Media Operation, LLC",interactive media operation,True,"['D00647', 'C48946']",interactive media operation
 C25169,Interactive Network Consultants,interactive network consultants,False,[],interactive network consultants
 C48947,Interactive Network Consultants,interactive network consultants,False,[],interactive network consultants
 C35214,Interactive Security,interactive security,False,[],interactive security
@@ -13101,14 +12923,11 @@ C49005,"IT Security & Software Solutions, Inc. dba IT3SI",it security and softwa
 C36198,"IT Security & Software Solutions, Inc. dba IT3SI **Unable to find valid contact**",it security and software solutions it3si unable to find valid contact,False,[],it security and software solutions it3si unable to find valid contact
 C32470,IT Security and Audit LLC,it security and audit,False,[],it security and audit
 C47086,"IT Select, LLC",it select,False,[],it select
-C34027,"IT Service ArchiTechs, LLC",it service architechs,False,[],it service architechs
-C39459,IT Services and Consulting LLC,it services and consulting,False,[],it services and consulting
-C49006,IT Services Express,it services express,False,[],it services express
 C41811,IT Services Latin American Corp.,it services latin american,False,[],it services latin american
 C32104,IT Services of Utah,it services of utah,False,[],it services of utah
 C36573,IT Services of Utah Inc.,it services of utah,False,[],it services of utah
 C49007,IT Services of Utah Inc.,it services of utah,False,[],it services of utah
-D00666,"IT Services, LLC",it services,True,"['D00666', 'C35500']",it services
+D00666,"IT Services, LLC",it services,True,"['D00666', 'C35500', 'C49006', 'C39459', 'C34027']",it services
 C26194,"IT Siren, Inc",it siren,False,[],it siren
 C28552,IT Smack,it smack,False,[],it smack
 C34442,IT Solutions,it solutions,False,[],it solutions
@@ -13119,9 +12938,7 @@ C24223,IT Solutions Group,it solutions group,False,[],it solutions group
 C24414,IT Solutions LLC,it solutions,False,[],it solutions
 C35022,IT Solutions of South Florida,it solutions of south florida,False,[],it solutions of south florida
 C41327,IT SOLUTIONS SHOP,it solutions shop,False,[],it solutions shop
-C51745,"IT Specialists of Texas, LLC",it specialists of texas,False,[],it specialists of texas
-D00667,"IT Specialists, LLC",it specialists,False,[],it specialists
-C24087,IT Specialties Inc,it specialties,False,[],it specialties
+C24087,IT Specialties Inc,it specialties,True,"['C24087', 'D00667', 'C51745']",it specialists
 C37405,IT Success LLC,it success,False,[],it success
 D00668,IT Suite Inc,it suite,False,[],it suite
 C44839,"IT Support Dept, Inc.",it support dept,False,[],it support dept
@@ -13130,8 +12947,7 @@ C28524,IT Support LA,it support la,False,[],it support la
 C29311,IT Support Pros Inc. dba EXCEDEO,it support pros excedeo,False,[],it support pros excedeo
 C22075,IT Support Specialists,it support specialists,False,[],it support specialists
 C38151,It Support.Io,it support.io,False,[],it support.io
-C51298,IT Symmetry,it symmetry,False,[],it symmetry
-D00669,"IT SYSTEM, INC.",it system,False,[],it system
+D00669,"IT SYSTEM, INC.",it system,True,"['D00669', 'C51298']",it system
 C46461,IT Systems of Jacksonville LLC,it systems of jacksonville,False,[],it systems of jacksonville
 C51720,"IT Systems Solutions, Inc.",it systems solutions,False,[],it systems solutions
 C38996,"IT SystemWorks, Inc.",it systemworks,False,[],it systemworks
@@ -13331,7 +13147,6 @@ C42603,"iWise Consulting, Inc.",iwise consulting,False,[],iwise consulting
 C35141,IXConnect LLC,ixconnect,False,[],ixconnect
 C49031,IXConnect LLC,ixconnect,False,[],ixconnect
 C24986,iXsystems,ixsystems,False,[],ixsystems
-C38553,"J & B Technologies, Ltd.",j and b technologies,False,[],j and b technologies
 C47268,J & J Technology Solutions LLC,j and j technology solutions,False,[],j and j technology solutions
 C37589,"J & L SECURITY & RESCUE,   LLC",j and l security and rescue,False,[],j and l security and rescue
 C26370,J AND J TECHNICAL SERVICES,j and j technical services,False,[],j and j technical services
@@ -13343,9 +13158,7 @@ C39903,J IT Outsource,j it outsource,False,[],j it outsource
 C36859,"J R Servicorp, Inc",j r servicorp,False,[],j r servicorp
 C49033,"J R Servicorp, Inc",j r servicorp,False,[],j r servicorp
 C44489,J Sweigart Inc. DBA BDJtech,j sweigart bdjtech,False,[],j sweigart bdjtech
-C31560,"J&B Technologies, LLC",j and b technologies,False,[],j and b technologies
-D00681,"J&B Technologies, Ltd",j and b technologies,False,[],j and b technologies
-C37997,J&B Technology,j and b technology,False,[],j and b technology
+C37997,J&B Technology,j and b technology,True,"['D00681', 'C31560', 'C38553', 'C37997']",j and b technology
 C43040,"J&M Brown Company, Inc. DBA Spectrum Integrated Technologies",j and m brown company spectrum integrated technologies,False,[],j and m brown company spectrum integrated technologies
 C29558,J&M Systems LLC,j and m systems,False,[],j and m systems
 C49034,J&M Systems LLC,j and m systems,False,[],j and m systems
@@ -13682,7 +13495,6 @@ C49067,JS Group,js group,False,[],js group
 C39912,JS Technology Group,js technology group,False,[],js technology group
 C30726,"JSAL, Inc",jsal,False,[],jsal
 C35909,JSC Consulting,consulting,False,[],consulting
-C41048,"JSC Systems, Inc.",systems,False,[],systems
 C28433,JSCM Group,jscm group,False,[],jscm group
 C49068,JSCM Group,jscm group,False,[],jscm group
 C41102,"JSJ Rodriguez, Inc dba Telepro Communications Inc",jsj rodriguez telepro communications,False,[],jsj rodriguez telepro communications
@@ -14043,7 +13855,6 @@ C42838,Kittelson IT Solutions Inc,kittelson it solutions,False,[],kittelson it s
 C40592,Kitts Technologies,kitts technologies,False,[],kitts technologies
 C45704,Kizata LLC,kizata,False,[],kizata
 C27727,KJ Technology,kj technology,False,[],kj technology
-C29104,KK Systems Inc,systems,False,[],systems
 C24765,"KKBF Partners, Inc., d/b/a KKworx, Inc.",kkbf partners kkworx,False,[],kkbf partners kkworx
 C49102,"KKBF Partners, Inc., d/b/a KKworx, Inc.",kkbf partners kkworx,False,[],kkbf partners kkworx
 C34177,KKi Technologies,kki technologies,False,[],kki technologies
@@ -14324,17 +14135,13 @@ C22124,Lanair Group LLC,lanair group,False,[],lanair group
 C49142,"LANAIR Group, LLC",lanair group,False,[],lanair group
 C30785,"Lance Computer Systems, Inc",lance computer systems,False,[],lance computer systems
 C44453,Lancea Corp,lancea,False,[],lancea
-D00733,Lanco Systems Inc,lanco systems,False,[],lanco systems
-C34917,"LANConnect Systems, Inc.",lanconnect systems,False,[],lanconnect systems
-C28016,"Lancord Systems, Inc.",lancord systems,False,[],lancord systems
-C49143,"Lancord Systems, Inc.",lancord systems,False,[],lancord systems
+C34917,"LANConnect Systems, Inc.",lanconnect systems,True,"['C28016', 'D00733', 'C49143', 'C34917']",lanconnect systems
 D00734,Land and Sea Electronics,land and sea electronics,False,[],land and sea electronics
 C25895,Land Computer,land computer,False,[],land computer
 C25655,LAND SUPPLY AND COMPUTER SERVICES INC,land supply and computer services,False,[],land supply and computer services
 C47088,LandersTech,landerstech,False,[],landerstech
 C37698,Landis Technologies LLC,landis technologies,False,[],landis technologies
-D00735,Landmark,landmark,False,[],landmark
-C51823,Landmark Technologies LLC,landmark technologies,False,[],landmark technologies
+C51823,Landmark Technologies LLC,landmark technologies,True,"['C51823', 'D00735']",landmark technologies
 C34818,"Lane Computer Solutions, Inc.",lane computer solutions,False,[],lane computer solutions
 C49144,lanecert inc,lanecert,False,[],lanecert
 C26471,"LANformation, Inc.",lanformation,False,[],lanformation
@@ -14406,7 +14213,6 @@ C39943,Latitudes Technology Consulting LLC,latitudes technology consulting,False
 C22126,"LATUS Solutions, Inc",latus solutions,False,[],latus solutions
 C36786,Laughing Hyena Information Technology Solutions LLC,laughing hyena information technology solutions,False,[],laughing hyena information technology solutions
 C26449,Laughing Rock Technology,laughing rock technology,False,[],laughing rock technology
-D00736,Launch MSP,launch msp,False,[],launch msp
 C40824,"LaunchTech, LLC",launchtech,False,[],launchtech
 C29305,"Laurus Development, Inc",laurus development,False,[],laurus development
 C33162,"Laurus Technologies, Inc",laurus technologies,False,[],laurus technologies
@@ -14421,9 +14227,7 @@ C22800,Lawrence Berkeley Lab,lawrence berkeley lab,False,[],lawrence berkeley la
 C22127,Lawton Information Services LLC,lawton information services,False,[],lawton information services
 C52042,Laxeon Inc.,laxeon,False,[],laxeon
 C24937,Layer 2 Technology,layer 2 technology,False,[],layer 2 technology
-C22956,"Layer 3 Communications, LLC",layer 3 communications,False,[],layer 3 communications
-D00737,"Layer 3 Solutions, LLC",layer 3 solutions,False,[],layer 3 solutions
-C22957,Layer 3 Technologies,layer 3 technologies,False,[],layer 3 technologies
+C22957,Layer 3 Technologies,layer 3 technologies,True,"['C22957', 'D00737', 'C22956']",layer 3 solutions
 C50748,Layer 4 Inc,layer 4,False,[],layer 4
 C36279,Layer 7 Consulting,layer 7 consulting,False,[],layer 7 consulting
 C36302,Layer 7 Data Solutions,layer 7 data solutions,False,[],layer 7 data solutions
@@ -14569,8 +14373,7 @@ C39951,Level 5 Management,level 5 management,False,[],level 5 management
 C38164,Level 9 Communications,level 9 communications,False,[],level 9 communications
 C22135,Level One Communications,level one communications,False,[],level one communications
 C41789,"Level Solutions Group, LLC",level solutions group,False,[],level solutions group
-C44273,Level Up 2 LLC,level up 2,False,[],level up 2
-D00743,Level Up IT,level up it,False,[],level up it
+D00743,Level Up IT,level up it,True,"['D00743', 'C44273']",level up it
 C46518,LEVEL1 SOLUTION INC,level1 solution,False,[],level1 solution
 C41483,"LeveL5Cyber, LLC",level5cyber,False,[],level5cyber
 C51771,"LevelBlue, LLC",levelblue,False,[],levelblue
@@ -14676,8 +14479,7 @@ C49187,LIGHTTREE LLC,lighttree,False,[],lighttree
 C31256,"Lightwave Management Resources, Inc.",lightwave management resources,False,[],lightwave management resources
 C35848,LightWave Technical Consulting,lightwave technical consulting,False,[],lightwave technical consulting
 C29826,Lilien Systems,lilien systems,False,[],lilien systems
-D00747,Lime Solutions,lime solutions,False,[],lime solutions
-C26745,limetechsolutions.com,limetechsolutions.com,False,[],limetechsolutions.com
+C26745,limetechsolutions.com,limetechsolutions.com,True,"['C26745', 'D00747']",Lime Tech Solutions
 C43341,Limetree Labs,limetree labs,False,[],limetree labs
 C28822,"Limited Goods, LLC",goods,False,[],goods
 C45193,Limitless IT Solutions,limitless it solutions,False,[],limitless it solutions
@@ -14802,9 +14604,7 @@ C49206,"Local Backhaul Networks, LLC",local backhaul networks,False,[],local bac
 C29851,"Local Computer Pros, LLC",local computer pros,False,[],local computer pros
 D00753,"Local Knowledge US, LLC",local knowledge us,False,[],local knowledge us
 C23981,Local Logic Computers,local logic computers,False,[],local logic computers
-C29533,Local Network Engineers,local network engineers,False,[],local network engineers
-C51884,"Local Network Solution, Inc.",local network solution,False,[],local network solution
-D00754,Local Network Solutions Inc,local network solutions,False,[],local network solutions
+D00754,Local Network Solutions Inc,local network solutions,True,"['D00754', 'C51884', 'C29533']",local network solutions
 C29078,Local Techs LLC,local techs,False,[],local techs
 C22146,Local Tel Communications,local tel communications,False,[],local tel communications
 C43286,LocalLINUX dba Blue Layer,locallinux blue layer,False,[],locallinux blue layer
@@ -14949,7 +14749,6 @@ C41631,"Lsp Technologies, Inc.",lsp technologies,False,[],lsp technologies
 C24416,"LSY INTERNATIONAL, INC.",lsy international,False,[],lsy international
 C27550,LT Technical Solutions,lt technical solutions,False,[],lt technical solutions
 C49220,"LTC Technology Systems, INC.",ltc technology systems,False,[],ltc technology systems
-C24631,LTD Technology Solutions,technology solutions,False,[],technology solutions
 C45790,"LTE FIBER, LLC.",fiber,False,[],fiber
 C38369,LTEK Solutions LLC dba CyberHAWKS,ltek solutions cyberhawks,False,[],ltek solutions cyberhawks
 C38263,LTI Information Technology,lti information technology,False,[],lti information technology
@@ -15033,8 +14832,7 @@ D00763,"M K Pro Services, LLC",m k pro services,False,[],m k pro services
 C24003,M Porter & Associates,m porter and associates,False,[],m porter and associates
 C38368,M S Benbow & Associates,m s benbow and associates,False,[],m s benbow and associates
 C32995,M Technologies,m technologies,False,[],m technologies
-D00764,M&A IT TECH LLC,m and a it tech,False,[],m and a it tech
-C23649,M&A Technology,m and a technology,False,[],m and a technology
+C23649,M&A Technology,m and a technology,True,"['C23649', 'D00764']",m and a technology
 C52049,"M&H Consulting, LLC",m and h consulting,False,[],m and h consulting
 C34919,M&H Technology Consulting,m and h technology consulting,False,[],m and h technology consulting
 C24445,M&M Sales Company DBA MMIT Business Solutions Group,m and m sales company mmit business solutions group,False,[],m and m sales company mmit business solutions group
@@ -15178,8 +14976,7 @@ C22160,Mainstream Computers,mainstream computers,False,[],mainstream computers
 C49251,Mainstream Fiber Networks,mainstream fiber networks,False,[],mainstream fiber networks
 C39389,Mainstream Security Services,mainstream security services,False,[],mainstream security services
 C22161,"Mainstream Security, LLC",mainstream security,False,[],mainstream security
-D00768,Mainstream Technologies,mainstream technologies,False,[],mainstream technologies
-C39981,Mainstream Technology. LLC.,mainstream technology,False,[],mainstream technology
+C39981,Mainstream Technology. LLC.,mainstream technology,True,"['C39981', 'D00768']",mainstream technology
 C23574,Mainstreet Inc,mainstreet,False,[],mainstreet
 C28198,MainStreet IT Solutions,mainstreet it solutions,False,[],mainstreet it solutions
 C26738,Mainstreet Technologies Inc,mainstreet technologies,False,[],mainstreet technologies
@@ -15259,9 +15056,8 @@ C30718,"Manetsys, INC",manetsys,False,[],manetsys
 C43392,Mangrove Management Partners,mangrove management partners,False,[],mangrove management partners
 C44106,Mangrove Technologies,mangrove technologies,False,[],mangrove technologies
 C29795,Manhattan Information Systems,manhattan information systems,False,[],manhattan information systems
-C34922,Manhattan Tech Support,manhattan tech support,False,[],manhattan tech support
+C34922,Manhattan Tech Support,manhattan tech support,True,"['D00772', 'C34922']",manhattan tech support
 C28773,Manhattan Telecommunications Corporation,manhattan telecommunications,False,[],manhattan telecommunications
-D00772,ManhattanTechSupportcom LLC,manhattantechsupportcom,False,[],manhattantechsupportcom
 C44838,Manifest Solutions Corp,manifest solutions,False,[],manifest solutions
 C41859,Mankato Computer Technology,mankato computer technology,False,[],mankato computer technology
 C29410,"Manley Solutions, Inc.",manley solutions,False,[],manley solutions
@@ -15297,9 +15093,8 @@ C38171,"Marc Mintz & Associates, Llc",marc mintz and associates,False,[],marc mi
 C45767,"Marcatel Telecommunications, LLC",marcatel telecommunications,False,[],marcatel telecommunications
 C30725,"Marchese Computer Products, Inc.",marchese computer products,False,[],marchese computer products
 C45398,Marck Industries,marck industries,False,[],marck industries
-C25053,Marco,marco,False,[],marco
 C46566,Marco Technologies,marco technologies,False,[],marco technologies
-D00775,Marcoby LLC,marcoby,False,[],marcoby
+D00775,Marcoby LLC,marcoby,True,"['D00775', 'C25053']",marcoby
 C24302,"Marcomm Enterprises, Inc.",marcomm enterprises,False,[],marcomm enterprises
 C32657,"MarcompNet, Inc.",marcompnet,False,[],marcompnet
 C42181,Marconi Wireless,marconi wireless,False,[],marconi wireless
@@ -15324,8 +15119,7 @@ C23504,MARJEN Technology Group LLC,marjen technology group,False,[],marjen techn
 C49271,MARJEN Technology Group LLC,marjen technology group,False,[],marjen technology group
 C31472,Mark A. Bose & Associates,mark a. bose and associates,False,[],mark a. bose and associates
 C22165,"MARK Enterprises, Inc",mark enterprises,False,[],mark enterprises
-D00776,Mark III Systems,mark iii systems,False,[],mark iii systems
-C25271,Mark3 systems,mark3 systems,False,[],mark3 systems
+C25271,Mark3 systems,mark3 systems,True,"['C25271', 'D00776']",mark3 systems
 C35952,Marker Advisors,marker advisors,False,[],marker advisors
 C38172,Market Impact,market impact,False,[],market impact
 C31844,Market Square Technology Group LLC,market square technology group,False,[],market square technology group
@@ -15356,8 +15150,7 @@ C35639,MARTE IT Solutions LLC,marte it solutions,False,[],marte it solutions
 C34618,Martech Business Solutions,martech business solutions,False,[],martech business solutions
 C31098,"Martech Group, Inc.",martech group,False,[],martech group
 C25790,Martech Systems Integrators,martech systems integrators,False,[],martech systems integrators
-C51301,MARTIN CONSULTING,martin consulting,False,[],martin consulting
-D00778,"Martin Tech Solutions, LLC",martin tech solutions,False,[],martin tech solutions
+D00778,"Martin Tech Solutions, LLC",martin tech solutions,True,"['D00778', 'C51301']",martin tech solutions
 C22828,Martin Williams Technologies,martin williams technologies,False,[],martin williams technologies
 C29739,Martin-Williams Inc. dba TechnologyÃ†s Edge,martin-williams technologyas edge,False,[],martin-williams technologyas edge
 C26198,"Marvel Technologies, Inc",marvel technologies,False,[],marvel technologies
@@ -15657,18 +15450,14 @@ C24926,"Mercury MSP, LLC dba MercuryIT",mercury msp mercuryit,False,[],mercury m
 C32942,Mercury Networks,mercury networks,False,[],mercury networks
 C22181,MERCURY NETWORKS INC,mercury networks,False,[],mercury networks
 C51564,MERE SECURE INC,mere secure,False,[],mere secure
-D00800,"Meredith Digital, Inc.",meredith digital,False,[],meredith digital
-C23830,"Meredith IT, LLC",meredith it,False,[],meredith it
+C23830,"Meredith IT, LLC",meredith it,True,"['C23830', 'D00800']",meredith it
 C46439,Mereo 89 LLC dba Mereo Networks,mereo 89 mereo networks,False,[],mereo 89 mereo networks
 C51604,Meridian 5G Inc,meridian 5g,False,[],meridian 5g
 C42219,Meridian Cooperative,meridian cooperative,False,[],meridian cooperative
 C49311,Meridian Cooperative,meridian cooperative,False,[],meridian cooperative
 C40005,Meridian Defense,meridian defense,False,[],meridian defense
 C22182,Meridian Group,meridian group,False,[],meridian group
-C45594,Meridian It Inc,meridian it,False,[],meridian it
-D00801,"Meridian IT Systems, LLC",meridian it systems,True,"['D00801', 'C40006']",meridian it systems
-C26199,"Meridian IT, Inc.",meridian it,False,[],meridian it
-C49312,"Meridian IT, Inc.",meridian it,False,[],meridian it
+C49312,"Meridian IT, Inc.",meridian it,True,"['C26199', 'D00801', 'C49312', 'C40006', 'C45594']",meridian it systems
 C34748,Meridian PC Solutions,meridian solutions,False,[],meridian solutions
 C38174,Meridian Power Group,meridian power group,False,[],meridian power group
 C42032,Meridian Technologies Inc,meridian technologies,False,[],meridian technologies
@@ -15932,9 +15721,7 @@ C51433,Midwest Fiber Networks,midwest fiber networks,False,[],midwest fiber netw
 C51683,Midwest Financial Networks LLC dba Managed Financial Networks,midwest financial networks managed financial networks,False,[],midwest financial networks managed financial networks
 C38176,Midwest Integrated Solutions,midwest integrated solutions,False,[],midwest integrated solutions
 C24318,"Midwest IT Systems, Inc.",midwest it systems,False,[],midwest it systems
-D00813,Midwest Network Consulting,midwest network consulting,False,[],midwest network consulting
-C36856,Midwest Networking Services,midwest networking services,False,[],midwest networking services
-C49344,Midwest Networking Services,midwest networking services,False,[],midwest networking services
+C49344,Midwest Networking Services,midwest networking services,True,"['C36856', 'D00813', 'C49344']",midwest networking services
 C35281,MidWest Paradigm Corporation,midwest paradigm,False,[],midwest paradigm
 C51778,Midwest Protection Services,midwest protection services,False,[],midwest protection services
 C32672,"Midwest Strategic IT (Formerly IT People Unlimited, Inc.)",midwest strategic it formerly it people unlimited,False,[],midwest strategic it formerly it people unlimited
@@ -15973,9 +15760,7 @@ C27930,Millcore Systems LLC,millcore systems,False,[],millcore systems
 C24668,Millenium Systems Inc.,millenium systems,False,[],millenium systems
 C24176,Millennia Technologies,millennia technologies,False,[],millennia technologies
 C49348,Millennia Technologies,millennia technologies,False,[],millennia technologies
-C51596,Millennium Communications Corporation,millennium communications,False,[],millennium communications
-C26024,Millennium Communications Group Inc.,millennium communications group,False,[],millennium communications group
-D00818,Millennium Computers Inc,millennium computers,False,[],millennium computers
+D00818,Millennium Computers Inc,millennium computers,True,"['D00818', 'C51596', 'C26024']",millennium computers
 C22193,"Millennium Digital Technologies, LLC.",millennium digital technologies,False,[],millennium digital technologies
 C46932,Millennium Enterprise Corporation,millennium enterprise,False,[],millennium enterprise
 C51330,Millennium Info Tech Inc,millennium info tech,False,[],millennium info tech
@@ -15995,8 +15780,7 @@ C49351,Miller Technologies LLC,miller technologies,False,[],miller technologies
 C47571,"Miller Technology Solutions, Inc",miller technology solutions,False,[],miller technology solutions
 C40434,Milner INC,milner,False,[],milner
 C46152,Milsoft Utility Solutions,milsoft utility solutions,False,[],milsoft utility solutions
-D00820,"Milwaukee IT Group, LLC",milwaukee it group,False,[],milwaukee it group
-C37776,Milwaukee PC Inc,milwaukee,False,[],milwaukee
+C37776,Milwaukee PC Inc,milwaukee,True,"['C37776', 'D00820']",milwaukee it group
 C44188,Mimax Business Tech Inc,mimax business tech,False,[],mimax business tech
 C25886,"Mimecast North America, Inc.",mimecast north america,False,[],mimecast north america
 C49352,MIMI VENTURE LLC,mimi venture,False,[],mimi venture
@@ -16065,8 +15849,7 @@ C26887,"MITABS, LLC",mitabs,False,[],mitabs
 C45118,Mitchell 1,mitchell 1,False,[],mitchell 1
 C38450,Mitchell and Company LLC,mitchell and company,False,[],mitchell and company
 D00823,Mitchell Logistics Co. LLC,mitchell logistics co,False,[],mitchell logistics co
-C49357,Mitchell Network Solutions,mitchell network solutions,False,[],mitchell network solutions
-D00824,"Mitchell Networks Solutions, Inc.",mitchell networks solutions,False,[],mitchell networks solutions
+D00824,"Mitchell Networks Solutions, Inc.",mitchell networks solutions,True,"['D00824', 'C49357']",mitchell networks solutions
 D00825,Mitchell Technologies LLC,mitchell technologies,False,[],mitchell technologies
 C29972,"Mitchell-Wayne Corporation, Inc.",mitchell-wayne,False,[],mitchell-wayne
 C25741,Mitchell-Wayne technologies,mitchell-wayne technologies,False,[],mitchell-wayne technologies
@@ -16434,8 +16217,7 @@ C33284,Mutual Data Services,mutual data services,False,[],mutual data services
 C27514,mvation worldwide inc.,mvation worldwide,False,[],mvation worldwide
 C29440,MVD Communications LLC,mvd communications,False,[],mvd communications
 C28427,MVP NETWORK CONSULTING,mvp network consulting,False,[],mvp network consulting
-D00845,MVP Technologies Inc,mvp technologies,False,[],mvp technologies
-C25340,MVP Technology Systems LLC,mvp technology systems,False,[],mvp technology systems
+C25340,MVP Technology Systems LLC,mvp technology systems,True,"['C25340', 'D00845']",mvp technology systems
 C42674,"MVS, INC",mvs,False,[],mvs
 C51827,Mwn Consulting LLC,mwn consulting,False,[],mwn consulting
 D00846,MWSTech LLC,mwstech,False,[],mwstech
@@ -16826,8 +16608,7 @@ C41433,Netenrich,netenrich,False,[],netenrich
 C27665,NetEquity.com,netequity.com,False,[],netequity.com
 C23485,Netessentials Inc,netessentials,False,[],netessentials
 C30004,Netework Elites,netework elites,False,[],netework elites
-C30729,NetEx Inc,netex,False,[],netex
-D00867,NetExe LLC,netexe,False,[],netexe
+D00867,NetExe LLC,netexe,True,"['D00867', 'C30729']",netexe
 C23901,"NetFabric, LLC",netfabric,False,[],netfabric
 C49448,"NetFabric, LLC",netfabric,False,[],netfabric
 C31988,"Netfast Communications, Inc. dba Digital Warehouse",netfast communications digital warehouse,False,[],netfast communications digital warehouse
@@ -16917,9 +16698,7 @@ C34199,Netropole Inc,netropole,False,[],netropole
 C30780,Netrwork Security Associates Inc,netrwork security associates,False,[],netrwork security associates
 C27903,"Netryx, Inc.",netryx,False,[],netryx
 C31286,NETS International,nets international,False,[],nets international
-C40051,Netsafe Solutions,netsafe solutions,False,[],netsafe solutions
-D00872,Netsec Solutions LLC,netsec solutions,False,[],netsec solutions
-C45729,NetSec Technologies,netsec technologies,False,[],netsec technologies
+C45729,NetSec Technologies,netsec technologies,True,"['D00872', 'C40051', 'C45729']",netsec technologies
 C26829,NetSecureIT Solutions,netsecureit solutions,False,[],netsecureit solutions
 C29429,NetSecureLLC,netsecurellc,False,[],netsecurellc
 C35027,Netsecuris Inc.,netsecuris,False,[],netsecuris
@@ -16940,9 +16719,8 @@ C45149,"NetSource Enterprise Technologies, LLC",netsource enterprise technologie
 C22240,NetSource One,netsource one,False,[],netsource one
 C49458,"NetSource One, Inc.",netsource one,False,[],netsource one
 C35146,NetSource Technology Solutions,netsource technology solutions,False,[],netsource technology solutions
-C27350,"NetSpec, Inc.",netspec,False,[],netspec
 C24597,"Netsphere Technologies, Inc",netsphere technologies,False,[],netsphere technologies
-D00873,NetSPI,netspi,False,[],netspi
+D00873,NetSPI,netspi,True,"['D00873', 'C27350']",netspi
 C30179,NetStandard Inc,netstandard,False,[],netstandard
 C49459,Netstore Technologies,netstore technologies,False,[],netstore technologies
 C31227,Netstream Internet Inc,netstream internet,False,[],netstream internet
@@ -17030,9 +16808,7 @@ C22245,"Network Computing Architects, Inc.",network computing architects,False,[
 C25838,Network Connect,network connect,False,[],network connect
 C49470,Network Connect,network connect,False,[],network connect
 C22246,Network Connections,network connections,False,[],network connections
-D00876,Network Consultants Group LLC,network consultants group,False,[],network consultants group
-C24627,Network Consulting Group LLC,network consulting group,False,[],network consulting group
-C49471,Network Consulting Group LLC,network consulting group,False,[],network consulting group
+C49471,Network Consulting Group LLC,network consulting group,True,"['C24627', 'D00876', 'C49471']",network consulting group
 C32907,Network Consulting Services inc. (NCSi),network consulting services ncsi,False,[],network consulting services ncsi
 D00877,Network Controls,network controls,False,[],network controls
 C46399,Network Corp X Inc,network x,False,[],network x
@@ -17114,12 +16890,7 @@ C29715,Network Resource Technologies Corp,network resource technologies,False,[]
 C30083,"Network Resources, Inc.",network resources,False,[],network resources
 C42255,Network Right,network right,False,[],network right
 C49480,Network Right,network right,False,[],network right
-C40061,Network Securitas,network securitas,False,[],network securitas
-C25395,"Network Securitas, LLC",network securitas,False,[],network securitas
-C49481,"Network Securitas, LLC",network securitas,False,[],network securitas
-C49482,Network Security Associates,network security associates,False,[],network security associates
-D00878,"Network Security Consultans, LLC",network security consultans,False,[],network security consultans
-C33203,"Network Security Solutions, Inc",network security solutions,False,[],network security solutions
+C33203,"Network Security Solutions, Inc",network security solutions,True,"['C33203', 'D00878', 'C49482', 'C25395', 'C40061', 'C49481']",network security consultants
 C40439,Network Services,network services,False,[],network services
 C22989,NETWORK SERVICES AND SUPPORT INC,network services and support,False,[],network services and support
 C40062,Network Services Group,network services group,False,[],network services group
@@ -17189,11 +16960,8 @@ C49493,Networking Hardwares LLC,networking hardwares,False,[],networking hardwar
 C36208,Networking Hardwares LLC - unable to find valid contact info,networking hardwares - unable to find valid contact info,False,[],networking hardwares - unable to find valid contact info
 C22255,Networking Labs inc,networking labs,False,[],networking labs
 C26804,Networking Matters,networking matters,False,[],networking matters
-D00880,NETWORKING PULSE LLC,networking pulse,False,[],networking pulse
-C26132,Networking Solutions,networking solutions,False,[],networking solutions
 C40064,Networking Solutions dba Total Secure Technology,networking solutions total secure technology,False,[],networking solutions total secure technology
-D00881,"Networking Specialists, Inc",networking specialists,False,[],networking specialists
-C51674,Networking Systems LLC,networking systems,False,[],networking systems
+C51674,Networking Systems LLC,networking systems,True,"['C51674', 'D00881', 'C26132', 'D00880']",networking specialists
 C32826,Networking Technologies,networking technologies,False,[],networking technologies
 C49494,"Networking Technologies & Support, Inc.",networking technologies and support,False,[],networking technologies and support
 C27288,Networking Technologies and Support,networking technologies and support,False,[],networking technologies and support
@@ -17243,8 +17011,7 @@ C45336,New Bridge Systems Inc,new bridge systems,False,[],new bridge systems
 C24756,New Channels Technology,new channels technology,False,[],new channels technology
 C49498,New Channels Technology,new channels technology,False,[],new channels technology
 C37171,New City I.T.,new city i.t,False,[],new city i.t
-C33206,New Computech,new computech,False,[],new computech
-D00883,NEW COMUTECH INC.,new comutech,False,[],new comutech
+D00883,NEW COMUTECH INC.,new comutech,True,"['D00883', 'C33206']",new comutech
 C28303,"New Cyber Source, LLC",new cyber source,False,[],new cyber source
 C40067,New Dimensions,new dimensions,False,[],new dimensions
 C26714,New Dominion Networks,new dominion networks,False,[],new dominion networks
@@ -17266,8 +17033,7 @@ C39164,NEW FATHOM LLC,new fathom,False,[],new fathom
 C22258,New Gold Music Ltd.,new gold music,False,[],new gold music
 C39390,"New Guard IT, Inc.",new guard it,False,[],new guard it
 D00884,New Heights Technologies Corp,new heights technologies,False,[],new heights technologies
-C46235,New Horizon Communications,new horizon communications,False,[],new horizon communications
-D00885,New Horizon STEM Solutions,new horizon stem solutions,False,[],new horizon stem solutions
+D00885,New Horizon STEM Solutions,new horizon stem solutions,True,"['D00885', 'C46235']",new horizon stem solutions
 C35090,"New Horizons Computer Learning Centers , Inc.",new horizons computer learning centers,False,[],new horizons computer learning centers
 C37002,New Ideas in Communications,new ideas in communications,False,[],new ideas in communications
 C42483,"New Jersey Information Technology, LLC",new jersey information technology,False,[],new jersey information technology
@@ -17418,10 +17184,7 @@ C49519,Nexum Inc,nexum,False,[],nexum
 C22269,"Nexum, Inc.",nexum,False,[],nexum
 C25255,Nexus,nexus,False,[],nexus
 C34936,Nexus Communications Technology,nexus communications technology,False,[],nexus communications technology
-C46006,Nexus Consultancy,nexus consultancy,False,[],nexus consultancy
-C35650,Nexus Consultants,nexus consultants,False,[],nexus consultants
-C49520,Nexus Consultants,nexus consultants,False,[],nexus consultants
-D00891,"Nexus Consulting, LLC",nexus consulting,False,[],nexus consulting
+D00891,"Nexus Consulting, LLC",nexus consulting,True,"['D00891', 'C49520', 'C35650', 'C46006']",nexus consulting
 D00892,"Nexus Controls, LLC",nexus controls,False,[],nexus controls
 C50711,Nexus Dynamics Group,nexus dynamics group,False,[],nexus dynamics group
 C47265,"Nexus Information Systems dba NIS, LLC",nexus information systems nis,False,[],nexus information systems nis
@@ -17581,8 +17344,7 @@ C38188,Nonprofit It Solutions Llc,nonprofit it solutions,False,[],nonprofit it s
 C27498,Nonprofit Solutions Network Corp,nonprofit solutions network,False,[],nonprofit solutions network
 D00903,Noor and Shah Corp.,noor and shah,False,[],noor and shah
 D00904,Noovus Technology Business L.L.C,noovus technology business,False,[],noovus technology business
-C28352,"Nor-Cal Controls ES, Inc",nor-cal controls es,False,[],nor-cal controls es
-D00905,"NorCal Tech Solutions, Inc",norcal tech solutions,False,[],norcal tech solutions
+D00905,"NorCal Tech Solutions, Inc",norcal tech solutions,True,"['D00905', 'C28352']",norcal tech solutions
 C34512,Norco Technologies,norco technologies,False,[],norco technologies
 C43161,Norcoast Solutions LLC,norcoast solutions,False,[],norcoast solutions
 C49539,Norcoast Solutions LLC,norcoast solutions,False,[],norcoast solutions
@@ -17729,10 +17491,7 @@ C38562,Novarad,novarad,False,[],novarad
 C52086,Novaspect,novaspect,False,[],novaspect
 C24230,Novastar Solutions.com llc,novastar solutions.com,False,[],novastar solutions.com
 C49553,Novastar Solutions.com llc,novastar solutions.com,False,[],novastar solutions.com
-C49554,Novatech,novatech,False,[],novatech
-C34340,Novatech Inc,novatech,False,[],novatech
-D00910,"Novatech MSP, LLC",novatech msp,False,[],novatech msp
-C35175,"NovaTech Services, Inc.",novatech services,False,[],novatech services
+C35175,"NovaTech Services, Inc.",novatech services,True,"['D00910', 'C34340', 'C49554', 'C35175']",novatech services
 C22282,NOVATECH SYSTEMS LLC,novatech systems,False,[],novatech systems
 C30013,Novateck LLC,novateck,False,[],novateck
 C37006,Novation Systems,novation systems,False,[],novation systems
@@ -18071,8 +17830,7 @@ C24496,OMG Computer & Information Technology Initiative LLC,omg computer and inf
 C49601,OMG Computer & Information Technology Initiative LLC,omg computer and information technology initiative,False,[],omg computer and information technology initiative
 C38191,Omni Business Solutions Inc,omni business solutions,False,[],omni business solutions
 C33208,"Omni Data, LLC",omni data,False,[],omni data
-D00928,"OMNI IT, LLC",omni it,False,[],omni it
-C24924,Omni Soft Inc,omni soft,False,[],omni soft
+C24924,Omni Soft Inc,omni soft,True,"['C24924', 'D00928']",omni soft
 C22294,Omni Soft Inc.,omni soft,False,[],omni soft
 C44562,Omni Solutions,omni solutions,False,[],omni solutions
 C37259,OMNI Solutions Group,omni solutions group,False,[],omni solutions group
@@ -18097,9 +17855,8 @@ C35093,OmniVue,omnivue,False,[],omnivue
 C26343,"Omny Networks, Inc.",omny networks,False,[],omny networks
 C25181,Omrinet,omrinet,False,[],omrinet
 C49603,On Call Technical Solutions,on call technical solutions,False,[],on call technical solutions
-C22296,"On Demand IT, Inc.",on demand it,False,[],on demand it
 C44417,"On Demand Network Solutions, Inc.",on demand network solutions,False,[],on demand network solutions
-D00929,On Demand Service,on demand service,False,[],on demand service
+D00929,On Demand Service,on demand service,True,"['D00929', 'C22296']",on demand service
 C33065,On Garde,on garde,False,[],on garde
 C24357,On Hold Company,on hold company,False,[],on hold company
 C24361,On Hold Company (d/b/a Voicescapes),on hold company voicescapes,False,[],on hold company voicescapes
@@ -18211,8 +17968,7 @@ C32013,onQsolutions,onqsolutions,False,[],onqsolutions
 C40089,Onramp Datacenters,onramp datacenters,False,[],onramp datacenters
 C49616,OnRamp Networks,onramp networks,False,[],onramp networks
 C34076,"ONS Computer & IT Solutions, Inc. DBA: TeamLogic IT of Ellicott city & BWI, MD",ons computer and it solutions teamlogic it of ellicott city and bwi md,False,[],ons computer and it solutions teamlogic it of ellicott city and bwi md
-D00935,Onset IT,onset it,False,[],onset it
-C42766,"Onset Solutions, Inc.",onset solutions,False,[],onset solutions
+C42766,"Onset Solutions, Inc.",onset solutions,True,"['C42766', 'D00935']",onset solutions
 C26147,onShore Networks of IL LLC dba OnShore Security,onshore networks of il onshore security,False,[],onshore networks of il onshore security
 C29244,"Onside Technology Solutions, Inc.",onside technology solutions,False,[],onside technology solutions
 C31781,On-Site Computer Solutions,on-site computer solutions,False,[],on-site computer solutions
@@ -18263,12 +18019,11 @@ C44100,Open Info Tek LLC,open info tek,False,[],open info tek
 C43247,"Open Integration Consulting, Inc.",open integration consulting,False,[],open integration consulting
 C22302,"Open Scalable File Systems, Inc.",open scalable file systems,False,[],open scalable file systems
 C42949,"Open Source Tailors, LLC",open source tailors,False,[],open source tailors
-D00937,"Open Systems International, Inc.",open systems international,False,[],open systems international
 C30573,"Open Systems Solutions NW, Inc",open systems solutions nw,False,[],open systems solutions nw
 C49621,Open Systems Technologies,open systems technologies,False,[],open systems technologies
 C45615,"Open Systems Technologies De, LLC",open systems technologies de,False,[],open systems technologies de
 C25461,Open Systems Technologies Inc,open systems technologies,False,[],open systems technologies
-C29027,"Open Systems, Inc",open systems,False,[],open systems
+C29027,"Open Systems, Inc",open systems,True,"['C29027', 'D00937']",Open Systems
 C42607,Open Tier Systems LLC,open tier systems,False,[],open tier systems
 C49622,Open Tier Systems LLC,open tier systems,False,[],open tier systems
 C27172,OpenEdge Communications,openedge communications,False,[],openedge communications
@@ -18457,8 +18212,7 @@ D00944,Oviedo Cybersecurity Consulting LLC,oviedo cybersecurity consulting,False
 C44674,"OWL Automotive Consulting, LLC.",owl automotive consulting,False,[],owl automotive consulting
 C36146,Owl Cyber Defense,owl cyber defense,False,[],owl cyber defense
 C51415,"Owl's Eye Technologies, LLC",owl s eye technologies,False,[],owl s eye technologies
-D00945,OWN IT,own it,False,[],own it
-C38194,Ownit,ownit,False,[],ownit
+C38194,Ownit,ownit,True,"['C38194', 'D00945']",ownit
 C23283,Owyls Technologies,owyls technologies,False,[],owyls technologies
 C46575,OXEN Technology,oxen technology,False,[],oxen technology
 C43912,"Oxley & Associates, Inc.",oxley and associates,False,[],oxley and associates
@@ -18717,7 +18471,6 @@ C40599,"PBSI Technology Solutions, Inc.",pbsi technology solutions,False,[],pbsi
 C25522,pbxsupply.com,pbxsupply.com,False,[],pbxsupply.com
 C35575,PC & Associates,and associates,False,[],and associates
 C22332,"PC Connection, Inc.",connection,False,[],connection
-D00957,PC Consultants Inc,consultants,False,[],consultants
 C45619,PC Corp Inc,,False,[],
 C32035,"PC Crisis, Inc.",crisis,False,[],crisis
 C35808,PC Depot Inc dba Zipdata.net,depot zipdata.net,False,[],depot zipdata.net
@@ -18732,8 +18485,7 @@ C23969,PC Guru Inc. DBA Acendex,guru acendex,False,[],guru acendex
 C24415,PC Gurus LLC,gurus,False,[],gurus
 C30438,PC Handyman LP Inc.,handyman,False,[],handyman
 C49672,"PC Helpers, Inc",helpers,False,[],helpers
-C26273,"PC Hotline, Inc",hotline,False,[],hotline
-C49673,"PC Hotline, Inc",hotline,False,[],hotline
+C49673,"PC Hotline, Inc",hotline,True,"['C26273', 'D00593', 'C49673']",hotline
 C45124,PC Information Restoration,information restoration,False,[],information restoration
 C47453,PC LAN PL,lan pl,False,[],lan pl
 C26444,PC LAN Services,lan services,False,[],lan services
@@ -18779,9 +18531,7 @@ C38407,PC Source,source,False,[],source
 C49678,PC Source,source,False,[],source
 C45620,"PC Specialists, Inc",specialists,False,[],specialists
 C26445,PC Synergy LLC,synergy,False,[],synergy
-C34719,PC Systems Inc,systems,False,[],systems
 C27345,PC Tech 2 U Inc,tech 2 u,False,[],tech 2 u
-C27806,"PC Technologies, Inc.",technologies,False,[],technologies
 C40110,PC Techware Inc.,techware,False,[],techware
 C40111,Pc University Distributors Inc.,university distributors,False,[],university distributors
 C49679,"PC University Distributors, Inc",university distributors,False,[],university distributors
@@ -19042,12 +18792,8 @@ C45012,"Phoenix Computing Strategies, LLC",phoenix computing strategies,False,[]
 C30673,Phoenix Data Communication Inc.,phoenix data communication,False,[],phoenix data communication
 C25891,Phoenix Data Communications,phoenix data communications,False,[],phoenix data communications
 C26375,Phoenix Group IT Solutions,phoenix group it solutions,False,[],phoenix group it solutions
-C30184,Phoenix It,phoenix it,False,[],phoenix it
 C22350,"Phoenix IT Solutions, Inc.",phoenix it solutions,False,[],phoenix it solutions
-D00972,PHOENIX SECURE IT LLC,phoenix secure it,False,[],phoenix secure it
-C24936,Phoenix Synergy,phoenix synergy,False,[],phoenix synergy
-C35846,Phoenix Synergy,phoenix synergy,False,[],phoenix synergy
-C34483,Phoenix Synergy LLC,phoenix synergy,False,[],phoenix synergy
+C35846,Phoenix Synergy,phoenix synergy,True,"['D00972', 'C30184', 'C24936', 'C34483', 'C35846']",phoenix synergy
 C46441,"Phoenix Systems Group, Inc.",phoenix systems group,False,[],phoenix systems group
 C38898,Phoenix Technology,phoenix technology,False,[],phoenix technology
 C31742,Phoenix Technology Solutions LLC,phoenix technology solutions,False,[],phoenix technology solutions
@@ -19141,8 +18887,7 @@ C31254,"PJ Systems, Inc.",pj systems,False,[],pj systems
 C43855,"PJC Services, LLC",pjc services,False,[],pjc services
 C37460,PJIT Services,pjit services,False,[],pjit services
 C39175,PJR COMPUTING,pjr computing,False,[],pjr computing
-D00976,"PK Technologies, LLC",pk technologies,False,[],pk technologies
-C26686,PKA Technologies,pka technologies,False,[],pka technologies
+C26686,PKA Technologies,pka technologies,True,"['C26686', 'D00976']",pka technologies
 C37010,PKT,pkt,False,[],pkt
 C46191,"Plain English Technology Services, LLC.",plain english technology services,False,[],plain english technology services
 C28784,"Plan B Network Services, Inc",plan b network services,False,[],plan b network services
@@ -19281,9 +19026,7 @@ C22364,"Power Computing Solutions, Inc(Infitech)",power computing solutions infi
 C22365,"Power Computing, Inc.",power computing,False,[],power computing
 C34948,Power Consulting Group,power consulting group,False,[],power consulting group
 C42115,Power Design Inc,power design,False,[],power design
-D00984,Power Industrial LLC,power industrial,False,[],power industrial
-C27898,Power IT,power it,False,[],power it
-C26415,"Power IT, LLC",power it,False,[],power it
+C27898,Power IT,power it,True,"['C26415', 'D00984', 'C27898']",power it
 C40993,Power ON Technology,power on technology,False,[],power on technology
 C49723,Power ON Technology,power on technology,False,[],power on technology
 C23841,Power Systems Computers,power systems computers,False,[],power systems computers
@@ -19328,9 +19071,7 @@ C49728,"Precision Computer Solutions, Inc.",precision computer solutions,False,[
 C43801,"Precision Contracting Services, Inc.",precision contracting services,False,[],precision contracting services
 C30649,Precision Data Products,precision data products,False,[],precision data products
 C34212,Precision Digital Forensics Inc,precision digital forensics,False,[],precision digital forensics
-C40121,Precision IT Consulting,precision it consulting,False,[],precision it consulting
-D00987,Precision IT Group,precision it group,False,[],precision it group
-C23624,Precision IT Pros,precision it pros,False,[],precision it pros
+C23624,Precision IT Pros,precision it pros,True,"['C23624', 'D00987', 'C40121']",precision it group
 C49729,Precision IT Solutions,precision it solutions,False,[],precision it solutions
 C45031,Precision IT Solutions LLC,precision it solutions,False,[],precision it solutions
 C25955,Precision Response Systems Inc,precision response systems,False,[],precision response systems
@@ -19338,9 +19079,7 @@ C37971,"Precision Solution Group, LLC",precision solution group,False,[],precisi
 C40469,Precision Solutions,precision solutions,False,[],precision solutions
 C23856,"Precision Task Group, Inc.",precision task group,False,[],precision task group
 C49730,"Precision Task Group, Inc.",precision task group,False,[],precision task group
-D00988,Precision Tech Pro LLC,precision tech pro,False,[],precision tech pro
-C28106,Precision Technology Inc,precision technology,False,[],precision technology
-C49731,Precision Technology Inc,precision technology,False,[],precision technology
+C49731,Precision Technology Inc,precision technology,True,"['C28106', 'D00988', 'C49731']",precision technology
 C40122,PrecisionIT Group. LLC,precisionit group,False,[],precisionit group
 C23116,Predicine,predicine,False,[],predicine
 C47456,Predictive Technologies,predictive technologies,False,[],predictive technologies
@@ -19379,10 +19118,7 @@ C49736,"Premier Solutions, LLC",premier solutions,False,[],premier solutions
 C42467,Premier Specialty Products,premier specialty products,False,[],premier specialty products
 C23425,Premier Technologies,premier technologies,False,[],premier technologies
 C49737,Premier Technologies,premier technologies,False,[],premier technologies
-C27040,"Premier Technology Advisors, LLC",premier technology advisors,False,[],premier technology advisors
-C42385,Premier Technology LLC,premier technology,False,[],premier technology
-D00990,"Premier Technology Solutions, LLC",premier technology solutions,False,[],premier technology solutions
-C51425,Premier Technology Systems dba PTS,premier technology systems pts,False,[],premier technology systems pts
+C51425,Premier Technology Systems dba PTS,premier technology systems pts,True,"['D00990', 'C42385', 'C27040', 'C51425']",premier technology systems pts
 C38758,Premier Telecom Solutions,premier telecom solutions,False,[],premier telecom solutions
 C37249,Premier Wireless Business Technology Solutions,premier wireless business technology solutions,False,[],premier wireless business technology solutions
 C43309,"Premier Wireless Solutions, llc",premier wireless solutions,False,[],premier wireless solutions
@@ -19481,8 +19217,7 @@ C29521,"Private Digital Networks, LLC.",private digital networks,False,[],privat
 C34628,Privaxi LLC,privaxi,False,[],privaxi
 D00995,Priz Consulting LLC,priz consulting,False,[],priz consulting
 C42249,Pro AV Systems,pro av systems,False,[],pro av systems
-C40126,PRO COMPUTER SOLUTIONS INC,pro computer solutions,False,[],pro computer solutions
-D00996,PRO Computers LLC,pro computers,False,[],pro computers
+D00996,PRO Computers LLC,pro computers,True,"['D00996', 'C40126']",pro computers
 C44137,"Pro Data Consulting, Inc.",pro data consulting,False,[],pro data consulting
 C25219,PRO EDGE TEC LLC,pro edge tec,False,[],pro edge tec
 C30367,"PRO EDGE TEC, LLC (can't verify online)",pro edge tec can t verify online,False,[],pro edge tec can t verify online
@@ -19544,13 +19279,10 @@ C44666,Proconex,proconex,False,[],proconex
 C42890,PROCTEK TEXAS INC,proctek texas,False,[],proctek texas
 C41278,ProCTS,procts,False,[],procts
 C41576,ProCTS,procts,False,[],procts
-C42572,Procure Advisor,procure advisor,False,[],procure advisor
-D00997,"Procure IT, LLC",procure it,False,[],procure it
-C30093,"ProcureIT USA, LLC",procureit usa,False,[],procureit usa
+C30093,"ProcureIT USA, LLC",procureit usa,True,"['C30093', 'D00997', 'C42572']",procure it
 C36247,Procurri,procurri,False,[],procurri
 C51326,"Prodatix, Inc.",prodatix,False,[],prodatix
-D00998,Prodigy LLC,prodigy,False,[],prodigy
-C38566,"ProdigyTeks, Inc",prodigyteks,False,[],prodigyteks
+C38566,"ProdigyTeks, Inc",prodigyteks,True,"['C38566', 'D00998']",prodigyteks
 C22373,Productive Corporation,productive,False,[],productive
 C40130,Productive IT Solutions,productive it solutions,False,[],productive it solutions
 C23798,Productive Solutions,productive solutions,False,[],productive solutions
@@ -19595,9 +19327,7 @@ C33074,Progressive Computer Products,progressive computer products,False,[],prog
 C27521,"Progressive Computer Services, Inc.",progressive computer services,False,[],progressive computer services
 C32101,"Progressive Computing, Inc.",progressive computing,False,[],progressive computing
 C28507,progressive networks limited,progressive networks,False,[],progressive networks
-C33213,Progressive Security Technologies,progressive security technologies,False,[],progressive security technologies
-D00999,Progressive Technology Solutions,progressive technology solutions,False,[],progressive technology solutions
-C22374,"Progressive Technology, Inc.",progressive technology,False,[],progressive technology
+C22374,"Progressive Technology, Inc.",progressive technology,True,"['C22374', 'D00999', 'C33213']",progressive technology solutions
 C29733,ProGroup,progroup,False,[],progroup
 C46745,ProGroup,progroup,False,[],progroup
 C25966,Progytech,progytech,False,[],progytech
@@ -19877,8 +19607,7 @@ C49782,Qualmar Technology Group,qualmar technology group,False,[],qualmar techno
 C28225,Qualys Inc.,qualys,False,[],qualys
 C31629,"Quanexus, Inc.",quanexus,False,[],quanexus
 C49783,"Quanexus, Inc.",quanexus,False,[],quanexus
-D01016,Quanta Systems Inc,quanta systems,False,[],quanta systems
-C50727,QuantaSi,quantasi,False,[],quantasi
+C50727,QuantaSi,quantasi,True,"['C50727', 'D01016']",quanta systems
 D01017,"Quantec Systems, LLC",quantec systems,False,[],quantec systems
 D01018,Quanteq International Inc,quanteq international,False,[],quanteq international
 D01019,Quantix Retail LLC,quantix retail,False,[],quantix retail
@@ -19891,10 +19620,8 @@ C51558,Quantum Foundry LLC,quantum foundry,False,[],quantum foundry
 C42730,"Quantum FSD, Inc.",quantum fsd,False,[],quantum fsd
 D01020,QUANTUM INTRINSIX,quantum intrinsix,False,[],quantum intrinsix
 D01021,Quantum Logic Solutions,quantum logic solutions,False,[],quantum logic solutions
-C32990,Quantum Network Services,quantum network services,False,[],quantum network services
 C23501,"Quantum Networks, LLC",quantum networks,False,[],quantum networks
-D01022,"Quantum PC Services, LLC",quantum services,False,[],quantum services
-C36785,"Quantum Services Group, LLC. dba JW Tek LLC",quantum services group jw tek,False,[],quantum services group jw tek
+C36785,"Quantum Services Group, LLC. dba JW Tek LLC",quantum services group jw tek,True,"['C36785', 'D01022', 'C32990']",quantum services
 C40751,Quantum Symphony,quantum symphony,False,[],quantum symphony
 C25875,Quantum technology,quantum technology,False,[],quantum technology
 C38653,Quantum Technology Group,quantum technology group,False,[],quantum technology group
@@ -19959,16 +19686,14 @@ C43645,"QXC Communications, Inc",qxc communications,False,[],qxc communications
 C28701,"Qypsys, LLC",qypsys,False,[],qypsys
 D01028,R & D CYBER CONSULTANTS CORP,r and d cyber consultants,False,[],r and d cyber consultants
 C34056,R & D Data Products. Inc,r and d data products,False,[],r and d data products
-C26133,"R & D Industries, Inc.",r and d industries,False,[],r and d industries
 C29501,"R & K Computers, L.L.P.",r and k computers,False,[],r and k computers
 C34136,R & R Company,r and r company,False,[],r and r company
 C27710,R & R Consultants,r and r consultants,False,[],r and r consultants
-C40410,R and D Industries,r and d industries,False,[],r and d industries
 C42635,R and R Connectivity,r and r connectivity,False,[],r and r connectivity
 C49795,R and R Connectivity,r and r connectivity,False,[],r and r connectivity
 C45028,R Systems International,r systems international,False,[],r systems international
 C35352,R&D Computer Services,r and d computer services,False,[],r and d computer services
-D01029,R&D IT Solutions,r and d it solutions,False,[],r and d it solutions
+D01029,R&D IT Solutions,r and d it solutions,True,"['D01029', 'C26133', 'C40410']",r and d it solutions
 C22393,R&E Enterprises LLC,r and e enterprises,False,[],r and e enterprises
 C41192,"R&L IT & Telecom Consultants, LLC",r and l it and telecom consultants,False,[],r and l it and telecom consultants
 C41201,R&T Consulting Group LLC,r and t consulting group,False,[],r and t consulting group
@@ -19980,8 +19705,7 @@ C25840,R.L. Wright & Associates,r.l. wright and associates,False,[],r.l. wright 
 C26134,R.W. IT Solutions,r.w. it solutions,False,[],r.w. it solutions
 C27579,R2 Enterprises DBA Teamlogic IT of Central Phoenix,r2 enterprises teamlogic it of central phoenix,False,[],r2 enterprises teamlogic it of central phoenix
 C35690,R2 Unified Technologies,r2 unified technologies,False,[],r2 unified technologies
-C34953,R3,r3,False,[],r3
-D01030,R3 LLC,r3,False,[],r3
+D01030,R3 LLC,r3,True,"['D01030', 'C34953']",r3
 C30120,R3 Services Group,r3 services group,False,[],r3 services group
 C49796,R3 Services Group,r3 services group,False,[],r3 services group
 C40966,R3 Uniq Inc. DBA Quadyster,r3 uniq quadyster,False,[],r3 uniq quadyster
@@ -20001,8 +19725,7 @@ C49799,Rackbolt,rackbolt,False,[],rackbolt
 C27160,RackFoundry,rackfoundry,False,[],rackfoundry
 C29588,"Racklive, a division of ASA Computers",racklive a division of asa computers,False,[],racklive a division of asa computers
 C44968,Rackmounts Etc,rackmounts etc,False,[],rackmounts etc
-D01031,"Rackspace Hosting, Inc.",rackspace hosting,False,[],rackspace hosting
-C46877,Rackspace Technology,rackspace technology,False,[],rackspace technology
+C46877,Rackspace Technology,rackspace technology,True,"['C46877', 'D01031']",rackspace technology
 C35101,"RACKSPACE US, INC.",rackspace us,False,[],rackspace us
 C29182,"RackTop Systems, Inc",racktop systems,False,[],racktop systems
 C41736,Racom Business,racom business,False,[],racom business
@@ -20339,8 +20062,7 @@ C45345,REEF Solutions LLC,reef solutions,False,[],reef solutions
 C38570,"Reeldata, Inc.",reeldata,False,[],reeldata
 C22400,Referentia Systems Incorporated,referentia systems,False,[],referentia systems
 C49836,Referentia Systems Incorporated,referentia systems,False,[],referentia systems
-C51970,Reflex Integrated US Inc.,reflex integrated us,False,[],reflex integrated us
-D01050,"Reflex IT Management, Inc.",reflex it management,False,[],reflex it management
+D01050,"Reflex IT Management, Inc.",reflex it management,True,"['D01050', 'C51970']",reflex it management
 C45637,REFLEX NETWORKING,reflex networking,False,[],reflex networking
 C22401,"Reflex Tech, LLC.",reflex tech,False,[],reflex tech
 C25581,"Refocus Data, LLC",refocus data,False,[],refocus data
@@ -20437,9 +20159,7 @@ C22403,RemoteAdmin Inc,remoteadmin,False,[],remoteadmin
 C26345,RemoteTechs,remotetechs,False,[],remotetechs
 C40165,RemoteWorks,remoteworks,False,[],remoteworks
 C46027,REMSIS,remsis,False,[],remsis
-C38406,Renaissance Computing,renaissance computing,False,[],renaissance computing
-D01055,Renaissance Institute,renaissance institute,False,[],renaissance institute
-C49849,Renaissance Systems Inc.,renaissance systems,False,[],renaissance systems
+C49849,Renaissance Systems Inc.,renaissance systems,True,"['C49849', 'D01055', 'C38406']",renaissance institute
 C29342,Renatus Solutions LLC,renatus solutions,False,[],renatus solutions
 C44573,Rencore,rencore,False,[],rencore
 C34819,Rendition Corp,rendition,False,[],rendition
@@ -20948,8 +20668,6 @@ C22421,S6 Technology Services,s6 technology services,False,[],s6 technology serv
 C28039,S90 Technology,s90 technology,False,[],s90 technology
 C49901,S90 Technology,s90 technology,False,[],s90 technology
 C49902,S911 SUPPORT,s911 support,False,[],s911 support
-D01080,SA Systems Corporation,systems,False,[],systems
-C47468,SA Technologies,technologies,False,[],technologies
 C34158,"SAAI...Sampson and Associates, Inc.",saai...sampson and associates,False,[],saai...sampson and associates
 C27963,Saalex IT,saalex it,False,[],saalex it
 C28943,Saasfire LLC,saasfire,False,[],saasfire
@@ -21015,9 +20733,8 @@ C36155,Sage AVT,sage avt,False,[],sage avt
 C25126,"Sage Business Consulting, Inc.",sage business consulting,False,[],sage business consulting
 C32119,Sage Business Systems,sage business systems,False,[],sage business systems
 C30778,"Sage Investments, LLC dbs Budget Marine St. Croix",sage investments dbs budget marine st. croix,False,[],sage investments dbs budget marine st. croix
-C27306,Sage IT Services,sage it services,False,[],sage it services
 C46985,"Sage Network Solutions, Inc",sage network solutions,False,[],sage network solutions
-D01085,Sage SecureIT LLC,sage secureit,False,[],sage secureit
+D01085,Sage SecureIT LLC,sage secureit,True,"['D01085', 'C27306']",sage secureit
 D01086,"Sage Technologies, LLC",sage technologies,False,[],sage technologies
 C22427,SageNet LLC dba Woodard Technology and In,sagenet woodard technology and in,False,[],sagenet woodard technology and in
 C40181,Sagester Associates Group Inc.,sagester associates group,False,[],sagester associates group
@@ -21323,8 +21040,7 @@ C35869,"Secure Compliance Solutions, LLC.",secure compliance solutions,False,[],
 C33225,"Secure Content Solutions, Inc",secure content solutions,False,[],secure content solutions
 C49945,"Secure Content Solutions, Inc",secure content solutions,False,[],secure content solutions
 C22437,Secure Content Technologies,secure content technologies,False,[],secure content technologies
-C22438,"Secure Cyber Defense, LLC",secure cyber defense,False,[],secure cyber defense
-D01103,Secure Cyber USA LLC,secure cyber usa,False,[],secure cyber usa
+D01103,Secure Cyber USA LLC,secure cyber usa,True,"['D01103', 'C22438']",secure cyber usa
 C27613,SECURE DATA SOLUTIONS INC,secure data solutions,False,[],secure data solutions
 C25070,"Secure Data Solutions, Inc",secure data solutions,False,[],secure data solutions
 C31665,Secure Data Systems,secure data systems,False,[],secure data systems
@@ -21337,8 +21053,7 @@ C31316,"SECURE DNA MANAGED SERVICES, INC.",secure dna managed services,False,[],
 C31748,"Secure DNA, Inc.",secure dna,False,[],secure dna
 C27568,Secure Environment Systems,secure environment systems,False,[],secure environment systems
 C50675,Secure Future Tech Solutions,secure future tech solutions,False,[],secure future tech solutions
-D01104,Secure Integration LLC,secure integration,False,[],secure integration
-C31373,Secure Intervention,secure intervention,False,[],secure intervention
+C31373,Secure Intervention,secure intervention,True,"['C31373', 'D01104']",secure intervention
 C32128,Secure IT Concepts,secure it concepts,False,[],secure it concepts
 C25071,SECURE ITnet,secure itnet,False,[],secure itnet
 C49947,SECURE ITnet,secure itnet,False,[],secure itnet
@@ -21389,9 +21104,7 @@ C50780,Securely Managed,securely managed,False,[],securely managed
 D01106,Securement LLC,securement,False,[],securement
 C25583,SecureMyne Inc,securemyne,False,[],securemyne
 C22444,"SecureNation, LLC",securenation,False,[],securenation
-C26312,SecureNet Associates,securenet associates,False,[],securenet associates
-D01107,SecureNet Kinetics,securenet kinetics,False,[],securenet kinetics
-C51431,Securenet MSP Corp,securenet msp,False,[],securenet msp
+C51431,Securenet MSP Corp,securenet msp,True,"['C51431', 'D01107', 'C26312']",securenet kinetics
 C29129,"SecureNet Solutions, Inc.",securenet solutions,False,[],securenet solutions
 C49956,"SecureNet Solutions, Inc.",securenet solutions,False,[],securenet solutions
 C51454,SecureONE Solutions,secureone solutions,False,[],secureone solutions
@@ -21430,8 +21143,7 @@ C32807,Security Best Practices,security best practices,False,[],security best pr
 C32947,Security Confidence Corporation,security confidence,False,[],security confidence
 C22447,Security Forethought,security forethought,False,[],security forethought
 C38218,Security Gauntlet Consulting Llc,security gauntlet consulting,False,[],security gauntlet consulting
-D01110,Security Infrastructure Safeguards LLC,security infrastructure safeguards,False,[],security infrastructure safeguards
-C35547,Security Infrastructures,security infrastructures,False,[],security infrastructures
+C35547,Security Infrastructures,security infrastructures,True,"['C35547', 'D01110']",security infrastructures
 C51930,Security Insight LLC,security insight,False,[],security insight
 C36230,"Security Integrated, Inc.-no reponse",security integrated -no reponse,False,[],security integrated -no reponse
 C25039,"Security On-Demand, Inc.",security on-demand,False,[],security on-demand
@@ -21772,8 +21484,7 @@ C41511,Siler Tech LLC,siler tech,False,[],siler tech
 C28322,Silex Data Solutions,silex data solutions,False,[],silex data solutions
 C44583,Silicom Ltd.,silicom,False,[],silicom
 C42317,Silicon Alley Inc.,silicon alley,False,[],silicon alley
-C35238,Silicon East Inc.,silicon east,False,[],silicon east
-D01129,Silicon Forensics,silicon forensics,False,[],silicon forensics
+D01129,Silicon Forensics,silicon forensics,True,"['D01129', 'C35238']",silicon forensics
 C27841,Silicon Networks LLC,silicon networks,False,[],silicon networks
 C24066,"Silicon Plains, LLC",silicon plains,False,[],silicon plains
 C50006,"Silicon Plains, LLC",silicon plains,False,[],silicon plains
@@ -22219,8 +21930,7 @@ C27580,"Software Solutions and Designs, Inc",software solutions and designs,Fals
 C50057,Software Solutions Consulting,software solutions consulting,False,[],software solutions consulting
 C22486,SoftwareOne,softwareone,False,[],softwareone
 C47126,"Softwareone, Inc.",softwareone,False,[],softwareone
-D01155,Softwise Inc,softwise,False,[],softwise
-C26742,"Softwyre, Inc.",softwyre,False,[],softwyre
+C26742,"Softwyre, Inc.",softwyre,True,"['C26742', 'D01155']",softwyre
 C22487,SOHO Integration,soho integration,False,[],soho integration
 C50058,Soho Limited Co. /dba Cosensity,soho co. / cosensity,False,[],soho co. / cosensity
 C42806,"SOHO Logics, Inc.",soho logics,False,[],soho logics
@@ -22283,9 +21993,7 @@ C24168,SOLUTIONS PLUS INC.,solutions plus,False,[],solutions plus
 C23760,Solutions Product Sales,solutions product sales,False,[],solutions product sales
 C28200,Solutions Simplified,solutions simplified,False,[],solutions simplified
 C34964,Solutions Squad,solutions squad,False,[],solutions squad
-C43951,Solutions3 LLC,solutions3,False,[],solutions3
-C41371,solutions4networks,solutions4networks,False,[],solutions4networks
-D01158,SolutionsInfra LLC,solutionsinfra,False,[],solutionsinfra
+D01158,SolutionsInfra LLC,solutionsinfra,True,"['D01158', 'C43951', 'C41371']",solutionsinfra
 C30307,Solutions-ITS,solutions-its,False,[],solutions-its
 D01159,SolutionStack,solutionstack,False,[],solutionstack
 C43399,Solutionz Security DBA Solutionz Inc,solutionz security solutionz,False,[],solutionz security solutionz
@@ -22306,9 +22014,7 @@ C28263,Somerset Systems,somerset systems,False,[],somerset systems
 C51087,SomethingCool.com LLC,somethingcool.com,False,[],somethingcool.com
 C43131,SONDA USA INC,sonda usa,False,[],sonda usa
 C50066,SONDA USA INC,sonda usa,False,[],sonda usa
-C39194,SONDHI SOLUTIONS,sondhi solutions,False,[],sondhi solutions
-C50067,Sondhi Solutions,sondhi solutions,False,[],sondhi solutions
-D01160,Sondhi Solutions dba EXOS,sondhi solutions exos,False,[],sondhi solutions exos
+D01160,Sondhi Solutions dba EXOS,sondhi solutions exos,True,"['D01160', 'C50067', 'C39194']",sondhi solutions exos
 C46011,SonicWall,sonicwall,False,[],sonicwall
 C38680,Sonifi Solutions inc.,sonifi solutions,False,[],sonifi solutions
 C32443,Sonit Systems LLC,sonit systems,False,[],sonit systems
@@ -22408,8 +22114,7 @@ C22496,Southern Point of Sale LLC.,southern point of sale,False,[],southern poin
 C25358,Southern Supply Co dba SMC,southern supply co smc,False,[],southern supply co smc
 C50083,Southern Supply Co dba SMC,southern supply co smc,False,[],southern supply co smc
 C35344,Southern Tech Support,southern tech support,False,[],southern tech support
-D01165,"Southern Technology and Communications, LLC",southern technology and communications,False,[],southern technology and communications
-C23544,"Southern Technology Group, LLC",southern technology group,False,[],southern technology group
+C23544,"Southern Technology Group, LLC",southern technology group,True,"['C23544', 'D01165']",Southern Technology Group
 C43766,Southern Tier Resources LLC,southern tier resources,False,[],southern tier resources
 C27747,"Southern Winds Networking Services, LLC",southern winds networking services,False,[],southern winds networking services
 C51514,"Southland IT, Inc.",southland it,False,[],southland it
@@ -22460,11 +22165,8 @@ C25707,Sparrow Financial,sparrow financial,False,[],sparrow financial
 C50090,Sparta Services LLC,sparta services,False,[],sparta services
 C22498,Spartan Engineering Inc.,spartan engineering,False,[],spartan engineering
 C50091,Spartan Engineering Inc.,spartan engineering,False,[],spartan engineering
-C42226,Spartan IT llc,spartan it,False,[],spartan it
-C50092,Spartan IT llc,spartan it,False,[],spartan it
-C37230,"Spartan IT, LLC",spartan it,False,[],spartan it
 D01166,"Spartan Technology Services LLC, dba Metric",spartan technology services metric,False,[],spartan technology services metric
-D01167,SpartanIT Group,spartanit group,False,[],spartanit group
+D01167,SpartanIT Group,spartanit group,True,"['D01167', 'C37230', 'C42226', 'C50092']",spartan it group
 C22499,Spartantec Incorporated,spartantec,False,[],spartantec
 C28269,Spartech Solutions,spartech solutions,False,[],spartech solutions
 C50093,Spartech Solutions,spartech solutions,False,[],spartech solutions
@@ -22489,8 +22191,7 @@ C40216,Spectra Networks LLC.,spectra networks,False,[],spectra networks
 C25802,Spectracomm Inc.,spectracomm,False,[],spectracomm
 C22500,"Spectrotel, Inc.",spectrotel,False,[],spectrotel
 C47208,SpecTrueCom LLC,spectruecom,False,[],spectruecom
-C27525,Spectrum,spectrum,False,[],spectrum
-D01169,Spectrum AV LLC,spectrum av,False,[],spectrum av
+D01169,Spectrum AV LLC,spectrum av,True,"['D01169', 'C27525']",spectrum av
 C26865,Spectrum Communication Solutions,spectrum communication solutions,False,[],spectrum communication solutions
 C26350,Spectrum Communications,spectrum communications,False,[],spectrum communications
 C46638,Spectrum Computer Services LLC,spectrum computer services,False,[],spectrum computer services
@@ -22532,14 +22233,12 @@ C23035,SpinTransfer,spintransfer,False,[],spintransfer
 C28530,Spire Technologies Inc.,spire technologies,False,[],spire technologies
 C22501,Spirit Communications,spirit communications,False,[],spirit communications
 C33658,"Spirit Technologies, Inc",spirit technologies,False,[],spirit technologies
-D01171,"SPK & Associates, LLC",spk and associates,False,[],spk and associates
-C47481,SPK and Associates LLC.,spk and associates,False,[],spk and associates
+C47481,SPK and Associates LLC.,spk and associates,True,"['C47481', 'D01171']",spk and associates
 C38798,SPL LLC,spl,False,[],spl
 C47482,Splashtop,splashtop,False,[],splashtop
 C34662,Splashwire Inc,splashwire,False,[],splashwire
 C35170,"Splendid Technology Services, LLC",splendid technology services,False,[],splendid technology services
-C50098,Splice Communications Inc,splice communications,False,[],splice communications
-D01172,Splice IT LLC,splice it,False,[],splice it
+D01172,Splice IT LLC,splice it,True,"['D01172', 'C50098']",splice communications
 C41092,Splicenet Inc,splicenet,False,[],splicenet
 C46270,SPlus Technologies LLC,splus technologies,False,[],splus technologies
 C41765,"SPN Networks, Inc",spn networks,False,[],spn networks
@@ -22632,8 +22331,7 @@ C24958,Stafford Associates,stafford associates,False,[],stafford associates
 C40223,Stafford Associates Computer Specialists,stafford associates computer specialists,False,[],stafford associates computer specialists
 D01178,Stalicca LLC,stalicca,False,[],stalicca
 C36278,"Stallard Technologies, Inc.",stallard technologies,False,[],stallard technologies
-D01179,Stambaugh Ness,stambaugh ness,False,[],stambaugh ness
-C35240,Stambaughness,stambaughness,False,[],stambaughness
+C35240,Stambaughness,stambaughness,True,"['C35240', 'D01179']",stambaughness
 C25568,"Stamm Business Technologies, Inc",stamm business technologies,False,[],stamm business technologies
 D01180,Stan Sechler,stan sechler,False,[],stan sechler
 C46466,STAND 8,stand 8,False,[],stand 8
@@ -22843,8 +22541,7 @@ C25881,Strategic Technology Services,strategic technology services,False,[],stra
 C28652,Strategic Technology Solutions,strategic technology solutions,False,[],strategic technology solutions
 C32316,Strategic Telecom Solutions,strategic telecom solutions,False,[],strategic telecom solutions
 C50802,Strategix LLC,strategix,False,[],strategix
-C42989,"Stratify MSP, LLC",stratify msp,False,[],stratify msp
-D01188,Stratify Security LLC,stratify security,False,[],stratify security
+D01188,Stratify Security LLC,stratify security,True,"['D01188', 'C42989']",stratify security
 C23404,"Stratil Enterprises, Inc.",stratil enterprises,False,[],stratil enterprises
 C46265,StratiShield AI,stratishield ai,False,[],stratishield ai
 C46751,Stratix Corporation,stratix,False,[],stratix
@@ -23172,9 +22869,7 @@ C22532,Synapse Networks LLC.,synapse networks,False,[],synapse networks
 C26151,"Synapse Networks, Inc.",synapse networks,False,[],synapse networks
 C44070,"Synapse Networks, Inc.",synapse networks,False,[],synapse networks
 C50176,"Synapse Networks, Inc.",synapse networks,False,[],synapse networks
-C30951,"Synapse Technologies, Inc.",synapse technologies,False,[],synapse technologies
-C43586,Synapse Technology Corp.,synapse technology,False,[],synapse technology
-D01205,SynapseOne LLC,synapseone,False,[],synapseone
+D01205,SynapseOne LLC,synapseone,True,"['D01205', 'C43586', 'C30951']",synapseone
 C27691,Synapsis Inc.,synapsis,False,[],synapsis
 C50177,Synapsis Inc.,synapsis,False,[],synapsis
 C52048,"Synced Consulting, LLC",synced consulting,False,[],synced consulting
@@ -23294,7 +22989,7 @@ C31563,Systemax Technology Group,systemax technology group,False,[],systemax tec
 C40242,SystemDomain Inc.,systemdomain,False,[],systemdomain
 C45667,"Systèmes ACCI Inc, Les",systemes acci les,False,[],systemes acci les
 C29157,"SystemGo IT, LLC",systemgo it,False,[],systemgo it
-C24315,Systemhouse Inc.,systemhouse,False,[],systemhouse
+C24315,Systemhouse Inc.,systemhouse,True,"['D01080', 'C29104', 'C34719', 'C41048', 'C24315']",systemhouse
 C38225,Systems & Communication Group,systems and communication group,False,[],systems and communication group
 C22535,"Systems Analysis Services, Inc.",systems analysis services,False,[],systems analysis services
 C29724,"Systems and Solutions, Inc",systems and solutions,False,[],systems and solutions
@@ -23302,8 +22997,7 @@ C24595,"Systems Development Services, Inc.",systems development services,False,[
 C50191,"Systems Development Services, Inc.",systems development services,False,[],systems development services
 C22536,Systems Engineering,systems engineering,False,[],systems engineering
 C50192,Systems Engineering,systems engineering,False,[],systems engineering
-C25937,Systems Integration,systems integration,False,[],systems integration
-D01207,Systems Integrators,systems integrators,False,[],systems integrators
+D01207,Systems Integrators,systems integrators,True,"['D01207', 'C25937']",systems integration
 C32604,Systems Management Planning inc,systems management planning,False,[],systems management planning
 C22537,Systems of New York,systems of new york,False,[],systems of new york
 C36623,"Systems One Consulting, Inc.",systems one consulting,False,[],systems one consulting
@@ -23353,8 +23047,7 @@ C27244,"TAAUS, LLC",taaus,False,[],taaus
 C37493,"TABBOTZ, LLC",tabbotz,False,[],tabbotz
 C46432,Table 8 Technology,table 8 technology,False,[],table 8 technology
 C27510,"Taborda Solutions, Inc.",taborda solutions,False,[],taborda solutions
-C23042,Tabula Rosa Systems,tabula rosa systems,False,[],tabula rosa systems
-D01210,"Tabula Rosa Systems, L.L.C.",tabula rosa systems,False,[],tabula rosa systems
+D01210,"Tabula Rosa Systems, L.L.C.",tabula rosa systems,True,"['D01210', 'C23042']",tabula rosa systems
 C34973,Tabush Group,tabush group,False,[],tabush group
 C23850,TAC On Hold Systems,tac on hold systems,False,[],tac on hold systems
 C29363,Tach Tech,tach tech,False,[],tach tech
@@ -23511,15 +23204,13 @@ C50214,Team Trinet,team trinet,False,[],team trinet
 C35113,Team Venti,team venti,False,[],team venti
 C42678,TeamKC Telecom LLC,teamkc telecom,False,[],teamkc telecom
 C28718,TeamLINX LLLP (LINX),teamlinx linx,False,[],teamlinx linx
-C35844,Teamlogic IT,teamlogic it,False,[],teamlogic it
 C38829,TeamLogic IT - Denver Tech Center,teamlogic it - denver tech center,False,[],teamlogic it - denver tech center
 C42570,"TeamLogic IT (Campbell)- WAVE Affiliates, Inc",teamlogic it campbell - wave affiliates,False,[],teamlogic it campbell - wave affiliates
 C36925,TeamLogic IT (San Francisco),teamlogic it san francisco,False,[],teamlogic it san francisco
-D01226,TeamLogic IT 60925,teamlogic it 60925,False,[],teamlogic it 60925
+D01226,TeamLogic IT 60925,teamlogic it 60925,True,"['D01226', 'C35844']",teamlogic it
 C37173,Teamlogic IT Cerritos,teamlogic it cerritos,False,[],teamlogic it cerritos
 C44884,TeamLogic IT Commerce,teamlogic it commerce,False,[],teamlogic it commerce
-C36948,TeamLogic IT Grand Rapids,teamlogic it grand rapids,False,[],teamlogic it grand rapids
-D01227,TeamLogic IT Madison WI,teamlogic it madison wi,False,[],teamlogic it madison wi
+D01227,TeamLogic IT Madison WI,teamlogic it madison wi,True,"['D01227', 'C36948']",teamlogic it
 C46169,TeamLogic IT of Centennial,teamlogic it of centennial,False,[],teamlogic it of centennial
 C41108,TeamLogic IT of Colorado Springs,teamlogic it of colorado springs,False,[],teamlogic it of colorado springs
 C43434,TeamLogic IT of El Paso,teamlogic it of el paso,False,[],teamlogic it of el paso
@@ -23528,9 +23219,8 @@ C44043,TeamLogic IT of Flower Mound,teamlogic it of flower mound,False,[],teamlo
 C38828,"TeamLogic IT of Gainesville, FL",teamlogic it of gainesville fl,False,[],teamlogic it of gainesville fl
 C38872,TeamLogic IT of Greenville SC,teamlogic it of greenville sc,False,[],teamlogic it of greenville sc
 C28095,TeamLogic IT of NE Portland,teamlogic it of ne portland,False,[],teamlogic it of ne portland
-C43714,TEAMLOGIC IT OF NORTH NAPLES,teamlogic it of north naples,False,[],teamlogic it of north naples
 C26910,TeamLogic IT of Oklahoma City,teamlogic it of oklahoma city,False,[],teamlogic it of oklahoma city
-D01228,TeamLogic IT of Orange County,teamlogic it of orange county,False,[],teamlogic it of orange county
+D01228,TeamLogic IT of Orange County,teamlogic it of orange county,True,"['D01228', 'C43714']",teamlogic it
 C29170,"TeamLogic IT of Pasadena CA dba of Business Savvy Solutions, Inc",teamlogic it of pasadena ca of business savvy solutions,False,[],teamlogic it of pasadena ca of business savvy solutions
 C27957,TeamLogic IT of St Petersburg,teamlogic it of st petersburg,False,[],teamlogic it of st petersburg
 C46945,TeamLogic IT of Troy,teamlogic it of troy,False,[],teamlogic it of troy
@@ -23539,9 +23229,7 @@ C36784,TeamLogic IT Treasure Coast,teamlogic it treasure coast,False,[],teamlogi
 C36926,TeamLogic Sacramento - Ranis IT Solutions,teamlogic sacramento - ranis it solutions,False,[],teamlogic sacramento - ranis it solutions
 C27260,TeamLogicIT - Atlanta Midtown,teamlogicit - atlanta midtown,False,[],teamlogicit - atlanta midtown
 C28474,Teamlogicit 62901 dba of Tauras Consulting Group INC,teamlogicit 62901 of tauras consulting group,False,[],teamlogicit 62901 of tauras consulting group
-C44731,"TeamLogicIT of Austin, TX",teamlogicit of austin tx,False,[],teamlogicit of austin tx
-D01229,TeamLogicIT of Carrollton,teamlogicit of carrollton,False,[],teamlogicit of carrollton
-C44290,TeamLogicIT of New Orleans,teamlogicit of new orleans,False,[],teamlogicit of new orleans
+D01229,TeamLogicIT of Carrollton,teamlogicit of carrollton,True,"['D01229', 'C44731', 'C44290']",teamlogicit
 C38227,Teamlogicit/Roswellga,teamlogicit/roswellga,False,[],teamlogicit/roswellga
 C33244,Teammax Corp,teammax,False,[],teammax
 C50215,TeamViewer,teamviewer,False,[],teamviewer
@@ -23556,7 +23244,6 @@ C39421,Tecaba Tech,tecaba tech,False,[],tecaba tech
 D01231,TECBOMO Limited Liability Company,tecbomo liability company,False,[],tecbomo liability company
 C46661,Teceze Ltd,teceze,False,[],teceze
 C40909,Tecflow Inc,tecflow,False,[],tecflow
-C42637,Tech 2 It LLC,tech 2 it,False,[],tech 2 it
 C24912,Tech 2U,tech 2u,False,[],tech 2u
 C51382,"Tech Advanced Computers, Inc",tech advanced computers,False,[],tech advanced computers
 D01232,Tech Advisors,tech advisors,False,[],tech advisors
@@ -23619,10 +23306,7 @@ C37148,Tech Network Supply LLC,tech network supply,False,[],tech network supply
 C37149,Tech Network Supply LLC,tech network supply,False,[],tech network supply
 C36737,Tech Networks of Boston,tech networks of boston,False,[],tech networks of boston
 C40250,Tech Officers LLC,tech officers,False,[],tech officers
-D01236,Tech On,tech on,False,[],tech on
-C23975,Tech on Call Inc.,tech on call,False,[],tech on call
-C33610,Tech On Corp,tech on,False,[],tech on
-C50220,Tech On Corp,tech on,False,[],tech on
+C23975,Tech on Call Inc.,tech on call,True,"['C33610', 'D01236', 'C50220', 'C23975']",tech on call
 C50221,Tech one Systems,tech one systems,False,[],tech one systems
 C37065,Tech Onion Partners,tech onion partners,False,[],tech onion partners
 C27224,Tech Ops Inc,tech ops,False,[],tech ops
@@ -23635,10 +23319,8 @@ C27191,Tech Pros LLC.,tech pros,False,[],tech pros
 C51008,Tech River,tech river,False,[],tech river
 C42021,Tech Samurai,tech samurai,False,[],tech samurai
 C40251,Tech Samurai Consulting LLC,tech samurai consulting,False,[],tech samurai consulting
-D01237,TECH SERVICE SOLUTIONS LLC,tech service solutions,False,[],tech service solutions
 D01238,Tech Shield 247,tech shield 247,False,[],tech shield 247
-C36626,Tech Solution LLC,tech solution,False,[],tech solution
-C50222,Tech Solution LLC,tech solution,False,[],tech solution
+C50222,Tech Solution LLC,tech solution,True,"['C36626', 'D01237', 'C50222']",tech solution
 C25870,Tech solutions inc,tech solutions,False,[],tech solutions
 C46589,Tech Solutions Inc,tech solutions,False,[],tech solutions
 C39203,TECH SOLUTIONS NOW,tech solutions now,False,[],tech solutions now
@@ -23651,9 +23333,7 @@ C43327,Tech Superpowers LLC,tech superpowers,False,[],tech superpowers
 C50223,Tech Superpowers LLC,tech superpowers,False,[],tech superpowers
 C24312,Tech Support Inc DBA Tech Experts,tech support tech experts,False,[],tech support tech experts
 C23628,Tech Support Now LLC,tech support now,False,[],tech support now
-C47595,Tech Systems Inc,tech systems,False,[],tech systems
-D01240,Tech Team Corporation,tech team,False,[],tech team
-C41905,"Tech Team Nation, Inc",tech team nation,False,[],tech team nation
+C41905,"Tech Team Nation, Inc",tech team nation,True,"['D01240', 'C47595', 'C41905']",tech team nation
 C34452,Tech Therapy,tech therapy,False,[],tech therapy
 C24325,Tech Unlimited LLC,tech unlimited,False,[],tech unlimited
 C50224,Tech Unlimited LLC,tech unlimited,False,[],tech unlimited
@@ -23800,9 +23480,7 @@ C26926,TechNoir Solutions,technoir solutions,False,[],technoir solutions
 D01247,Technokraft Consultancy Services LLC,technokraft consultancy services,False,[],technokraft consultancy services
 C22552,Technol Corporation,technol,False,[],technol
 C43906,"Technologic Consulting, LLC",technologic consulting,False,[],technologic consulting
-C40930,Technologic Systems LLC,technologic systems,False,[],technologic systems
 C36038,"Technologies For Tomorrow, Inc",technologies for tomorrow,False,[],technologies for tomorrow
-C23045,Technologies of North Texas,technologies of north texas,False,[],technologies of north texas
 C52043,"Technologik Solutions, Inc.",technologik solutions,False,[],technologik solutions
 C45310,Technologist LLC,technologist,False,[],technologist
 C35813,Technologix Group LLC,technologix group,False,[],technologix group
@@ -23879,10 +23557,7 @@ C41878,"Technology Service Professionals, Inc.",technology service professionals
 C32730,"Technology Services Group, Inc. (TSGI)",technology services group tsgi,False,[],technology services group tsgi
 C42649,"Technology Services of the Carolinas, LLC",technology services of the carolinas,False,[],technology services of the carolinas
 C50253,"Technology Services of the Carolinas, LLC",technology services of the carolinas,False,[],technology services of the carolinas
-C37783,Technology Solutions,technology solutions,False,[],technology solutions
-C50254,Technology Solutions,technology solutions,False,[],technology solutions
-C30971,Technology Solutions LLC,technology solutions,False,[],technology solutions
-C45353,Technology Solutions of KC,technology solutions of kc,True,"['C45353', 'D01249']",technology solutions of kc
+C45353,Technology Solutions of KC,technology solutions of kc,False,[],technology solutions of kc
 C38766,Technology Solutions Partners,technology solutions partners,False,[],technology solutions partners
 C29915,Technology Solutions Provider Inc.,technology solutions provider,False,[],technology solutions provider
 C50255,Technology Solutions Provider Inc.,technology solutions provider,False,[],technology solutions provider
@@ -23911,8 +23586,7 @@ C50258,TECHNOXI,technoxi,False,[],technoxi
 C35675,Tech-NT,tech-nt,False,[],tech-nt
 C44065,Techonsite Corporation,techonsite,False,[],techonsite
 C37701,TechPartn3r,techpartn3r,False,[],techpartn3r
-C50259,TechPLUS,techplus,False,[],techplus
-D01250,TECHPLUSUS LLC,techplusus,False,[],techplusus
+D01250,TECHPLUSUS LLC,techplusus,True,"['D01250', 'C50259']",techplusus
 C40457,TechPolygon,techpolygon,False,[],techpolygon
 C32526,TechPower Solutions Inc,techpower solutions,False,[],techpower solutions
 C28488,TechPro Enterprise Inc.,techpro enterprise,False,[],techpro enterprise
@@ -23928,8 +23602,7 @@ C44933,Techs On Call LLC,techs on call,False,[],techs on call
 C35242,Techs To Go,techs to go,False,[],techs to go
 D01251,TechSafe Systems,techsafe systems,False,[],techsafe systems
 C34976,TechSage Solutions,techsage solutions,False,[],techsage solutions
-D01252,Techsavvi LLC,techsavvi,False,[],techsavvi
-C50260,"TechSavvy IT Solutions, LLC",techsavvy it solutions,False,[],techsavvy it solutions
+C50260,"TechSavvy IT Solutions, LLC",techsavvy it solutions,True,"['C50260', 'D01252']",techsavvy it solutions
 C32466,"TechScaler, Inc. dba Streamline Networks?",techscaler streamline networks,False,[],techscaler streamline networks
 C41651,Techscape IT Solutions Inc.,techscape it solutions,False,[],techscape it solutions
 C37759,TechServ 24/7 Corp,techserv 24/7,False,[],techserv 24/7
@@ -24136,8 +23809,7 @@ C27369,"Tele-Dynamics System, Inc",tele-dynamics system,False,[],tele-dynamics s
 C25808,Teleficient Communications,teleficient communications,False,[],teleficient communications
 C40266,Teleflora LLC,teleflora,False,[],teleflora
 C34621,Telefonica Mexico,telefonica mexico,False,[],telefonica mexico
-D01261,TELEFONICA MIAMI,telefonica miami,False,[],telefonica miami
-C26579,"TELEFONICA TECH, INC",telefonica tech,False,[],telefonica tech
+C26579,"TELEFONICA TECH, INC",telefonica tech,True,"['C26579', 'D01261']",telefonica tech
 C50283,"Telefonica TECH, Inc",telefonica tech,False,[],telefonica tech
 C41594,Telefonica UK,telefonica uk,False,[],telefonica uk
 C40267,Telefonica USA,telefonica usa,False,[],telefonica usa
@@ -24348,7 +24020,7 @@ C52066,The Cecilia Global Group,cecilia global group,False,[],cecilia global gro
 C43259,The CEIgroup Inc.,ceigroup,False,[],ceigroup
 C38299,"The Centauri Network, Inc.",centauri network,False,[],centauri network
 C34261,The Centrinel,centrinel,False,[],centrinel
-D01271,The CET Group,cet group,False,[],cet group
+D01271,The CET Group,cet group,True,"['D01271', 'C51821']",cet group
 C43100,The Channel Company,channel company,False,[],channel company
 C46898,The ChannelPro Network,channelpro network,False,[],channelpro network
 C23844,The Citren Group,citren group,False,[],citren group
@@ -24379,8 +24051,7 @@ C46049,"The Comtel Group, Inc. DBA TechTrust",comtel group techtrust,False,[],co
 C42459,The Connected Office,connected office,False,[],connected office
 C34524,"The Connection, Inc.",connection,False,[],connection
 C22582,The Connectivity Group,connectivity group,False,[],connectivity group
-C24575,The Consultants Consortium Inc.,consultants consortium,False,[],consultants consortium
-C50310,The Consultants Consortium Inc.,consultants consortium,False,[],consultants consortium
+C50310,The Consultants Consortium Inc.,consultants consortium,True,"['D00957', 'C38082', 'C24575', 'C50310']",consultants consortium
 C23689,The Core Technology Group,core technology group,False,[],core technology group
 C38236,The Critical Update Inc,critical update,False,[],critical update
 C51594,The Current Connection Inc,current connection,False,[],current connection
@@ -24450,7 +24121,7 @@ C29866,"THE KEPLER GROUP, INC.",kepler group,False,[],kepler group
 C27372,"The KR Group, Inc.",kr group,False,[],kr group
 C34072,The Kupa'a Group,kupa a group,False,[],kupa a group
 D01273,The Laffoon Corporation dba Vertical Horizon Networks,laffoon vertical horizon networks,False,[],laffoon vertical horizon networks
-C34979,The Launch Pad,launch pad,False,[],launch pad
+C34979,The Launch Pad,launch pad,True,"['C34979', 'D00736']",launch pad
 C43184,the lco group,lco group,False,[],lco group
 C35245,The Lerepco IT Group,lerepco it group,False,[],lerepco it group
 C36825,"The Link Source, LLC",link source,False,[],link source
@@ -24890,8 +24561,7 @@ C45272,Torrence,torrence,False,[],torrence
 C25132,Torrey Point,torrey point,False,[],torrey point
 C31284,Torrey Point Group,torrey point group,False,[],torrey point group
 C26085,Torus Technologies,torus technologies,False,[],torus technologies
-D01293,Tosinso,tosinso,False,[],tosinso
-C26556,TOSS Corporation,toss,False,[],toss
+C26556,TOSS Corporation,toss,True,"['C26556', 'D01293']",toss
 C50373,Toss Corporation,toss,False,[],toss
 C32545,"Total Care Computer Consulting, LLC",total care computer consulting,False,[],total care computer consulting
 C33066,Total Communications,total communications,False,[],total communications
@@ -25216,10 +24886,10 @@ C40300,TruSource Labs,trusource labs,False,[],trusource labs
 C50412,TRUST 360 LLC,360,False,[],360
 C42312,TRUST 360 LLC DBA TEM Systems,360 tem systems,False,[],360 tem systems
 C51951,"Trust Automation, Inc.",automation,False,[],automation
-D01305,TRUST TECH LLC,tech,False,[],tech
-D01306,Trust Technologies LLC,technologies,False,[],technologies
+D01305,TRUST TECH LLC,tech,True,"['D01305', 'C42637']",tech
+D01306,Trust Technologies LLC,technologies,True,"['D01306', 'C24341', 'C27806', 'C31574', 'C43697', 'C47468', 'C40930', 'C23045']",technologies
 C41452,Trust Technology,technology,False,[],technology
-C34984,Trust Technology Solutions,technology solutions,False,[],technology solutions
+C34984,Trust Technology Solutions,technology solutions,True,"['C34984', 'D01249', 'C24631', 'C30971', 'C37783', 'C50254']",technology solutions nm
 C51739,"Trustactics, Llc",trustactics,False,[],trustactics
 C39331,TrustCompliant,trustcompliant,False,[],trustcompliant
 C23905,TrustDigital,trustdigital,False,[],trustdigital
@@ -25544,9 +25214,8 @@ C35955,Unitek Information Technology,unitek information technology,False,[],unit
 C25281,Uniti Fiber Holdings Inc. DBA Uniti Fiber LLC,uniti fiber holdings uniti fiber,False,[],uniti fiber holdings uniti fiber
 C40313,Unity BPO Inc,unity bpo,False,[],unity bpo
 C46908,Unity Communications,unity communications,False,[],unity communications
-C50452,Unity ELD LLC,unity eld,False,[],unity eld
 C29153,Unity Global Solutions Inc,unity global solutions,False,[],unity global solutions
-D01324,Unity IT LLC,unity it,False,[],unity it
+D01324,Unity IT LLC,unity it,True,"['D01324', 'C50452']",unity it
 D01325,Unity Systems LLC,unity systems,False,[],unity systems
 D01326,Unity Tech Systems,unity tech systems,False,[],unity tech systems
 C23738,"UnityRF, LLC",unityrf,False,[],unityrf
@@ -26328,8 +25997,7 @@ C30946,Vollenden Productions Iinc.,vollenden productions iinc,False,[],vollenden
 C30480,Vollenden Productions Inc.,vollenden productions,False,[],vollenden productions
 C42462,Volli Communications,volli communications,False,[],volli communications
 C30229,Volo Infrastructures LLC,volo infrastructures,False,[],volo infrastructures
-C40337,Volo Technologies LLC,volo technologies,False,[],volo technologies
-D01368,Volo Technology Solutions,volo technology solutions,False,[],volo technology solutions
+D01368,Volo Technology Solutions,volo technology solutions,True,"['D01368', 'C40337']",volo technology solutions
 C28475,"VOLOCEO INTERNATIONAL, INC",voloceo international,False,[],voloceo international
 C22705,Vology,vology,False,[],vology
 C50540,"VOLOGY, INC.",vology,False,[],vology
@@ -26511,8 +26179,7 @@ C43109,Wavicle Data Solutions,wavicle data solutions,False,[],wavicle data solut
 C32510,Way out west computers,way out west computers,False,[],way out west computers
 C51339,Way11 LLC,way11,False,[],way11
 C50560,Waypoint Business Solutions,waypoint business solutions,False,[],waypoint business solutions
-D01377,"Waypoint Government Solutions, LLC",waypoint government solutions,False,[],waypoint government solutions
-C45730,Waypoint Solutions,waypoint solutions,False,[],waypoint solutions
+C45730,Waypoint Solutions,waypoint solutions,True,"['C45730', 'D01377']",waypoint solutions
 C50561,Waypost Technologies,waypost technologies,False,[],waypost technologies
 C35255,Waystone LLC,waystone,False,[],waystone
 C33257,Waytek,waytek,False,[],waytek
@@ -27151,10 +26818,8 @@ C38844,Your Business Solutions,your business solutions,False,[],your business so
 C38260,Your Cloud Pros,your cloud pros,False,[],your cloud pros
 C38261,Your Computer Guy,your computer guy,False,[],your computer guy
 C22747,Your Computer Rescue,your computer rescue,False,[],your computer rescue
-C43266,Your IT,your it,False,[],your it
 C40392,Your IT Company Inc.,your it company,False,[],your it company
-D01416,Your IT Cure,your it cure,False,[],your it cure
-C45054,"Your IT Guys, LLC",your it guys,False,[],your it guys
+C45054,"Your IT Guys, LLC",your it guys,True,"['D01416', 'C43266', 'C45054']",your it guys
 C29083,Your IT On Call,your it on call,False,[],your it on call
 C23378,"Your Network Security, LLC",your network security,False,[],your network security
 D01417,Your Only IT Solutions LLC DBA Gator Telcom,your only it solutions gator telcom,False,[],your only it solutions gator telcom

@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "timestamp": "2025-07-07 16:38:35",
+    "model": "gpt-4o-mini-2024-07-18",
+    "similarity_threshold": 0.85,
+    "confidence_threshold": 0.7,
+    "processing_time_seconds": 7.83,
+    "sample_size": 5
+  },
+  "input_stats": {
+    "total_records": 24671,
+    "total_feature_pairs": 49337,
+    "high_similarity_pairs": 5,
+    "analyzed_pairs": 5
+  },
+  "ai_analysis": {
+    "duplicates_identified": 3,
+    "high_confidence_decisions": 5,
+    "error_count": 0,
+    "duplicate_rate": 0.6
+  },
+  "deduplication_results": {
+    "original_records": 24671,
+    "unique_records": 24668,
+    "merged_records": 3,
+    "deduplication_rate": 0.00012160025941387875,
+    "records_eliminated": 3
+  },
+  "api_stats": {
+    "calls": 1,
+    "tokens": {
+      "prompt": 641,
+      "completion": 246,
+      "total": 887
+    },
+    "durations": [
+      7.329407215118408
+    ],
+    "errors": {},
+    "costs": {
+      "total": 0.00024375
+    }
+  },
+  "detailed_results": [
+    {
+      "pair_id": "C35345-C42443",
+      "same_organization": true,
+      "confidence": 0.95,
+      "primary_record_id": "C35345",
+      "canonical_name": "butler technology consulting"
+    },
+    {
+      "pair_id": "C25314-C33134",
+      "same_organization": false,
+      "confidence": 0.8,
+      "primary_record_id": "C25314",
+      "canonical_name": "corporate information technologies"
+    },
+    {
+      "pair_id": "C29231-C21791",
+      "same_organization": true,
+      "confidence": 0.9,
+      "primary_record_id": "C29231",
+      "canonical_name": "convergence technologies"
+    },
+    {
+      "pair_id": "C29267-C32191",
+      "same_organization": false,
+      "confidence": 0.75,
+      "primary_record_id": "C29267",
+      "canonical_name": "richardson group it"
+    },
+    {
+      "pair_id": "C31398-C31325",
+      "same_organization": true,
+      "confidence": 0.92,
+      "primary_record_id": "C31398",
+      "canonical_name": "computer design and integration"
+    }
+  ]
+}

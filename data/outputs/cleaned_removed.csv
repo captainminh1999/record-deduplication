@@ -1,0 +1,3 @@
+record_id,company,domain,phone,address,company_clean,domain_clean,phone_clean,address_clean,_id_str
+2,Acme Inc,acme.com,1234567890,Street 2,acme,acme.com,(123) 456-7890,Street 2,acme|acme.com
+4,Widgets LLC,widgets.com,5551234,Street 4,widgets,widgets.com,,Street 4,widgets|widgets.com

@@ -35,6 +35,7 @@ record_id,company
 | **[Usage](docs/USAGE.md)** | Step-by-step commands and examples |
 | **[Pipeline Steps](docs/PIPELINE_STEPS.md)** | Detailed technical documentation |
 | **[GPT Integration](docs/GPT_INTEGRATION.md)** | Optional AI features and setup |
+| **[AI Deduplication](docs/AI_DEDUPLICATION.md)** | 🆕 AI-powered record merging |
 
 ## 🔧 Key Features
 
@@ -44,6 +45,7 @@ record_id,company
 ✅ **Modular design** - Run individual steps or full pipeline  
 ✅ **Experiment tracking** - Comprehensive logging and statistics  
 ✅ **Multiple approaches** - Supervised ML + unsupervised clustering  
+✅ **AI-powered deduplication** - 🆕 Intelligent record merging with OpenAI  
 
 ## ⚡ Pipeline Overview
 

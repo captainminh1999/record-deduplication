@@ -34,7 +34,7 @@ except Exception:  # pragma: no cover - optional dependency
 client: Any = None  # type: ignore
 
 # Default chat model used across this module
-DEFAULT_MODEL = "gpt-4o-mini"
+DEFAULT_MODEL = "gpt-4o-mini-2024-07-18"
 
 
 def _init_api_stats() -> Dict[str, Any]:

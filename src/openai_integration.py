@@ -201,7 +201,13 @@ def main(
     review_path: str = "data/outputs/gpt_review.json",
     openai_model: str = DEFAULT_MODEL,
     log_path: str = LOG_PATH,
-    max_workers: int = 10,    ) -> None:
+    max_workers: int = 10,
+    exclude_clusters: tuple = (),
+    exclude_noise: bool = True,
+    min_cluster_size: int = 2,
+    max_cluster_size: int | None = None,
+    sample_large_clusters: int | None = None,
+) -> None:
     """Review DBSCAN clusters with GPT for validation."""
 
     print("🤖 Starting GPT cluster analysis...")
@@ -215,6 +221,36 @@ def main(
     # Ensure record_id is a column, not an index
     if "record_id" not in clusters_df.columns and clusters_df.index.name == "record_id":
         clusters_df = clusters_df.reset_index()
+    
+    # Initialize filtering statistics
+    filter_stats = {
+        "total_clusters": clusters_df["cluster"].nunique(),
+        "excluded_by_id": 0,
+        "excluded_by_noise": 0,
+        "excluded_by_min_size": 0,
+        "excluded_by_max_size": 0,
+        "sampled_clusters": 0,
+        "analyzed_clusters": 0
+    }
+    
+    # Convert exclude_clusters to set for faster lookup
+    exclude_clusters_set = set(exclude_clusters)
+    
+    print(f"📊 Initial cluster analysis:")
+    cluster_sizes = clusters_df["cluster"].value_counts()
+    print(f"  • Total clusters: {filter_stats['total_clusters']:,}")
+    print(f"  • Largest cluster: {cluster_sizes.max():,} records (cluster {cluster_sizes.idxmax()})")
+    print(f"  • Average cluster size: {cluster_sizes.mean():.1f} records")
+    
+    if exclude_clusters:
+        print(f"  • Excluding clusters: {list(exclude_clusters)}")
+    if exclude_noise:
+        print(f"  • Excluding noise cluster: -1")
+    if max_cluster_size:
+        print(f"  • Max cluster size limit: {max_cluster_size}")
+    if sample_large_clusters:
+        print(f"  • Sampling large clusters: >{sample_large_clusters} → {sample_large_clusters} records")
+    
     cluster_count = clusters_df["cluster"].nunique()
 
     _check_openai()
@@ -229,11 +265,41 @@ def main(
         # Always reset index to ensure 'record_id' is a column
         group = group.reset_index(drop=False)
         if "record_id" not in group.columns:
-            raise KeyError(f"'record_id' column missing in group DataFrame. Columns: {group.columns.tolist()}, Index name: {group.index.name}, First rows: {group.head().to_dict()}")
+            raise KeyError(f"'record_id' column missing in group DataFrame. Columns: {group.columns.tolist()}")
+        
         cluster_id_int = int(cast(Any, cluster_id))
-        if cluster_id_int == -1 or len(group) <= 1:
+        cluster_size = len(group)
+        
+        # Apply filters
+        if cluster_id_int in exclude_clusters_set:
+            filter_stats["excluded_by_id"] += 1
             return None
-        lines = [f"Cluster {cluster_id_int} contains {len(group)} records:"]
+        
+        if exclude_noise and cluster_id_int == -1:
+            filter_stats["excluded_by_noise"] += 1
+            return None
+            
+        if cluster_size < min_cluster_size:
+            filter_stats["excluded_by_min_size"] += 1
+            return None
+            
+        if max_cluster_size and cluster_size > max_cluster_size:
+            filter_stats["excluded_by_max_size"] += 1
+            return None
+        
+        # Sample large clusters if requested
+        original_size = cluster_size
+        if sample_large_clusters and cluster_size > sample_large_clusters:
+            group = group.sample(n=sample_large_clusters, random_state=42)
+            cluster_size = len(group)
+            filter_stats["sampled_clusters"] += 1
+        
+        filter_stats["analyzed_clusters"] += 1
+        
+        lines = [f"Cluster {cluster_id_int} contains {original_size} records"]
+        if original_size != cluster_size:
+            lines[0] += f" (analyzing random sample of {cluster_size})"
+        lines[0] += ":"
         for _, row in group.iterrows():
             lines.append(
                 f"  - ID {row['record_id']}: {row.get('company_clean', '')}, {row.get('domain_clean', '')}"
@@ -308,10 +374,22 @@ def main(
     # Print comprehensive terminal output
     print(f"\n🤖 GPT Cluster Analysis Complete!")
     print(f"─" * 50)
-    print(f"📊 Data Overview:")
-    print(f"  • Input clusters:        {cluster_count:,}")
-    print(f"  • Analyzed clusters:     {len(results):,}")
-    print(f"  • Skipped clusters:      {cluster_count - len(results):,} (single records or noise)")
+    print(f"📊 Filtering Results:")
+    print(f"  • Total clusters:        {filter_stats['total_clusters']:,}")
+    print(f"  • Analyzed clusters:     {filter_stats['analyzed_clusters']:,}")
+    print(f"  • Excluded by ID:        {filter_stats['excluded_by_id']:,}")
+    print(f"  • Excluded (noise):      {filter_stats['excluded_by_noise']:,}")
+    print(f"  • Excluded (too small):  {filter_stats['excluded_by_min_size']:,}")
+    print(f"  • Excluded (too large):  {filter_stats['excluded_by_max_size']:,}")
+    print(f"  • Sampled clusters:      {filter_stats['sampled_clusters']:,}")
+    
+    total_excluded = (filter_stats['excluded_by_id'] + filter_stats['excluded_by_noise'] + 
+                     filter_stats['excluded_by_min_size'] + filter_stats['excluded_by_max_size'])
+    print(f"  • Total excluded:        {total_excluded:,}")
+    
+    if filter_stats['total_clusters'] > 0:
+        analysis_rate = filter_stats['analyzed_clusters'] / filter_stats['total_clusters'] * 100
+        print(f"  • Analysis rate:         {analysis_rate:.1f}%")
     
     # Analyze results
     total_groups = 0
@@ -379,12 +457,47 @@ def main(
 @click.option("--openai-model", default=DEFAULT_MODEL, show_default=True)
 @click.option("--log-path", default=LOG_PATH, show_default=True)
 @click.option("--max-workers", default=10, show_default=True, help="Number of parallel OpenAI requests to run.")
+@click.option(
+    "--exclude-clusters", 
+    multiple=True, 
+    type=int,
+    help="Cluster IDs to exclude from analysis (can be used multiple times)"
+)
+@click.option(
+    "--exclude-noise", 
+    is_flag=True, 
+    default=True,
+    help="Exclude noise cluster (-1)"
+)
+@click.option(
+    "--min-cluster-size",
+    type=int,
+    default=2,
+    help="Minimum cluster size to analyze"
+)
+@click.option(
+    "--max-cluster-size",
+    type=int,
+    default=None,
+    help="Maximum cluster size to analyze (excludes very large clusters)"
+)
+@click.option(
+    "--sample-large-clusters",
+    type=int,
+    default=None,
+    help="If cluster is larger than this, randomly sample this many records"
+)
 def cli(
     clusters_path: str,
     review_path: str,
     openai_model: str,
     log_path: str,
     max_workers: int,
+    exclude_clusters: tuple,
+    exclude_noise: bool,
+    min_cluster_size: int,
+    max_cluster_size: int | None,
+    sample_large_clusters: int | None,
 ) -> None:
     """CLI wrapper for :func:`main`."""
 
@@ -393,7 +506,8 @@ def cli(
         raise RuntimeError("openai package is not installed. Install 'openai' to enable integration.")
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    main(clusters_path, review_path, openai_model, log_path, max_workers)
+    main(clusters_path, review_path, openai_model, log_path, max_workers, 
+         exclude_clusters, exclude_noise, min_cluster_size, max_cluster_size, sample_large_clusters)
 
 
 if __name__ == "__main__":  # pragma: no cover - sanity run

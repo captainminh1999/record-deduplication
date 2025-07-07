@@ -16,3 +16,313 @@ openai_integration,2025-06-26T09:42:55.721777,2025-06-26T09:43:10.873326,19,15.1
 openai_integration,2025-06-26T10:08:18.580112,2025-06-26T10:08:21.057583,19,2.48
 openai_integration,2025-06-26T10:10:42.217165,2025-06-26T10:10:48.407722,32,6.19
 reporting,2025-06-26T10:11:02.700032,2025-06-26T10:11:02.811005,0,0.11
+2,preprocess,2025-07-07T12:59:41.813048,2025-07-07T12:59:45.207465,24671,3.39,{"input_rows": 27334, "output_rows": 24671, "duplicates_removed": 2663, "missing_company": 0, "missing_domain": 27334, "null_values": {"Name": 0, "Sys ID": 0, "record_id": 0, "company": 0}, "company_cleanup": {"empty_after_clean": 5, "unique_before": 25451, "unique_after": 24671}}
+2,blocking,2025-07-07T13:00:11.017129,2025-07-07T13:00:11.583700,49337,0.57,{"input_rows": 24671, "output_pairs": 49337, "reduction_ratio": 0.9998378761789298, "block_sizes": {"phone_block": 0, "company_block": 0, "domain_block": 0, "fuzzy_block": 49337}}
+2,similarity,2025-07-07T13:00:28.118613,2025-07-07T13:00:29.120408,49337,1.00,{"input_records": 24671, "input_pairs": 49337, "output_features": 49337, "columns_used": ["company_clean", "domain_clean", "phone_clean", "address_clean"], "similarity_metrics": {"mean": {"company_sim": 0.716583320725472}, "high_similarity": {"company_sim_gt_0.8": 19041}}}
+2,model,2025-07-07T13:12:59.630378,2025-07-07T13:13:00.097336,49337,0.47,{"input_pairs": 49337, "training_pairs": 1293, "high_confidence_pairs": 0, "label_stats": {"source": "manual", "total_labels": 1293, "positive_labels": 78, "negative_labels": 1215, "label_ratio": 0.060324825986078884}, "model_stats": {"features": ["company_sim"], "coefficients": {"company_sim": 6.2236928180541975}, "intercept": -8.304219663970517}, "prediction_stats": {"mean_prob": 0.02778433425528482, "prob_dist": {"p90": 0.0561986498122202, "p95": 0.06465144078690326, "p99": 0.08380692460889722}}}
+2,clustering,2025-07-07T13:13:33.185552,2025-07-07T13:14:39.149237,24671,65.96,{
+  "parameters": {
+    "eps": 0.5,
+    "min_samples": 2,
+    "scale": false,
+    "auto_eps": false,
+    "features_used": [
+      "company_sim"
+    ],
+    "feature_weights": {
+      "company_sim": 1.0
+    }
+  },
+  "data_stats": {
+    "input_records": 24671,
+    "feature_stats": {
+      "company_sim": {
+        "mean": 0.7165833207254723,
+        "std": 0.12817056061228635,
+        "min": 0.0,
+        "max": 0.996595683036361,
+        "null_count": 0
+      }
+    }
+  },
+  "iterations": [],
+  "results": {
+    "n_clusters": 1,
+    "n_noise_points": 0,
+    "n_total_points": 24671,
+    "noise_ratio": 0.0,
+    "final_eps": 0.5,
+    "final_min_samples": 2,
+    "silhouette_score": 0.0,
+    "cluster_sizes": {
+      "0": 24671
+    },
+    "cluster_stats": {
+      "min_size": 24671,
+      "max_size": 24671,
+      "mean_size": 24671.0
+    }
+  }
+}
+2,model,2025-07-07T13:18:02.783931,2025-07-07T13:18:03.266518,49337,0.48,{"input_pairs": 49337, "training_pairs": 1293, "high_confidence_pairs": 0, "label_stats": {"source": "manual", "total_labels": 1293, "positive_labels": 78, "negative_labels": 1215, "label_ratio": 0.060324825986078884}, "model_stats": {"features": ["company_sim"], "coefficients": {"company_sim": 6.2236928180541975}, "intercept": -8.304219663970517}, "prediction_stats": {"mean_prob": 0.02778433425528482, "prob_dist": {"p90": 0.0561986498122202, "p95": 0.06465144078690326, "p99": 0.08380692460889722}}}
+2,clustering,2025-07-07T14:20:12.403626,2025-07-07T14:25:32.747543,24671,320.34,{
+  "parameters": {
+    "eps": 0.5,
+    "min_samples": 2,
+    "scale": true,
+    "auto_eps": true,
+    "features_used": [
+      "company_sim"
+    ],
+    "feature_weights": {
+      "company_sim": 1.0
+    },
+    "scaling": {
+      "mean": [
+        0.7165432212102483
+      ],
+      "scale": [
+        0.09714728561201298
+      ]
+    }
+  },
+  "data_stats": {
+    "input_records": 24671,
+    "feature_stats": {
+      "company_sim": {
+        "mean": 0.7165833207254723,
+        "std": 0.12817056061228635,
+        "min": 0.0,
+        "max": 0.996595683036361,
+        "null_count": 0
+      }
+    }
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "eps": 0.10449279500956132,
+      "min_samples": 5,
+      "silhouette_score": 0.6676552294861814,
+      "improvement": 0.0
+    }
+  ],
+  "results": {
+    "n_clusters": 2,
+    "n_noise_points": 11,
+    "n_total_points": 24671,
+    "noise_ratio": 0.00044586761785091807,
+    "final_eps": 0.10449279500956132,
+    "final_min_samples": 5,
+    "silhouette_score": 0.6676552294861814,
+    "cluster_sizes": {
+      "0": 24654,
+      "1": 6
+    },
+    "cluster_stats": {
+      "min_size": 6,
+      "max_size": 24654,
+      "mean_size": 12330.0
+    }
+  }
+}
+2,clustering,2025-07-07T14:25:57.164727,2025-07-07T14:31:11.963362,24671,314.80,{
+  "parameters": {
+    "eps": 0.5,
+    "min_samples": 2,
+    "scale": true,
+    "auto_eps": true,
+    "features_used": [
+      "company_sim"
+    ],
+    "feature_weights": {
+      "company_sim": 1.0
+    },
+    "scaling": {
+      "mean": [
+        0.7165432212102483
+      ],
+      "scale": [
+        0.09714728561201298
+      ]
+    }
+  },
+  "data_stats": {
+    "input_records": 24671,
+    "feature_stats": {
+      "company_sim": {
+        "mean": 0.7165833207254723,
+        "std": 0.12817056061228635,
+        "min": 0.0,
+        "max": 0.996595683036361,
+        "null_count": 0
+      }
+    }
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "eps": 0.10449279500956132,
+      "min_samples": 5,
+      "silhouette_score": 0.6676552294861814,
+      "improvement": 0.0
+    }
+  ],
+  "results": {
+    "n_clusters": 2,
+    "n_noise_points": 11,
+    "n_total_points": 24671,
+    "noise_ratio": 0.00044586761785091807,
+    "final_eps": 0.10449279500956132,
+    "final_min_samples": 5,
+    "silhouette_score": 0.6676552294861814,
+    "cluster_sizes": {
+      "0": 24654,
+      "1": 6
+    },
+    "cluster_stats": {
+      "min_size": 6,
+      "max_size": 24654,
+      "mean_size": 12330.0
+    }
+  }
+}
+2,clustering,2025-07-07T14:41:41.240716,2025-07-07T14:41:42.742825,24671,1.50,{
+  "parameters": {
+    "eps": 0.0076,
+    "min_samples": 5,
+    "scale": false,
+    "auto_eps": false,
+    "features_used": [
+      "company_sim"
+    ],
+    "feature_weights": {
+      "company_sim": 1.0
+    }
+  },
+  "data_stats": {
+    "input_records": 24671,
+    "feature_stats": {
+      "company_sim": {
+        "mean": 0.7165833207254723,
+        "std": 0.12817056061228635,
+        "min": 0.0,
+        "max": 0.996595683036361,
+        "null_count": 0
+      }
+    }
+  },
+  "iterations": [],
+  "results": {
+    "n_clusters": 1,
+    "n_noise_points": 23,
+    "n_total_points": 24671,
+    "noise_ratio": 0.0009322686555064651,
+    "final_eps": 0.0076,
+    "final_min_samples": 5,
+    "silhouette_score": 0.0,
+    "cluster_sizes": {
+      "0": 24648
+    },
+    "cluster_stats": {
+      "min_size": 24648,
+      "max_size": 24648,
+      "mean_size": 24648.0
+    }
+  }
+}
+2,clustering,2025-07-07T14:42:21.181031,2025-07-07T14:42:34.799473,24671,13.62,{
+  "parameters": {
+    "eps": 0.0076,
+    "min_samples": 3,
+    "scale": false,
+    "auto_eps": false,
+    "features_used": [
+      "company_sim"
+    ],
+    "feature_weights": {
+      "company_sim": 1.0
+    }
+  },
+  "data_stats": {
+    "input_records": 24671,
+    "feature_stats": {
+      "company_sim": {
+        "mean": 0.7165833207254723,
+        "std": 0.12817056061228635,
+        "min": 0.0,
+        "max": 0.996595683036361,
+        "null_count": 0
+      }
+    }
+  },
+  "iterations": [],
+  "results": {
+    "n_clusters": 4,
+    "n_noise_points": 10,
+    "n_total_points": 24671,
+    "noise_ratio": 0.00040533419804628914,
+    "final_eps": 0.0076,
+    "final_min_samples": 3,
+    "silhouette_score": 0.3643310645727493,
+    "cluster_sizes": {
+      "0": 24648,
+      "1": 5,
+      "3": 5,
+      "2": 3
+    },
+    "cluster_stats": {
+      "min_size": 3,
+      "max_size": 24648,
+      "mean_size": 6165.25
+    }
+  }
+}
+2,clustering,2025-07-07T14:52:19.881939,2025-07-07T14:52:30.529799,24671,10.65,{
+  "parameters": {
+    "eps": 0.0095,
+    "min_samples": 3,
+    "scale": false,
+    "auto_eps": false,
+    "features_used": [
+      "company_sim"
+    ],
+    "feature_weights": {
+      "company_sim": 1.0
+    }
+  },
+  "data_stats": {
+    "input_records": 24671,
+    "feature_stats": {
+      "company_sim": {
+        "mean": 0.7165833207254723,
+        "std": 0.12817056061228635,
+        "min": 0.0,
+        "max": 0.996595683036361,
+        "null_count": 0
+      }
+    }
+  },
+  "iterations": [],
+  "results": {
+    "n_clusters": 3,
+    "n_noise_points": 7,
+    "n_total_points": 24671,
+    "noise_ratio": 0.0002837339386324024,
+    "final_eps": 0.0095,
+    "final_min_samples": 3,
+    "silhouette_score": 0.5896253002375321,
+    "cluster_sizes": {
+      "0": 24655,
+      "1": 6,
+      "2": 3
+    },
+    "cluster_stats": {
+      "min_size": 3,
+      "max_size": 24655,
+      "mean_size": 8221.333333333334
+    }
+  }
+}
+2,openai_integration,2025-07-07T14:54:17.086573,2025-07-07T14:54:21.474347,3,4.39
+2,reporting,2025-07-07T14:55:52.403808,2025-07-07T14:55:52.588685,0,0.18

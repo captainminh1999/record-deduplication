@@ -211,6 +211,9 @@ def main(
                             best_iter_score = score
                             best_iter_params = (e, ms)
             
+            # Check for improvement
+            improvement = best_iter_score - current_score
+            
             # Log iteration results
             iteration_stats = {
                 "iteration": iteration + 1,
@@ -220,9 +223,6 @@ def main(
                 "improvement": improvement
             }
             clustering_stats["iterations"].append(iteration_stats)
-            
-            # Check for improvement
-            improvement = best_iter_score - current_score
             print(f"[Refinement {iteration+1}] eps: {best_iter_params[0]:.6f}, min_samples: {best_iter_params[1]} "
                   f"(Score: {best_iter_score:.4f}, Improvement: {improvement:.4f})")
             

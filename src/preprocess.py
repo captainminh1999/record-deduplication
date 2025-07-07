@@ -91,6 +91,8 @@ def main(
     considered duplicates, written to ``audit_path`` and removed from the
     output written to ``output_path``.
     """
+    print("🧹 Starting data preprocessing and cleaning...")
+    
     if clear:
         clear_all_data(os.path.dirname(output_path))
 
@@ -224,7 +226,51 @@ def main(
 
     result = pd.DataFrame(df)
     result.to_csv(output_path, index=True)
-    print(f"Wrote {len(result)} cleaned records to {output_path}")
+    
+    # Print comprehensive terminal output
+    print(f"\n🧹 Data Preprocessing Complete!")
+    print(f"─" * 50)
+    print(f"📊 Data Overview:")
+    print(f"  • Input records:         {initial_rows:,}")
+    print(f"  • Output records:        {len(result):,}")
+    print(f"  • Duplicates removed:    {len(duplicates):,}")
+    print(f"  • File format:           {ext.upper() if ext else 'CSV'}")
+    
+    # Check for available columns
+    available_cols = []
+    if domain_key: available_cols.append("domain")
+    if phone_key: available_cols.append("phone") 
+    if address_key: available_cols.append("address")
+    
+    print(f"\n🔧 Data Processing:")
+    print(f"  • Available columns:     {len(available_cols) + 2} (company, record_id" + (f", {', '.join(available_cols)}" if available_cols else "") + ")")
+    print(f"  • Company normalization: {'GPT-4o-mini' if use_openai else 'Rule-based'}")
+    print(f"  • Unique companies:      {unique_companies_before:,} → {unique_companies_after:,}")
+    if empty_company_names > 0:
+        print(f"  • Empty after cleaning:  {empty_company_names:,} companies")
+    
+    print(f"\n📈 Quality Metrics:")
+    print(f"  • Missing companies:     {missing_company:,} ({missing_company/initial_rows:.1%})")
+    if domain_key:
+        print(f"  • Missing domains:       {missing_domain:,} ({missing_domain/initial_rows:.1%})")
+    else:
+        print(f"  • Missing domains:       {initial_rows:,} (no domain column)")
+    
+    if len(duplicates) > 0:
+        print(f"\n🔍 Duplicates Found:")
+        print(f"  • Company duplicates:    {dup_by_company.sum():,}")
+        print(f"  • Domain duplicates:     {dup_by_domain.sum():,}")
+        print(f"  • Saved to:              {audit_path}")
+    else:
+        print(f"\n✅ No duplicates found!")
+    
+    print(f"\n💾 Files Created:")
+    print(f"  • Cleaned data:          {output_path}")
+    if len(duplicates) > 0:
+        print(f"  • Removed duplicates:    {audit_path}")
+    
+    print(f"\n✅ Next step: Generate candidate pairs")
+    print(f"   Command: python -m src.blocking")
 
     end_time = time.time()
     stats = {
@@ -245,33 +291,69 @@ def main(
     return result
 
 
-if __name__ == "__main__":  # pragma: no cover - sanity run
-    import argparse
+import click
 
-    parser = argparse.ArgumentParser(description="Clean raw spreadsheet")
-    parser.add_argument("--input-path", default="data/your_spreadsheet.csv")
-    parser.add_argument("--output-path", default="data/outputs/cleaned.csv")
-    parser.add_argument("--audit-path", default="data/outputs/removed_rows.csv")
-    parser.add_argument(
-        "--use-openai", action="store_true", help="Translate company names with OpenAI"
+@click.command()
+@click.option(
+    "--input-path", 
+    type=click.Path(exists=True), 
+    default="data/your_spreadsheet.csv",
+    help="Path to input CSV or Excel file",
+    show_default=True
+)
+@click.option(
+    "--output-path", 
+    default="data/outputs/cleaned.csv",
+    help="Path for cleaned output CSV",
+    show_default=True
+)
+@click.option(
+    "--audit-path", 
+    default="data/outputs/removed_rows.csv",
+    help="Path for removed rows CSV",
+    show_default=True
+)
+@click.option(
+    "--use-openai", 
+    is_flag=True,
+    help="Translate company names to English using OpenAI"
+)
+@click.option(
+    "--openai-model", 
+    default="gpt-4o-mini",
+    help="OpenAI model to use for translation",
+    show_default=True
+)
+@click.option(
+    "--log-path", 
+    default=LOG_PATH,
+    help="Path for run history log",
+    show_default=True
+)
+@click.option(
+    "--clear", 
+    is_flag=True,
+    help="Clear previous outputs before running"
+)
+def cli(input_path, output_path, audit_path, use_openai, openai_model, log_path, clear):
+    """Clean and preprocess raw spreadsheet data."""
+    print(f"\u23e9 Started preprocessing: {input_path}")
+    main(
+        input_path=input_path,
+        output_path=output_path,
+        audit_path=audit_path,
+        use_openai=use_openai,
+        openai_model=openai_model,
+        log_path=log_path,
+        clear=clear,
     )
-    parser.add_argument("--openai-model", default="gpt-4o-mini")
-    parser.add_argument("--log-path", default=LOG_PATH)
-    parser.add_argument("--clear", action="store_true", help="Remove previous outputs")
-    args = parser.parse_args()
 
+
+if __name__ == "__main__":  # pragma: no cover - sanity run
+    # Run basic tests
     assert normalize_company_name("The ACME, Inc.") == "acme"
     assert normalize_company_name("PT Astra International Tbk") == "astra international"
     assert normalize_company_name("株式会社ソニー") == "sony"
     assert normalize_company_name("XYZ Sdn Bhd") == "xyz"
-
-    print("\u23e9 started preprocessing")
-    main(
-        input_path=args.input_path,
-        output_path=args.output_path,
-        audit_path=args.audit_path,
-        use_openai=args.use_openai,
-        openai_model=args.openai_model,
-        log_path=args.log_path,
-        clear=args.clear,
-    )
+    
+    cli()

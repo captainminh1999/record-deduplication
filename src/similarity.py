@@ -26,6 +26,8 @@ def main(
     log_path: str = LOG_PATH,
 ) -> pd.DataFrame:
     """Create similarity features between candidate record pairs."""
+    print("📏 Starting similarity feature computation...")
+    
     start_time = time.time()
     if not os.path.exists(cleaned_path):
         raise FileNotFoundError(f"Cleaned data not found: {cleaned_path}")
@@ -35,11 +37,11 @@ def main(
 
     required = {
         "record_id",
-        "phone_clean",
         "company_clean",
-        "domain_clean",
     }
+    optional_cols = ["phone_clean", "domain_clean", "address_clean"]
     address_present = "address_clean" in df.columns
+    
     missing = required.difference(df.columns)
     if missing:
         cols = ", ".join(sorted(missing))
@@ -58,37 +60,45 @@ def main(
         os.makedirs(os.path.dirname(pairs_path), exist_ok=True)
         pairs_index.to_frame(index=False).to_csv(pairs_path, index=False)
 
-    # Compute similarities
+    # Compute similarities for available columns
     comp = recordlinkage.Compare()
+    
+    # Always compute company similarity
     comp.string(
         "company_clean",
         "company_clean",
         method="jarowinkler",
         label="company_sim",
     )
-    comp.string(
-        "domain_clean",
-        "domain_clean",
-        method="jarowinkler",
-        label="domain_sim",
-    )
-    comp.exact("phone_clean", "phone_clean", label="phone_exact")
+    
+    # Only compute domain similarity if column exists and has data
+    if "domain_clean" in df.columns and not df["domain_clean"].isna().all():
+        comp.string(
+            "domain_clean",
+            "domain_clean",
+            method="jarowinkler",
+            label="domain_sim",
+        )
+    
+    # Only compute phone exact match if column exists and has data  
+    if "phone_clean" in df.columns and not df["phone_clean"].isna().all():
+        comp.exact("phone_clean", "phone_clean", label="phone_exact")
 
     features = comp.compute(pairs_index, df)
 
-    # Track similarity stats
+    # Track similarity stats for available features
     similarity_stats = {
-        "mean": {
-            "company_sim": float(features["company_sim"].mean()),
-            "domain_sim": float(features["domain_sim"].mean()),
-            "phone_exact": float(features["phone_exact"].mean())
-        },
-        "high_similarity": {
-            "company_sim_gt_0.8": int((features["company_sim"] > 0.8).sum()),
-            "domain_sim_gt_0.8": int((features["domain_sim"] > 0.8).sum()),
-            "phone_exact_matches": int(features["phone_exact"].sum())
-        }
+        "mean": {},
+        "high_similarity": {}
     }
+    
+    for col in features.columns:
+        if col.endswith('_sim') or col.endswith('_exact'):
+            similarity_stats["mean"][col] = float(features[col].mean())
+            if col.endswith('_sim'):
+                similarity_stats["high_similarity"][f"{col}_gt_0.8"] = int((features[col] > 0.8).sum())
+            else:  # exact match
+                similarity_stats["high_similarity"][f"{col}_matches"] = int(features[col].sum())
 
     # Define address ratio helper
     def _addr_ratio(a: object, b: object) -> float:
@@ -97,8 +107,8 @@ def main(
         score = fuzz.token_set_ratio(a_str, b_str)
         return score / 100.0
 
-    # Add address similarity if present
-    if address_present:
+    # Add address similarity if present and has data
+    if address_present and not df["address_clean"].isna().all():
         addr_scores = [
             _addr_ratio(df.loc[i1, "address_clean"], df.loc[i2, "address_clean"])
             for i1, i2 in pairs_index
@@ -110,10 +120,13 @@ def main(
     features = features.reset_index()
     os.makedirs(os.path.dirname(features_path), exist_ok=True)
 
-    # Track column stats
-    match_cols = ["company_clean", "domain_clean", "phone_clean"]
-    if "address_clean" in df.columns:
-        match_cols.append("address_clean")
+    # Track column stats - only include available columns
+    match_cols = ["company_clean"]
+    for col in ["domain_clean", "phone_clean", "address_clean"]:
+        if col in df.columns:
+            match_cols.append(col)
+            
+    # Find state and country columns if they exist
     state_col = next((c for c in df.columns if re.sub(r"[ _]+", "", c).lower() == "state"), None)
     country_col = next((c for c in df.columns if re.sub(r"[ _]+", "", c).lower() == "countrycode"), None)
     if state_col:
@@ -131,10 +144,51 @@ def main(
 
     features.to_csv(features_path, index=False)
 
-    print(
-        f"Computed {len(features)} feature rows and saved to {features_path}."
-    )
+    # Print comprehensive terminal output
+    print(f"\n📏 Similarity Feature Computation Complete!")
+    print(f"─" * 50)
+    print(f"📊 Data Overview:")
+    print(f"  • Input records:         {initial_rows:,}")
+    print(f"  • Input pairs:           {input_pairs:,}")
+    print(f"  • Output features:       {len(features):,}")
     
+    # Show computed features
+    computed_features = [col for col in features.columns if col.endswith('_sim') or col.endswith('_exact')]
+    print(f"\n🔧 Features Computed:")
+    print(f"  • Total features:        {len(computed_features)}")
+    for feature in computed_features:
+        if feature in similarity_stats["mean"]:
+            mean_val = similarity_stats["mean"][feature]
+            print(f"  • {feature:<15} Mean: {mean_val:.3f}")
+    
+    # Show high similarity counts
+    print(f"\n📈 High Similarity Pairs:")
+    for metric, count in similarity_stats["high_similarity"].items():
+        if "gt_0.8" in metric:
+            feature_name = metric.replace("_gt_0.8", "")
+            print(f"  • {feature_name:<15} >80%: {count:,}")
+        elif "matches" in metric:
+            feature_name = metric.replace("_matches", "")
+            print(f"  • {feature_name:<15} Exact: {count:,}")
+    
+    # Show available vs missing columns
+    available_cols = [col for col in match_cols if col in df.columns]
+    missing_optional = ["domain_clean", "phone_clean", "address_clean"]
+    missing_cols = [col for col in missing_optional if col not in df.columns or df[col].isna().all()]
+    
+    if missing_cols:
+        print(f"\n⚠️  Missing Optional Data:")
+        for col in missing_cols:
+            clean_name = col.replace("_clean", "")
+            print(f"  • {clean_name:<15} (will reduce accuracy)")
+    
+    print(f"\n💾 Files Created:")
+    print(f"  • Feature matrix:        {features_path}")
+    
+    print(f"\n✅ Next step: Train model or run clustering")
+    print(f"   Model:      python -m src.model")
+    print(f"   Clustering: python -m src.clustering")
+
     end_time = time.time()
     stats = {
         "input_records": initial_rows,

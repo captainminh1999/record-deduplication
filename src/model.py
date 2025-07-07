@@ -67,6 +67,8 @@ def main(
 ) -> pd.DataFrame:
     """Train a model and score candidate pairs."""
 
+    print("🚀 Starting model training and duplicate scoring...")
+    
     start_time = time.time()
 
     if not os.path.exists(features_path):
@@ -158,6 +160,46 @@ def main(
     high_conf_pairs = len(high_conf)
     os.makedirs(os.path.dirname(duplicates_path), exist_ok=True)
     high_conf.to_csv(duplicates_path, index=False)
+
+    # Print comprehensive terminal output
+    print(f"\n🎯 Model Training Complete!")
+    print(f"─" * 50)
+    print(f"📊 Data Overview:")
+    print(f"  • Input pairs:           {input_pairs:,}")
+    print(f"  • Training pairs:        {train_pairs:,}")
+    print(f"  • Features used:         {len(feature_cols)} ({', '.join(feature_cols)})")
+    
+    print(f"\n🏷️  Training Labels ({label_source}):")
+    print(f"  • Total labels:          {label_stats['total_labels']:,}")
+    print(f"  • Positive (duplicates): {label_stats['positive_labels']:,} ({label_stats['label_ratio']:.1%})")
+    print(f"  • Negative (unique):     {label_stats['negative_labels']:,}")
+    
+    print(f"\n🤖 Model Performance:")
+    print(f"  • Mean probability:      {prob_stats['mean_prob']:.3f}")
+    print(f"  • 90th percentile:       {prob_stats['prob_dist']['p90']:.3f}")
+    print(f"  • 95th percentile:       {prob_stats['prob_dist']['p95']:.3f}")
+    print(f"  • 99th percentile:       {prob_stats['prob_dist']['p99']:.3f}")
+    
+    print(f"\n📈 Results:")
+    print(f"  • High-confidence pairs: {high_conf_pairs:,} (≥90% probability)")
+    if high_conf_pairs > 0:
+        print(f"  • Success! Found {high_conf_pairs:,} likely duplicate pairs")
+        print(f"  • Wrote results to: {duplicates_path}")
+    else:
+        print(f"  • No high-confidence duplicates found (try lowering threshold)")
+    
+    print(f"\n💾 Files Created:")
+    print(f"  • Model: {model_path}")
+    print(f"  • High-confidence pairs: {duplicates_path}")
+    
+    if high_conf_pairs > 0:
+        print(f"\n✅ Next step: Run reporting to create Excel review file")
+        print(f"   Command: python -m src.reporting")
+    else:
+        print(f"\n💡 Suggestions:")
+        print(f"   • Lower confidence threshold in code (currently 0.9)")
+        print(f"   • Add more training examples to labels.csv")
+        print(f"   • Review features.csv for data quality issues")
 
     end_time = time.time()
     stats = {

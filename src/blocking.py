@@ -32,30 +32,35 @@ def generate_candidate_pairs(df: pd.DataFrame) -> pd.MultiIndex:
     if "record_id" in df.columns:
         df = df.set_index("record_id")
 
-    required = {"phone_clean", "company_clean", "domain_clean"}
-    missing = required.difference(df.columns)
-    if missing:
-        cols = ", ".join(sorted(missing))
+    # Only require company_clean, make others optional
+    required = {"company_clean"}
+    optional = {"phone_clean", "domain_clean"}
+    
+    missing_required = required.difference(df.columns)
+    if missing_required:
+        cols = ", ".join(sorted(missing_required))
         raise KeyError(f"Missing required columns: {cols}")
-
+    
+    # Use only available columns for blocking
+    available_cols = [col for col in ["phone_clean", "company_clean", "domain_clean"] if col in df.columns]
+    
     blocks = []
-    idx = recordlinkage.Index()
-    idx.block("phone_clean")
-    blocks.append(idx.index(df))
-
-    idx = recordlinkage.Index()
-    idx.block("company_clean")
-    blocks.append(idx.index(df))
-
-    idx = recordlinkage.Index()
-    idx.block("domain_clean")
-    blocks.append(idx.index(df))
-
-    # A fuzzy company block using sorted neighbourhood. The window size
-    # can be tuned later for a different recall/precision trade-off.
-    idx = recordlinkage.Index()
-    idx.sortedneighbourhood("company_clean", window=5)
-    blocks.append(idx.index(df))
+    for col in available_cols:
+        if col == "company_clean":
+            # Always do company blocking
+            idx = recordlinkage.Index()
+            idx.block(col)
+            blocks.append(idx.index(df))
+            
+            # Add fuzzy company blocking
+            idx = recordlinkage.Index()
+            idx.sortedneighbourhood(col, window=5)
+            blocks.append(idx.index(df))
+        elif col in df.columns and not df[col].isna().all():
+            # Only block on non-empty optional columns
+            idx = recordlinkage.Index()
+            idx.block(col)
+            blocks.append(idx.index(df))
 
     candidates = blocks[0]
     for b in blocks[1:]:
@@ -82,6 +87,8 @@ def main(
         DataFrame with ``record_id_1`` and ``record_id_2`` columns representing
         candidate record pairs.
     """
+    print("🔗 Starting candidate pair generation...")
+    
     start_time = time.time()
     initial_rows = 0
     block_counts = {
@@ -98,13 +105,14 @@ def main(
     df = pd.read_csv(input_path)
     initial_rows = len(df)
 
-    required_columns = {"record_id", "phone_clean", "company_clean", "domain_clean"}
+    # Only require record_id and company_clean for minimal datasets
+    required_columns = {"record_id", "company_clean"}
     missing = required_columns.difference(df.columns)
     if missing:
         cols = ", ".join(sorted(missing))
         raise KeyError(f"Missing required columns: {cols}")
 
-    # Get block sizes with error handling
+    # Get block sizes with error handling - only for available columns
     def get_block_size(indexer: recordlinkage.Index, df: pd.DataFrame) -> int:
         try:
             pairs = indexer.index(df)
@@ -112,22 +120,24 @@ def main(
         except Exception:
             return 0
 
-    # Phone block
-    idx = recordlinkage.Index()
-    idx.block("phone_clean")
-    block_counts["phone_block"] = get_block_size(idx, df)
+    # Phone block (only if column exists and has data)
+    if "phone_clean" in df.columns and not df["phone_clean"].isna().all():
+        idx = recordlinkage.Index()
+        idx.block("phone_clean")
+        block_counts["phone_block"] = get_block_size(idx, df)
 
-    # Company block
+    # Company block (always present for minimal datasets)
     idx = recordlinkage.Index()
     idx.block("company_clean")
     block_counts["company_block"] = get_block_size(idx, df)
 
-    # Domain block
-    idx = recordlinkage.Index()
-    idx.block("domain_clean")
-    block_counts["domain_block"] = get_block_size(idx, df)
+    # Domain block (only if column exists and has data)
+    if "domain_clean" in df.columns and not df["domain_clean"].isna().all():
+        idx = recordlinkage.Index()
+        idx.block("domain_clean")
+        block_counts["domain_block"] = get_block_size(idx, df)
 
-    # Fuzzy company block
+    # Fuzzy company block (always available)
     idx = recordlinkage.Index()
     idx.sortedneighbourhood("company_clean", window=5)
     block_counts["fuzzy_block"] = get_block_size(idx, df)
@@ -137,11 +147,58 @@ def main(
     pair_df = candidates.to_frame(index=False)
     pair_df.columns = ["record_id_1", "record_id_2"]
 
-    # Print out stats
-    print(f"Generated {len(pair_df)} candidate pairs from {initial_rows} records")
+    # Print comprehensive terminal output
+    print(f"\n🔗 Candidate Pair Generation Complete!")
+    print(f"─" * 50)
+    print(f"📊 Data Overview:")
+    print(f"  • Input records:         {initial_rows:,}")
+    print(f"  • Generated pairs:       {len(pair_df):,}")
+    print(f"  • Total possible pairs:  {int(initial_rows * (initial_rows - 1) / 2):,}")
+    
+    reduction_ratio = 1 - (len(pair_df) / (initial_rows * (initial_rows - 1) / 2)) if initial_rows > 1 else 0
+    print(f"  • Reduction ratio:       {reduction_ratio:.1%}")
+    
+    # Show which blocking methods were used
+    used_methods = []
+    available_cols = []
+    if "phone_clean" in df.columns and not df["phone_clean"].isna().all():
+        available_cols.append("phone")
+        if block_counts["phone_block"] > 0:
+            used_methods.append(f"phone ({block_counts['phone_block']:,})")
+    if "company_clean" in df.columns:
+        available_cols.append("company")
+        if block_counts["company_block"] > 0:
+            used_methods.append(f"company ({block_counts['company_block']:,})")
+        if block_counts["fuzzy_block"] > 0:
+            used_methods.append(f"fuzzy company ({block_counts['fuzzy_block']:,})")
+    if "domain_clean" in df.columns and not df["domain_clean"].isna().all():
+        available_cols.append("domain")
+        if block_counts["domain_block"] > 0:
+            used_methods.append(f"domain ({block_counts['domain_block']:,})")
+    
+    print(f"\n🔧 Blocking Strategy:")
+    print(f"  • Available fields:      {', '.join(available_cols)}")
+    print(f"  • Methods used:          {', '.join(used_methods) if used_methods else 'fuzzy company only'}")
+    
+    if len(pair_df) == 0:
+        print(f"\n⚠️  Warning: No candidate pairs generated!")
+        print(f"   • This might indicate no records share blocking keys")
+        print(f"   • Consider more lenient blocking or data quality review")
+    elif len(pair_df) > 100000:
+        print(f"\n⚠️  Warning: Large number of pairs generated ({len(pair_df):,})")
+        print(f"   • This might slow down similarity computation")
+        print(f"   • Consider more aggressive blocking")
+    else:
+        print(f"\n✅ Good pair count for similarity analysis")
     
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     pair_df.to_csv(output_path, index=False)
+    
+    print(f"\n💾 Files Created:")
+    print(f"  • Candidate pairs:       {output_path}")
+    
+    print(f"\n✅ Next step: Compute similarity features")
+    print(f"   Command: python -m src.similarity")
 
     end_time = time.time()
     total_possible_pairs = initial_rows * (initial_rows - 1) / 2

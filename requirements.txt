@@ -8,6 +8,7 @@ XlsxWriter
 # CLI utility
 click
 # openai
+python-dotenv
 jupyterlab            # or notebook
 ipykernel
 matplotlib            # for plotting in your debug notebook

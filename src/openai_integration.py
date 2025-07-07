@@ -18,6 +18,10 @@ import concurrent.futures
 import click
 import pandas as pd
 from tqdm import tqdm
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from .utils import log_run, LOG_PATH
 
@@ -197,10 +201,11 @@ def main(
     review_path: str = "data/outputs/gpt_review.json",
     openai_model: str = DEFAULT_MODEL,
     log_path: str = LOG_PATH,
-    max_workers: int = 10,
-) -> None:
+    max_workers: int = 10,    ) -> None:
     """Review DBSCAN clusters with GPT for validation."""
 
+    print("🤖 Starting GPT cluster analysis...")
+    
     start_time = time.time()
 
     if not os.path.exists(clusters_path):
@@ -300,10 +305,65 @@ def main(
     with open(review_path, "w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
 
-    print(f"Read {cluster_count} clusters from {clusters_path}.")
-    print(
-        f"Queried OpenAI for {len(results)} clusters, saved JSON to {review_path}."
-    )
+    # Print comprehensive terminal output
+    print(f"\n🤖 GPT Cluster Analysis Complete!")
+    print(f"─" * 50)
+    print(f"📊 Data Overview:")
+    print(f"  • Input clusters:        {cluster_count:,}")
+    print(f"  • Analyzed clusters:     {len(results):,}")
+    print(f"  • Skipped clusters:      {cluster_count - len(results):,} (single records or noise)")
+    
+    # Analyze results
+    total_groups = 0
+    total_records = 0
+    high_confidence = 0
+    
+    for result in results:
+        if "groups" in result and result["groups"]:
+            total_groups += len(result["groups"])
+            for group in result["groups"]:
+                total_records += len(group.get("record_ids", []))
+                if group.get("confidence", 0) >= 0.8:
+                    high_confidence += 1
+    
+    print(f"\n🎯 Analysis Results:")
+    print(f"  • Total groups found:    {total_groups:,}")
+    print(f"  • Records in groups:     {total_records:,}")
+    print(f"  • High confidence:       {high_confidence:,} groups (≥80%)")
+    
+    if total_groups > 0:
+        avg_confidence = sum(
+            group.get("confidence", 0) 
+            for result in results 
+            for group in result.get("groups", [])
+        ) / total_groups
+        print(f"  • Average confidence:    {avg_confidence:.1%}")
+        
+        avg_group_size = total_records / total_groups if total_groups > 0 else 0
+        print(f"  • Average group size:    {avg_group_size:.1f} records")
+    
+    print(f"\n🔧 Processing Details:")
+    print(f"  • Model used:            {openai_model}")
+    print(f"  • Parallel workers:      {max_workers}")
+    print(f"  • Processing time:       {time.time() - start_time:.1f} seconds")
+    
+    print(f"\n💾 Files Created:")
+    print(f"  • GPT review:            {review_path}")
+    
+    if total_groups > 0:
+        print(f"\n✅ Success! Found {total_groups:,} potential duplicate groups")
+        print(f"   Review the JSON file for detailed AI analysis")
+        print(f"\n✅ Next step: Generate Excel report with GPT insights")
+        print(f"   Command: python -m src.reporting")
+    else:
+        print(f"\n⚠️  No duplicate groups identified by GPT")
+        print(f"   • Clusters may contain unique organizations")
+        print(f"   • Consider adjusting clustering parameters")
+    
+    print(f"\n💡 Tips:")
+    print(f"   • Review high-confidence groups first")
+    print(f"   • Manually verify AI suggestions before merging")
+    print(f"   • Check canonical names for accuracy")
 
     end_time = time.time()
     log_run("openai_integration", start_time, end_time, len(results), log_path=log_path)

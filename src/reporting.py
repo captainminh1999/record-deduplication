@@ -23,6 +23,8 @@ def main(
 ) -> None:
     """Create a merge suggestion workbook, now with GPT review results."""
 
+    print("📊 Starting Excel report generation...")
+    
     start_time = time.time()
     report_stats = {
         "input_stats": {},
@@ -114,7 +116,7 @@ def main(
             "available": True,
             "total_clusters": total_clusters,
             "processed_clusters": processed_clusters,
-            "total_canonical_groups": total_groups,
+            "total_groups": total_groups,  # Fixed: changed from total_canonical_groups
             "total_records_processed": total_records,
             "mean_confidence": float(confidence_sum / len(gpt_flat)) if gpt_flat else 0.0,
             "records_per_group": float(total_records / total_groups) if total_groups > 0 else 0.0
@@ -141,11 +143,61 @@ def main(
             for cell in row:
                 cell.fill = fill
 
-    print(
-        f"Saved {len(prob_bands['high_confidence'])} high-confidence pairs, {len(prob_bands['manual_review'])} pairs for manual review, and {len(gpt_flat) if gpt_flat else 0} GPT review records to {report_path}"
-    )
-    print("Reporting statistics:")
-    print(report_stats)
+    # Print comprehensive terminal output
+    print(f"\n📊 Excel Report Generation Complete!")
+    print(f"─" * 50)
+    print(f"📊 Data Overview:")
+    print(f"  • Total pairs analyzed:  {report_stats['input_stats']['total_pairs']:,}")
+    print(f"  • Unique records:        {report_stats['input_stats']['unique_records']:,}")
+    print(f"  • Mean probability:      {report_stats['input_stats']['mean_probability']:.3f}")
+    
+    print(f"\n📈 Probability Distribution:")
+    quants = report_stats['input_stats']['probability_quantiles']
+    print(f"  • 25th percentile:       {quants['25%']:.3f}")
+    print(f"  • 50th percentile:       {quants['50%']:.3f}")
+    print(f"  • 75th percentile:       {quants['75%']:.3f}")
+    print(f"  • 90th percentile:       {quants['90%']:.3f}")
+    
+    print(f"\n📋 Excel Sheets Created:")
+    for sheet_name, count in report_stats['output_sheets'].items():
+        print(f"  • {sheet_name:<15} {count:,} pairs")
+    
+    if report_stats['gpt_review']['available']:
+        gpt_stats = report_stats['gpt_review']
+        print(f"\n🤖 GPT Review Results:")
+        try:
+            print(f"  • Total groups:          {gpt_stats.get('total_groups', 0):,}")
+            print(f"  • Total records:         {gpt_stats.get('total_records_processed', 0):,}")
+            print(f"  • Records per group:     {gpt_stats.get('records_per_group', 0.0):.1f}")
+            if 'processed_clusters' in gpt_stats:
+                print(f"  • Processed clusters:    {gpt_stats['processed_clusters']:,}")
+        except Exception as e:
+            print(f"  • Error displaying GPT stats: {e}")
+    else:
+        print(f"\n🤖 GPT Review: Not available (no GPT analysis found)")
+    
+    total_pairs = len(prob_bands['high_confidence']) + len(prob_bands['manual_review'])
+    print(f"\n💾 Files Created:")
+    print(f"  • Excel workbook:        {report_path}")
+    print(f"  • Total pairs for review: {total_pairs:,}")
+    
+    if len(prob_bands['high_confidence']) > 0:
+        print(f"\n✅ Success! Found {len(prob_bands['high_confidence']):,} high-confidence duplicate pairs")
+        print(f"   Review the 'high_confidence' sheet first")
+    
+    if len(prob_bands['manual_review']) > 0:
+        print(f"   Also review {len(prob_bands['manual_review']):,} borderline pairs in 'manual_review' sheet")
+    
+    if total_pairs == 0:
+        print(f"\n⚠️  No duplicate pairs found for review")
+        print(f"   Consider lowering confidence thresholds or improving training data")
+    
+    print(f"\n📖 How to Review:")
+    print(f"   1. Open {report_path} in Excel")
+    print(f"   2. Check 'high_confidence' sheet for likely duplicates")
+    print(f"   3. Review 'manual_review' sheet for borderline cases")
+    if report_stats['gpt_review']['available']:
+        print(f"   4. Reference 'gpt_review' sheet for AI analysis")
 
     end_time = time.time()
     log_run(

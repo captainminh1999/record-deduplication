@@ -6,6 +6,8 @@ from .similarity_engine import SimilarityEngine, SimilarityConfig
 from .model_engine import ModelEngine, ModelConfig, ModelResult
 from .clustering_engine import ClusteringEngine
 from .reporting_engine import ReportingEngine
+from .openai_engine import OpenAIEngine
+from .openai_types import OpenAIConfig, OpenAIStats, TranslationResult, ClusterReviewResult, DeduplicationResult
 
 __all__ = [
     'PreprocessEngine', 'PreprocessConfig', 'PreprocessStats', 'PreprocessResult',
@@ -13,5 +15,7 @@ __all__ = [
     'SimilarityEngine', 'SimilarityConfig',
     'ModelEngine', 'ModelConfig', 'ModelResult',
     'ClusteringEngine',
-    'ReportingEngine'
+    'ReportingEngine',
+    'OpenAIEngine', 'OpenAIConfig', 'OpenAIStats', 
+    'TranslationResult', 'ClusterReviewResult', 'DeduplicationResult'
 ]

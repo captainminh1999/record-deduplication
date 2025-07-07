@@ -12,7 +12,8 @@ from typing import Optional, List, Dict, Any
 import pandas as pd
 
 from ..corp_designators import CORP_PREFIXES, CORP_SUFFIXES
-from ..openai_integration import translate_to_english
+from .openai_engine import OpenAIEngine
+from .openai_types import OpenAIConfig
 
 
 # Compiled regex patterns for efficiency
@@ -151,7 +152,11 @@ class PreprocessEngine:
         if config.use_openai:
             non_empty_companies = df[df["company_clean"].notna() & (df["company_clean"] != "")]["company_clean"].unique()
             if len(non_empty_companies) > 0:
-                translated = translate_to_english(non_empty_companies, config.openai_model)
+                # Use modular OpenAI engine for translation
+                engine = OpenAIEngine()
+                openai_config = OpenAIConfig(model=config.openai_model)
+                result = engine.translate_to_english(non_empty_companies, openai_config)
+                translated = result.translations
                 translation_map = dict(zip(non_empty_companies, translated))
                 df["company_clean"] = df["company_clean"].map(translation_map).fillna(df["company_clean"])
         

@@ -4,22 +4,18 @@ CLI for the similarity step of the record deduplication pipeline.
 
 import argparse
 import sys
-from pathlib import Path
 from typing import Optional
 
+from .base import StandardCLI, CLIArgumentPatterns
 from ..core.similarity_engine import SimilarityEngine, SimilarityConfig
 from ..formatters.similarity_formatter import SimilarityTerminalFormatter
-from ..io.file_handler import FileReader, FileWriter
 
 
-class SimilarityCLI:
+class SimilarityCLI(StandardCLI):
     """CLI for the similarity step with clean separation of concerns."""
     
     def __init__(self):
-        self.engine = SimilarityEngine()
-        self.formatter = SimilarityTerminalFormatter()
-        self.file_reader = FileReader()
-        self.file_writer = FileWriter()
+        super().__init__(SimilarityEngine, SimilarityTerminalFormatter)
     
     def create_parser(self) -> argparse.ArgumentParser:
         """Create the argument parser for similarity."""
@@ -43,22 +39,21 @@ Examples:
             help="Path to the candidate pairs CSV file"
         )
         
-        parser.add_argument(
-            "--output",
-            default="data/outputs/features.csv",
-            help="Output file path (default: data/outputs/features.csv)"
-        )
-        
-        parser.add_argument(
-            "--quiet",
-            action="store_true",
-            help="Suppress progress output"
-        )
+        CLIArgumentPatterns.add_output_argument(parser, "data/outputs/features.csv")
+        CLIArgumentPatterns.add_boolean_flag(parser, "quiet", "Suppress progress output")
         
         return parser
     
-    def validate_input(self, cleaned_file: str, pairs_file: str) -> bool:
+    def validate_input_file(self, input_file: str, required_extension: str = '.csv') -> bool:
+        """Override to handle multiple input files for similarity."""
+        # This will be called by the base class for 'input_file' which doesn't exist in similarity
+        # So we'll handle validation in process_data instead
+        return True
+    
+    def validate_similarity_inputs(self, cleaned_file: str, pairs_file: str) -> bool:
         """Validate that the input files exist and are readable."""
+        from pathlib import Path
+        
         for file_path, name in [(cleaned_file, "cleaned"), (pairs_file, "pairs")]:
             path = Path(file_path)
             if not path.exists():
@@ -69,16 +64,13 @@ Examples:
                 return False
         return True
     
-    def run(self, args: Optional[list] = None) -> int:
-        """Run the similarity CLI."""
-        parser = self.create_parser()
-        parsed_args = parser.parse_args(args)
-        
-        # Validate input
-        if not self.validate_input(parsed_args.cleaned_file, parsed_args.pairs_file):
-            return 1
-        
+    def process_data(self, parsed_args: argparse.Namespace) -> bool:
+        """Process the data according to the parsed arguments."""
         try:
+            # Validate similarity-specific inputs
+            if not self.validate_similarity_inputs(parsed_args.cleaned_file, parsed_args.pairs_file):
+                return False
+            
             # Load data
             if not parsed_args.quiet:
                 self.formatter.format_start_message(parsed_args.cleaned_file, parsed_args.pairs_file)
@@ -93,11 +85,8 @@ Examples:
             config = SimilarityConfig()
             result = self.engine.process(cleaned_df, pairs_df, config)
             
-            # Save results
-            if not parsed_args.quiet:
-                print(f"\nSaving results to {parsed_args.output}...")
-            
-            self.file_writer.write_csv_no_index(result.features_df, parsed_args.output)
+            # Save results (similarity doesn't use index)
+            self.save_results(result.features_df, parsed_args.output, parsed_args.quiet, use_index=False)
             
             # Display results
             if not parsed_args.quiet:
@@ -108,14 +97,11 @@ Examples:
                     parsed_args.output
                 )
             
-            return 0
+            return True
             
         except Exception as e:
-            if not parsed_args.quiet:
-                self.formatter.format_error(e)
-                import traceback
-                traceback.print_exc()
-            return 1
+            self.handle_error(e, parsed_args.quiet)
+            return False
 
 
 def main():

@@ -18,18 +18,16 @@ from ..utils import log_run, LOG_PATH
               help="Path to similarity features CSV file")
 @click.option("--cleaned-path", default="data/outputs/cleaned.csv", show_default=True,
               help="Path to cleaned records CSV file")
-@click.option("--eps", type=float, default=0.5, show_default=True,
+@click.option("--eps", type=float, default=0.1, show_default=True,
               help="DBSCAN epsilon parameter (distance threshold)")
 @click.option("--min-samples", type=int, default=2, show_default=True,
               help="DBSCAN minimum samples parameter")
 @click.option("--output-path", default="data/outputs/clusters.csv", show_default=True,
               help="Path to save clustered records")
-@click.option("--scale/--no-scale", default=False, show_default=True,
-              help="Standard-scale similarity columns before DBSCAN")
+@click.option("--scale/--no-scale", default=True, show_default=True,
+              help="Use enhanced scaling (PowerTransformer + StandardScaler)")
 @click.option("--agg-path", default="data/outputs/agg_features.csv", show_default=True,
               help="Where to write aggregated features (with cluster column)")
-@click.option("--auto-eps/--no-auto-eps", default=False, show_default=True,
-              help="Automatically select eps using k-distance elbow method")
 def clustering(
     features_path: str,
     cleaned_path: str,
@@ -38,25 +36,24 @@ def clustering(
     output_path: str,
     scale: bool,
     agg_path: str,
-    auto_eps: bool,
 ) -> None:
     """
-    Cluster records based on similarity features using DBSCAN.
+    Cluster records based on similarity features using DBSCAN with enhanced feature engineering.
     
     This step groups similar records into clusters based on company and domain
-    similarity features. It can automatically select optimal parameters using
-    k-distance analysis and silhouette scoring.
+    similarity features. It uses advanced feature engineering and enhanced scaling
+    to improve clustering quality, particularly targeting the eps range of 0.01-0.15.
     
     Examples:
     
-        # Basic clustering with default parameters
+        # Basic clustering with enhanced features
         python -m src.cli.clustering
         
-        # Auto-select optimal parameters with scaling
-        python -m src.cli.clustering --auto-eps --scale
+        # Manual parameter tuning for more granular clusters
+        python -m src.cli.clustering --eps 0.1 --min-samples 2 --scale
         
-        # Manual parameter tuning
-        python -m src.cli.clustering --eps 0.3 --min-samples 3 --scale
+        # Fine-tuning for domain-based clustering
+        python -m src.cli.clustering --eps 0.05 --min-samples 2 --scale
     """
     start_time = time.time()
     formatter = ClusteringFormatter()
@@ -65,25 +62,14 @@ def clustering(
         # Initialize clustering engine
         engine = ClusteringEngine()
         
-        # Display auto-eps progress if enabled
-        if auto_eps:
-            print(formatter.format_progress("Auto-selecting optimal clustering parameters..."))
-        
-        # Perform clustering
+        # Perform clustering with enhanced features
         clustered_records, agg_features, stats = engine.cluster_records(
             features_path=features_path,
             cleaned_path=cleaned_path,
             eps=eps,
             min_samples=min_samples,
-            scale=scale,
-            auto_eps=auto_eps
+            scale=scale
         )
-        
-        # Display auto-eps iteration details if available
-        if auto_eps and stats.get("iterations"):
-            auto_details = formatter.format_auto_eps_details(stats)
-            for line in auto_details:
-                print(line)
         
         # Save results
         engine.save_results(clustered_records, agg_features, output_path, agg_path)

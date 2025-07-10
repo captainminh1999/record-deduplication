@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 from sklearn.cluster import DBSCAN
 from sklearn.neighbors import NearestNeighbors
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, PowerTransformer
 from sklearn.metrics import silhouette_score
 
 
@@ -31,21 +31,19 @@ class ClusteringEngine:
         self,
         features_path: str,
         cleaned_path: str,
-        eps: float = 0.004,
-        min_samples: int = 3,
-        scale: bool = False,
-        auto_eps: bool = False,
+        eps: float = 0.1,
+        min_samples: int = 2,
+        scale: bool = True,
     ) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[str, Any]]:
         """
-        Generate DBSCAN clusters from similarity features.
+        Generate DBSCAN clusters from similarity features with enhanced feature engineering.
         
         Args:
             features_path: Path to similarity features CSV
             cleaned_path: Path to cleaned records CSV
             eps: DBSCAN epsilon parameter
             min_samples: DBSCAN minimum samples parameter
-            scale: Whether to standardize features before clustering
-            auto_eps: Whether to automatically select optimal eps
+            scale: Whether to use enhanced scaling (PowerTransformer + StandardScaler)
             
         Returns:
             Tuple of (clustered_records, aggregated_features, stats)
@@ -56,14 +54,13 @@ class ClusteringEngine:
                 "eps": eps,
                 "min_samples": min_samples,
                 "scale": scale,
-                "auto_eps": auto_eps,
+                "enhanced_features": True,
                 "features_used": []
             },
             "data_stats": {
                 "input_records": 0,
                 "feature_stats": {}
-            },
-            "iterations": []
+            }
         }
         
         # Load data
@@ -71,19 +68,15 @@ class ClusteringEngine:
         cleaned = pd.read_csv(cleaned_path).set_index("record_id")
         self.clustering_stats["data_stats"]["input_records"] = len(cleaned)
         
-        # Prepare features for clustering
-        agg_features, feature_weights = self._prepare_features(feats, cleaned)
+        # Prepare enhanced features for clustering
+        agg_features, feature_weights = self._prepare_enhanced_features(feats, cleaned)
         self.clustering_stats["parameters"]["feature_weights"] = feature_weights
         
-        # Scale features if requested
+        # Enhanced scaling if requested
         X = agg_features.values
         if scale:
-            X, scaling_params = self._scale_features(X)
+            X, scaling_params = self._enhanced_scaling(X)
             self.clustering_stats["parameters"]["scaling"] = scaling_params
-        
-        # Auto-select parameters if requested
-        if auto_eps:
-            eps, min_samples = self._auto_select_parameters(X, eps, min_samples)
         
         # Perform clustering
         labels = self._perform_clustering(X, eps, min_samples)
@@ -98,13 +91,13 @@ class ClusteringEngine:
         
         return clustered_records, agg_features, self.clustering_stats
     
-    def _prepare_features(
+    def _prepare_enhanced_features(
         self, 
         feats: pd.DataFrame, 
         cleaned: pd.DataFrame
     ) -> Tuple[pd.DataFrame, Dict[str, float]]:
-        """Prepare and aggregate similarity features for clustering."""
-        # Only use company_sim and domain_sim for clustering
+        """Prepare enhanced features with advanced feature engineering for clustering."""
+        # Base similarity features
         sim_cols = [c for c in ["company_sim", "domain_sim"] if c in feats.columns]
         if not sim_cols:
             raise ValueError("No similarity columns found in features file (need company_sim and/or domain_sim)")
@@ -117,7 +110,7 @@ class ClusteringEngine:
         melted = pd.concat([left, right], ignore_index=True)
         melted[sim_cols] = melted[sim_cols].apply(pd.to_numeric, errors="coerce")
         
-        # Track feature statistics before weighting
+        # Track feature statistics before engineering
         for col in sim_cols:
             self.clustering_stats["data_stats"]["feature_stats"][col] = {
                 "mean": float(melted[col].mean()),
@@ -127,180 +120,111 @@ class ClusteringEngine:
                 "null_count": int(melted[col].isnull().sum())
             }
         
-        # Apply feature weights
+        # Enhanced Feature Engineering
+        engineered_features = []
+        
+        # 1. Interaction Features
+        if "company_sim" in sim_cols and "domain_sim" in sim_cols:
+            melted["company_domain_product"] = melted["company_sim"] * melted["domain_sim"]
+            melted["company_domain_sum"] = melted["company_sim"] + melted["domain_sim"]
+            melted["company_domain_ratio"] = melted["company_sim"] / (melted["domain_sim"] + 1e-8)
+            engineered_features.extend(["company_domain_product", "company_domain_sum", "company_domain_ratio"])
+        
+        # 2. Non-linear transformations
+        for col in sim_cols:
+            melted[f"{col}_squared"] = melted[col] ** 2
+            melted[f"{col}_sqrt"] = np.sqrt(melted[col] + 1e-8)
+            melted[f"{col}_log"] = np.log(melted[col] + 1e-8)
+            engineered_features.extend([f"{col}_squared", f"{col}_sqrt", f"{col}_log"])
+        
+        # 3. Statistical features (variance, skewness indicators)
+        if len(sim_cols) > 1:
+            melted["sim_variance"] = melted[sim_cols].var(axis=1)
+            melted["sim_mean"] = melted[sim_cols].mean(axis=1)
+            melted["sim_max"] = melted[sim_cols].max(axis=1)
+            melted["sim_min"] = melted[sim_cols].min(axis=1)
+            melted["sim_range"] = melted["sim_max"] - melted["sim_min"]
+            engineered_features.extend(["sim_variance", "sim_mean", "sim_max", "sim_min", "sim_range"])
+        
+        # Update features list
+        all_features = sim_cols + engineered_features
+        self.clustering_stats["parameters"]["features_used"] = all_features
+        
+        # Handle NaN values from log and sqrt operations
+        for col in engineered_features:
+            if col in melted.columns:
+                melted[col] = melted[col].fillna(0)
+        
+        # Apply enhanced feature weights - prioritize domain similarity
         weights = {}
+        
+        # Base features
         if "company_sim" in sim_cols:
-            weights["company_sim"] = 1.0
+            weights["company_sim"] = 0.15  # Reduced weight for company similarity
             melted["company_sim"] = melted["company_sim"] * weights["company_sim"]
         if "domain_sim" in sim_cols:
-            weights["domain_sim"] = 1.0
+            weights["domain_sim"] = 2.0  # High weight for domain similarity
             melted["domain_sim"] = melted["domain_sim"] * weights["domain_sim"]
         
+        # Interaction features - high weights for domain-related interactions
+        if "company_domain_product" in engineered_features:
+            weights["company_domain_product"] = 1.5
+            melted["company_domain_product"] = melted["company_domain_product"] * weights["company_domain_product"]
+        if "company_domain_sum" in engineered_features:
+            weights["company_domain_sum"] = 1.0
+            melted["company_domain_sum"] = melted["company_domain_sum"] * weights["company_domain_sum"]
+        if "company_domain_ratio" in engineered_features:
+            weights["company_domain_ratio"] = 0.8
+            melted["company_domain_ratio"] = melted["company_domain_ratio"] * weights["company_domain_ratio"]
+        
+        # Non-linear features - moderate weights
+        for col in sim_cols:
+            if f"{col}_squared" in engineered_features:
+                weights[f"{col}_squared"] = 0.3
+                melted[f"{col}_squared"] = melted[f"{col}_squared"] * weights[f"{col}_squared"]
+            if f"{col}_sqrt" in engineered_features:
+                weights[f"{col}_sqrt"] = 0.4
+                melted[f"{col}_sqrt"] = melted[f"{col}_sqrt"] * weights[f"{col}_sqrt"]
+            if f"{col}_log" in engineered_features:
+                weights[f"{col}_log"] = 0.2
+                melted[f"{col}_log"] = melted[f"{col}_log"] * weights[f"{col}_log"]
+        
+        # Statistical features - lower weights to avoid overfitting
+        for stat_feat in ["sim_variance", "sim_mean", "sim_max", "sim_min", "sim_range"]:
+            if stat_feat in engineered_features:
+                weights[stat_feat] = 0.1
+                melted[stat_feat] = melted[stat_feat] * weights[stat_feat]
+        
         # Aggregate features by record
-        agg = melted.groupby("record_id")[sim_cols].mean()
+        agg = melted.groupby("record_id")[all_features].mean()
         agg = agg.reindex(cleaned.index, fill_value=0)
         
         return agg, weights
     
-    def _scale_features(self, X: np.ndarray) -> Tuple[np.ndarray, Dict[str, List[float]]]:
-        """Scale features using StandardScaler."""
-        self.scaler = StandardScaler()
-        X_scaled = self.scaler.fit_transform(X)
-        
+    def _enhanced_scaling(self, X: np.ndarray) -> Tuple[np.ndarray, Dict[str, Any]]:
+        """Enhanced scaling using PowerTransformer followed by StandardScaler."""
         scaling_params = {}
+        
+        # Step 1: PowerTransformer to make data more normal
+        power_transformer = PowerTransformer(method='yeo-johnson', standardize=False)
+        X_power = power_transformer.fit_transform(X)
+        
+        # Step 2: StandardScaler for final normalization
+        self.scaler = StandardScaler()
+        X_scaled = self.scaler.fit_transform(X_power)
+        
+        # Store scaling parameters
         try:
             scaling_params = {
-                "mean": self.scaler.mean_.tolist() if self.scaler.mean_ is not None else [],
-                "scale": self.scaler.scale_.tolist() if self.scaler.scale_ is not None else []
+                "power_transformer_lambdas": power_transformer.lambdas_.tolist() if hasattr(power_transformer, 'lambdas_') else [],
+                "scaler_mean": self.scaler.mean_.tolist() if self.scaler.mean_ is not None else [],
+                "scaler_scale": self.scaler.scale_.tolist() if self.scaler.scale_ is not None else [],
+                "method": "PowerTransformer + StandardScaler"
             }
         except:
-            pass  # Ignore if scaling parameters are not available
+            scaling_params = {"method": "PowerTransformer + StandardScaler"}
         
         return X_scaled, scaling_params
-    
-    def _auto_select_parameters(
-        self, 
-        X: np.ndarray, 
-        initial_eps: float, 
-        initial_min_samples: int
-    ) -> Tuple[float, int]:
-        """Automatically select optimal eps and min_samples using k-distance and silhouette score."""
-        n_samples = X.shape[0]
-        
-        # For very small datasets, use simple defaults
-        if n_samples < 4:
-            return 0.5, 2
-        
-        best_score = -1
-        best_params = (initial_eps, initial_min_samples)
-        # Adjust range based on dataset size
-        max_min_samples = min(6, n_samples // 2)
-        min_samples_range = range(2, max_min_samples + 1)
-        
-        # Initial parameter search
-        for ms in min_samples_range:
-            if ms >= n_samples:
-                continue
-            auto_eps = self._estimate_eps_kdistance(X, min(ms, n_samples - 1))
-            labels = DBSCAN(eps=auto_eps, min_samples=ms).fit_predict(X)
-            
-            # Only score if more than 1 cluster and not all noise
-            if len(set(labels)) > 1 and len(set(labels)) < len(X) and -1 in set(labels):
-                try:
-                    score = silhouette_score(X, labels)
-                    if score > best_score:
-                        best_score = score
-                        best_params = (auto_eps, ms)
-                except Exception:
-                    continue
-        
-        eps, min_samples = best_params
-        
-        # Only do refinement for larger datasets
-        if n_samples >= 10:
-            eps, min_samples = self._refine_parameters(X, eps, min_samples, best_score)
-        
-        return eps, min_samples
-    
-    def _estimate_eps_kdistance(self, X: np.ndarray, k: int) -> float:
-        """Estimate eps using k-distance elbow method."""
-        neigh = NearestNeighbors(n_neighbors=k)
-        nbrs = neigh.fit(X)
-        distances, _ = nbrs.kneighbors(X)
-        k_distances = sorted(distances[:, -1])
-        
-        try:
-            from kneed import KneeLocator
-            kneedle = KneeLocator(
-                range(len(k_distances)),
-                k_distances,
-                S=1.0,
-                curve="convex",
-                direction="increasing",
-            )
-            estimated_eps = (
-                k_distances[kneedle.knee]
-                if kneedle.knee is not None
-                else k_distances[int(0.95 * len(k_distances))]
-            )
-        except ImportError:
-            estimated_eps = k_distances[int(0.95 * len(k_distances))]
-        
-        # Ensure eps is positive and reasonable
-        if estimated_eps <= 0 or not np.isfinite(estimated_eps):
-            # Fallback to a reasonable default based on data
-            estimated_eps = max(0.1, float(np.mean(k_distances)) + float(np.std(k_distances)))
-        
-        return float(estimated_eps)
-    
-    def _refine_parameters(
-        self, 
-        X: np.ndarray, 
-        eps: float, 
-        min_samples: int, 
-        current_score: float
-    ) -> Tuple[float, int]:
-        """Iteratively refine clustering parameters using grid search."""
-        max_iterations = 3
-        convergence_threshold = 0.01
-        search_range_eps = 0.2
-        search_range_min_samples = 2
-        
-        current_eps, current_min_samples = eps, min_samples
-        
-        for iteration in range(max_iterations):
-            # Define grid around current best parameters
-            eps_grid = np.linspace(
-                current_eps * (1 - search_range_eps), 
-                current_eps * (1 + search_range_eps), 
-                num=5
-            )
-            min_samples_grid = range(
-                max(2, current_min_samples - search_range_min_samples), 
-                current_min_samples + search_range_min_samples + 1
-            )
-            
-            # Search the grid
-            best_iter_score = current_score
-            best_iter_params = (current_eps, current_min_samples)
-            
-            for e in eps_grid:
-                for ms in min_samples_grid:
-                    labels = DBSCAN(eps=e, min_samples=ms).fit_predict(X)
-                    n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
-                    if n_clusters > 1 and n_clusters < len(X):
-                        try:
-                            score = silhouette_score(X, labels)
-                            if score > best_iter_score:
-                                best_iter_score = score
-                                best_iter_params = (e, ms)
-                        except Exception:
-                            continue
-            
-            # Check for improvement
-            improvement = best_iter_score - current_score
-            
-            # Log iteration results
-            iteration_stats = {
-                "iteration": iteration + 1,
-                "eps": best_iter_params[0],
-                "min_samples": best_iter_params[1],
-                "silhouette_score": best_iter_score,
-                "improvement": improvement
-            }
-            self.clustering_stats["iterations"].append(iteration_stats)
-            
-            # Stop if no significant improvement
-            if improvement < convergence_threshold:
-                break
-            
-            # Update best parameters and narrow search range for next iteration
-            current_eps, current_min_samples = best_iter_params
-            current_score = best_iter_score
-            search_range_eps *= 0.5
-            search_range_min_samples = max(1, int(search_range_min_samples * 0.5))
-        
-        return current_eps, current_min_samples
     
     def _perform_clustering(self, X: np.ndarray, eps: float, min_samples: int) -> np.ndarray:
         """Perform DBSCAN clustering."""
@@ -344,10 +268,14 @@ class ClusteringEngine:
     
     def _prepare_output(self, agg_features: pd.DataFrame, cleaned: pd.DataFrame) -> pd.DataFrame:
         """Prepare final clustered records output."""
+        # Include company_clean along with other columns
+        columns_to_include = ["company_clean", "domain_clean", "phone_clean", "address_clean"]
+        available_columns = [col for col in columns_to_include if col in cleaned.columns]
+        
         result = (
             agg_features[["cluster"]]
             .merge(
-                cleaned[["domain_clean", "phone_clean", "address_clean"]],
+                cleaned[available_columns],
                 left_index=True,
                 right_index=True,
                 how="left",
@@ -385,7 +313,7 @@ class ClusteringEngine:
             "eps": results.get("final_eps", 0.0),
             "min_samples": results.get("final_min_samples", 0),
             "scale": params.get("scale", False),
-            "auto_eps": params.get("auto_eps", False),
+            "enhanced_features": params.get("enhanced_features", False),
             "n_clusters": results.get("n_clusters", 0),
             "n_noise": results.get("n_noise_points", 0),
             "silhouette_score": results.get("silhouette_score", 0.0)

@@ -230,8 +230,7 @@ Examples:
                     "--output-path", parsed_args.output_path,
                     "--eps", str(parsed_args.eps),
                     "--min-samples", str(parsed_args.min_samples),
-                    "--agg-path", parsed_args.agg_path,
-                    "--log-path", parsed_args.log_path
+                    "--agg-path", parsed_args.agg_path
                 ] + (["--auto-eps"] if parsed_args.auto_eps else ["--no-auto-eps"]) +
                     (["--scale"] if parsed_args.scale else ["--no-scale"]),
                 standalone_mode=False)

@@ -4,11 +4,13 @@ CLI for the similarity step of the record deduplication pipeline.
 
 import argparse
 import sys
+import time
 from typing import Optional
 
 from .base import StandardCLI, CLIArgumentPatterns
 from ..core.similarity_engine import SimilarityEngine, SimilarityConfig
 from ..formatters.similarity_formatter import SimilarityTerminalFormatter
+from ..utils import log_run
 
 
 class SimilarityCLI(StandardCLI):
@@ -66,6 +68,8 @@ Examples:
     
     def process_data(self, parsed_args: argparse.Namespace) -> bool:
         """Process the data according to the parsed arguments."""
+        start_time = time.time()
+        
         try:
             # Validate similarity-specific inputs
             if not self.validate_similarity_inputs(parsed_args.cleaned_file, parsed_args.pairs_file):
@@ -96,6 +100,16 @@ Examples:
                     parsed_args.pairs_file, 
                     parsed_args.output
                 )
+            
+            # Log the run
+            end_time = time.time()
+            log_run(
+                step="similarity",
+                start=start_time,
+                end=end_time,
+                rows=len(result.features_df),
+                additional_info=str(result.stats.__dict__).replace("'", '"')
+            )
             
             return True
             

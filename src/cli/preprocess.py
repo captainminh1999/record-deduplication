@@ -10,12 +10,14 @@ This module demonstrates the new modular architecture:
 
 import argparse
 import sys
+import time
 from pathlib import Path
 from typing import Optional
 
 from .base import StandardCLI, CLIArgumentPatterns
 from ..core.preprocess_engine import PreprocessEngine, PreprocessConfig
 from ..formatters.preprocess_formatter import PreprocessTerminalFormatter as PreprocessFormatter
+from ..utils import log_run
 
 
 class PreprocessCLI(StandardCLI):
@@ -44,6 +46,8 @@ Examples:
     
     def process_data(self, parsed_args: argparse.Namespace) -> bool:
         """Process the data according to the parsed arguments."""
+        start_time = time.time()
+        
         try:
             # Load data
             df = self.load_data(parsed_args.input_file, parsed_args.quiet)
@@ -69,6 +73,16 @@ Examples:
                     self.file_writer.write_csv(result.duplicates_df, audit_path)
                 
                 self.formatter.format_results(result, parsed_args.input_file, parsed_args.output, audit_path)
+            
+            # Log the run
+            end_time = time.time()
+            log_run(
+                step="preprocess",
+                start=start_time,
+                end=end_time,
+                rows=len(result.cleaned_df),
+                additional_info=str(result.stats.__dict__).replace("'", '"')
+            )
             
             return True
             

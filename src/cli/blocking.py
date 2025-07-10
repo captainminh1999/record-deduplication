@@ -4,11 +4,13 @@ CLI for the blocking step of the record deduplication pipeline.
 
 import argparse
 import sys
+import time
 from typing import Optional
 
 from .base import StandardCLI, CLIArgumentPatterns
 from ..core.blocking_engine import BlockingEngine, BlockingConfig
 from ..formatters.blocking_formatter import BlockingTerminalFormatter
+from ..utils import log_run
 
 
 class BlockingCLI(StandardCLI):
@@ -34,6 +36,8 @@ Examples:
     
     def process_data(self, parsed_args: argparse.Namespace) -> bool:
         """Process the data according to the parsed arguments."""
+        start_time = time.time()
+        
         try:
             # Load data
             df = self.load_data(parsed_args.input_file, parsed_args.quiet)
@@ -52,11 +56,15 @@ Examples:
             if not parsed_args.quiet:
                 self.formatter.format_results(result, parsed_args.input_file, parsed_args.output)
             
-            return True
-            
-        except Exception as e:
-            self.handle_error(e, parsed_args.quiet)
-            return False
+            # Log the run
+            end_time = time.time()
+            log_run(
+                step="blocking",
+                start=start_time,
+                end=end_time,
+                rows=len(result.pairs_df),
+                additional_info=str(result.stats.__dict__).replace("'", '"')
+            )
             
             return True
             

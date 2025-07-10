@@ -81,14 +81,17 @@ record-deduplication/
 │       ├── high_confidence.csv   # Likely duplicates
 │       └── manual_review.xlsx    # Review spreadsheet
 ├── 📁 src/                       # Pipeline modules
-│   ├── preprocess.py            # Data cleaning
-│   ├── blocking.py              # Candidate generation
-│   ├── similarity.py            # Feature computation
-│   ├── model.py                 # ML training/scoring
-│   ├── reporting.py             # Excel output
-│   └── clustering.py            # DBSCAN clustering
-├── 📁 docs/                     # Documentation
-└── 📁 tests/                    # Unit tests
+│   ├── 📁 cli/                   # Command-line interfaces
+│   ├── 📁 core/                  # Core business logic engines
+│   ├── 📁 formatters/            # Terminal output formatting
+│   ├── 📁 io/                    # File I/O operations
+│   ├── 📁 logging/               # Logging functionality
+│   ├── 📁 tracking/              # Progress tracking
+│   └── 📁 pipeline/              # Pipeline orchestration
+├── 📁 scripts/                   # Development & analysis scripts
+├── 📁 docs/                      # Documentation
+├── 📁 tests/                     # Unit tests
+└── 📁 notebooks/                 # Jupyter notebooks
 ```
 
 ## 🚨 Troubleshooting
@@ -110,13 +113,41 @@ Run the test suite to verify installation:
 python -m unittest discover
 ```
 
-## 📄 License
+## 🔧 Development Scripts
+
+The [`scripts/`](scripts/) directory contains utility scripts for development and analysis:
+
+- **`analyze_performance.py`** - Analyze similarity score distributions and data quality
+- **`benchmark_optimization.py`** - Benchmark performance of optimization algorithms
+
+```bash
+# Analyze pipeline performance
+python scripts/analyze_performance.py
+
+# Benchmark optimizations
+python scripts/benchmark_optimization.py
+```
+
+See [`scripts/README.md`](scripts/README.md) for detailed usage instructions.
+
+## � Full Documentation
+
+All documentation is now organized in the [`docs/`](docs/) directory:
+
+- **[📖 Documentation Index](docs/README.md)** - Complete guide to all documentation
+- **[🚀 Usage Guide](docs/USAGE.md)** - Step-by-step commands and examples
+- **[⚙️ Installation Guide](docs/INSTALLATION.md)** - Setup and dependencies
+- **[🔧 Pipeline Steps](docs/PIPELINE_STEPS.md)** - Technical pipeline documentation
+- **[🤖 AI Integration](docs/AI_DEDUPLICATION.md)** - AI-powered deduplication features
+- **[📋 Architecture](docs/MODULAR_ARCHITECTURE.md)** - Code architecture overview
+
+## �📄 License
 
 This project is provided as-is for educational and research purposes.
 
 ---
 
-**Need help?** Check the [detailed documentation](docs/) or run with sample data:
+**Need help?** Check the [complete documentation](docs/) or run with sample data:
 ```bash
 python -m src.cli.preprocess data/sample_input.csv --normalize --deduplicate
 ```

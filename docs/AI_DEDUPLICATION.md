@@ -33,26 +33,26 @@ The `openai_deduplication.py` module takes the output from similarity calculatio
 
 ### Basic Usage
 ```bash
-python -m src.openai_deduplication
+python -m src.cli.openai_deduplication
 ```
 
 ### With Custom Thresholds
 ```bash
-python -m src.openai_deduplication \
+python -m src.cli.openai_deduplication \
   --similarity-threshold 0.7 \
   --confidence-threshold 0.8
 ```
 
 ### Testing with Sample
 ```bash
-python -m src.openai_deduplication \
+python -m src.cli.openai_deduplication \
   --sample-size 100 \
   --similarity-threshold 0.6
 ```
 
 ### Performance Tuning
 ```bash
-python -m src.openai_deduplication \
+python -m src.cli.openai_deduplication \
   --max-workers 20 \
   --batch-size 15
 ```

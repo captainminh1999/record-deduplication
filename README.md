@@ -5,7 +5,7 @@ A **minimal record deduplication workflow** in Python that identifies and merges
 ## 🚀 Quick Start
 
 1. **Install:** `python -m pip install -r requirements.txt`
-2. **Run:** `python -m src.preprocess --input-path data/your_file.csv`
+2. **Run:** `python -m src.cli.preprocess data/your_file.csv`
 3. **Continue:** See [Usage Guide](docs/USAGE.md) for the complete 6-step workflow
 
 ## 📋 Minimal Data Requirements
@@ -118,5 +118,5 @@ This project is provided as-is for educational and research purposes.
 
 **Need help?** Check the [detailed documentation](docs/) or run with sample data:
 ```bash
-python -m src.preprocess --input-path data/sample_input.csv --clear
+python -m src.cli.preprocess data/sample_input.csv --normalize --deduplicate
 ```

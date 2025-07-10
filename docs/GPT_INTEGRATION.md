@@ -27,18 +27,11 @@ $env:OPENAI_KEY="your-api-key-here"
 
 Automatically translate company names to English using GPT. Useful for datasets with mixed languages.
 
-**Usage:**
-```bash
-python -m src.preprocess --input-path data/your_file.csv --use-openai
-```
+**Note:** The preprocessing CLI doesn't currently support OpenAI translation directly. This feature is being updated for the new modular architecture.
 
-**Options:**
-- `--openai-model`: Specify model (default: gpt-4o-mini)
-
-**Example:**
+**Alternative approach:**
 ```bash
-# Use custom model
-python -m src.preprocess --input-path data/companies.csv --use-openai --openai-model gpt-4
+python -m src.cli.openai_deduplication
 ```
 
 ### 2. Cluster Review (Post-Clustering)
@@ -48,10 +41,10 @@ After running clustering, GPT can analyze each cluster to identify potential dup
 **Usage:**
 ```bash
 # First run clustering
-python -m src.clustering --eps 0.5 --min-samples 2
+python -m src.cli.clustering --eps 0.5 --min-samples 2
 
-# Then analyze with GPT
-python -m src.openai_integration
+# Then analyze with GPT (OpenAI integration is now handled by the dedicated CLI)
+python -m src.cli.openai_deduplication
 ```
 
 **Output:** Creates `gpt_review.json` with AI analysis of each cluster.

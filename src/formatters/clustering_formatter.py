@@ -121,13 +121,13 @@ class ClusteringFormatter:
             return [
                 f"✅ Success! Created {n_clusters:,} clusters",
                 "   Next step: Analyze clusters with OpenAI integration",
-                "   Command: python -m src.openai_integration --exclude-clusters 0 --min-cluster-size 3"
+                "   Command: python -m src.cli.openai_deduplication --exclude-clusters 0 --min-cluster-size 3"
             ]
         else:
             return [
                 f"⚠️  Only {n_clusters} cluster formed - consider adjusting parameters",
                 "   • Try smaller eps value for more clusters",
-                "   • Try auto-eps: python -m src.clustering --auto-eps --scale"
+                "   • Try auto-eps: python -m src.cli.clustering --auto-eps --scale"
             ]
     
     @staticmethod

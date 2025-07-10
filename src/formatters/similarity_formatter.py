@@ -63,8 +63,8 @@ class SimilarityTerminalFormatter:
         print(f"  • Feature matrix:        {features_path}")
         
         print(f"\n✅ Next step: Train model or run clustering")
-        print(f"   Model:      python -m src.model")
-        print(f"   Clustering: python -m src.clustering")
+        print(f"   Model:      python -m src.cli.model")
+        print(f"   Clustering: python -m src.cli.clustering")
     
     @staticmethod
     def format_error(error: Exception) -> None:

@@ -99,7 +99,7 @@ class ModelFormatter:
         if high_conf_pairs > 0:
             return [
                 "✅ Next step: Run reporting to create Excel review file",
-                "   Command: python -m src.reporting"
+                "   Command: python -m src.cli.reporting"
             ]
         else:
             return [

@@ -72,7 +72,7 @@ class PreprocessTerminalFormatter:
             print(f"  • Removed duplicates:    {audit_path}")
         
         print(f"\n✅ Next step: Generate candidate pairs")
-        print(f"   Command: python -m src.blocking")
+        print(f"   Command: python -m src.cli.blocking data/outputs/cleaned.csv")
     
     @staticmethod
     def format_start_message(input_path: str, use_openai: bool = False) -> None:

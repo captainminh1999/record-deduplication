@@ -25,25 +25,36 @@ record_id,company
 
 **Note on Data Quality:** While the pipeline will work with minimal data (just ID and company name), having additional fields like domain, phone, and address will significantly improve the accuracy of duplicate detection.
 
+## Clearing Previous Outputs
+
+Before running a fresh pipeline, you may want to clear previous outputs:
+
+```bash
+# Clear all output files
+python -c "from src.utils import clear_all_data; clear_all_data()"
+
+# Clear specific files
+python -c "from src.utils import clear_files; clear_files(['data/outputs/cleaned.csv', 'data/outputs/pairs.csv'])"
+```
+
 ## Step 1: Preprocessing (Data Cleaning)
 
 **What it does:** Cleans and normalizes raw data, removes obvious duplicates.
 
 **How to run:**
 ```bash
-python -m src.preprocess --input-path data/your_file.csv
+python -m src.cli.preprocess data/your_file.csv
 ```
 
 **Options:**
-- `--input-path`: Path to your CSV or Excel file (supports .csv, .xlsx, .xls)
-- `--use-openai`: Translate company names to English using GPT
-- `--openai-model`: Specify GPT model (default: gpt-4o-mini)
-- `--clear`: Clear previous outputs before running
-- `--output-path`: Custom output path (default: data/outputs/cleaned.csv)
+- `--output`: Custom output path (default: data/outputs/cleaned.csv)
+- `--normalize`: Apply normalization to company names
+- `--deduplicate`: Remove exact duplicates
+- `--quiet`: Suppress progress output
 
 **Example with custom file:**
 ```bash
-python -m src.preprocess --input-path "C:/my_data/companies.xlsx" --clear
+python -m src.cli.preprocess "C:/my_data/companies.xlsx" --output data/outputs/cleaned.csv --normalize --deduplicate
 ```
 
 ## Step 2: Blocking (Candidate Generation)
@@ -52,8 +63,12 @@ python -m src.preprocess --input-path "C:/my_data/companies.xlsx" --clear
 
 **How to run:**
 ```bash
-python -m src.blocking
+python -m src.cli.blocking data/outputs/cleaned.csv
 ```
+
+**Options:**
+- `--output`: Custom output path (default: data/outputs/pairs.csv)
+- `--quiet`: Suppress progress output
 
 ## Step 3: Similarity Features
 
@@ -61,8 +76,12 @@ python -m src.blocking
 
 **How to run:**
 ```bash
-python -m src.similarity
+python -m src.cli.similarity data/outputs/cleaned.csv data/outputs/pairs.csv
 ```
+
+**Options:**
+- `--output`: Custom output path (default: data/outputs/features.csv)
+- `--quiet`: Suppress progress output
 
 ## Step 4: Model Training (Duplicate Scoring)
 
@@ -70,7 +89,7 @@ python -m src.similarity
 
 **How to run:**
 ```bash
-python -m src.model
+python -m src.cli.model
 ```
 
 ## Step 5: Reporting (Review and Export)
@@ -79,7 +98,7 @@ python -m src.model
 
 **How to run:**
 ```bash
-python -m src.reporting
+python -m src.cli.reporting
 ```
 
 ## Step 6: Clustering (Optional)
@@ -88,8 +107,25 @@ python -m src.reporting
 
 **How to run:**
 ```bash
-python -m src.clustering --eps 0.5 --min-samples 2 --scale
+python -m src.cli.clustering --eps 0.5 --min-samples 2 --scale
 ```
+
+## OpenAI Integration (Optional)
+
+**What it does:** AI-powered record deduplication using OpenAI.
+
+**How to run:**
+```bash
+python -m src.cli.openai_deduplication
+```
+
+**Options:**
+- `--features-path`: Path to features CSV (default: data/outputs/features.csv)
+- `--cleaned-path`: Path to cleaned records CSV (default: data/outputs/cleaned.csv)
+- `--similarity-threshold`: Minimum similarity score (default: 0.6)
+- `--confidence-threshold`: Minimum AI confidence (default: 0.7)
+- `--model`: OpenAI model to use (default: gpt-4o-mini-2024-07-18)
+- `--max-workers`: Number of parallel workers (default: 10)
 
 ## Running the Full Pipeline
 
@@ -97,13 +133,24 @@ You can run all steps in sequence:
 
 ```bash
 # Step 1: Clean your data
-python -m src.preprocess --input-path data/your_file.csv --clear
+python -m src.cli.preprocess data/your_file.csv --normalize --deduplicate
 
 # Step 2-5: Run the pipeline
-python -m src.blocking
-python -m src.similarity  
-python -m src.model
-python -m src.reporting
+python -m src.cli.blocking data/outputs/cleaned.csv
+python -m src.cli.similarity data/outputs/cleaned.csv data/outputs/pairs.csv
+python -m src.cli.model
+python -m src.cli.reporting
+
+# Optional: OpenAI deduplication
+python -m src.cli.openai_deduplication
+```
+
+## Pipeline Orchestrator
+
+For automated pipeline execution, you can use the pipeline orchestrator:
+
+```bash
+python -c "from src.pipeline.orchestrator import PipelineOrchestrator; PipelineOrchestrator().run_full_pipeline('data/your_file.csv')"
 ```
 
 For detailed information about each step, see [PIPELINE_STEPS.md](PIPELINE_STEPS.md).

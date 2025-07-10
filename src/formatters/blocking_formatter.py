@@ -60,7 +60,7 @@ class BlockingTerminalFormatter:
         print(f"  • Candidate pairs:       {output_path}")
         
         print(f"\n✅ Next step: Compute similarity features")
-        print(f"   Command: python -m src.similarity")
+        print(f"   Command: python -m src.cli.similarity data/outputs/cleaned.csv data/outputs/pairs.csv")
     
     @staticmethod
     def format_error(error: Exception) -> None:

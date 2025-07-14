@@ -66,15 +66,15 @@ graph TD
     F --> H["📝 Manual Review"]
     G --> I["🧠 AI Analysis<br/>GPT Integration"]
     
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
-    style E fill:#fce4ec
-    style F fill:#f1f8e9
-    style G fill:#e3f2fd
-    style H fill:#fff8e1
-    style I fill:#f9fbe7
+    style A fill:#01579b,stroke:#000,stroke-width:2px,color:#fff
+    style B fill:#4a148c,stroke:#000,stroke-width:2px,color:#fff
+    style C fill:#1b5e20,stroke:#000,stroke-width:2px,color:#fff
+    style D fill:#e65100,stroke:#000,stroke-width:2px,color:#fff
+    style E fill:#880e4f,stroke:#000,stroke-width:2px,color:#fff
+    style F fill:#33691e,stroke:#000,stroke-width:2px,color:#fff
+    style G fill:#0d47a1,stroke:#000,stroke-width:2px,color:#fff
+    style H fill:#f57f17,stroke:#000,stroke-width:2px,color:#000
+    style I fill:#827717,stroke:#000,stroke-width:2px,color:#fff
 ```
 
 **Pipeline Steps:**

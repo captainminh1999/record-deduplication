@@ -116,7 +116,7 @@ class AggressivePCAStrategy(SubdivisionStrategy):
         super().__init__("aggressive_pca")
     
     def can_handle(self, cluster_size: int) -> bool:
-        return cluster_size >= 1000  # Only for very large clusters
+        return cluster_size >= 500  # Lower threshold for very large clusters
     
     def subdivide(
         self, 
@@ -181,7 +181,7 @@ class KMeansStrategy(SubdivisionStrategy):
         super().__init__("kmeans")
     
     def can_handle(self, cluster_size: int) -> bool:
-        return cluster_size >= 500  # Handle large clusters
+        return cluster_size >= 200  # Lower threshold for earlier intervention
     
     def subdivide(
         self, 
@@ -191,8 +191,19 @@ class KMeansStrategy(SubdivisionStrategy):
     ) -> Tuple[bool, np.ndarray, Dict[str, Any]]:
         
         cluster_size = cluster_X.shape[0]
-        target_size = 200  # Target cluster size
-        n_clusters = max(2, min(15, cluster_size // target_size))
+        
+        # More aggressive subdivision for very large clusters
+        if cluster_size > 10000:
+            target_size = 100  # Very aggressive for massive clusters
+            max_clusters = 50   # Allow more subdivisions
+        elif cluster_size > 5000:
+            target_size = 150  # Aggressive for large clusters
+            max_clusters = 30
+        else:
+            target_size = 200  # Normal target
+            max_clusters = 15
+            
+        n_clusters = max(2, min(max_clusters, cluster_size // target_size))
         
         info = {
             "strategy": self.name,

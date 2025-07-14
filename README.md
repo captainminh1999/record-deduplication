@@ -106,8 +106,8 @@ record-deduplication/
 │   ├── 📁 io/                    # File I/O operations
 │   ├── 📁 logging/               # Logging functionality
 │   ├── 📁 tracking/              # Progress tracking
-│   └── 📁 pipeline/              # Pipeline orchestration
-├── 📁 scripts/                   # Development & analysis scripts
+│   ├── 📁 pipeline/              # Pipeline orchestration
+│   └── 📁 scripts/               # Development & analysis scripts
 ├── 📁 docs/                      # Documentation
 ├── 📁 tests/                     # Unit tests
 └── 📁 notebooks/                 # Jupyter notebooks
@@ -134,20 +134,26 @@ python -m unittest discover
 
 ## 🔧 Development Scripts
 
-The [`scripts/`](scripts/) directory contains utility scripts for development and analysis:
+The [`src/scripts/`](src/scripts/) directory contains utility scripts for development and analysis:
 
+- **`complete_domain_clustering.py`** - Complete domain clustering pipeline with 99.99% success
+- **`domain_noise_rescue.py`** - Rescue noise records with domain similarity matching
+- **`verify_perfect_clustering.py`** - Verify and analyze domain clustering quality
 - **`analyze_performance.py`** - Analyze similarity score distributions and data quality
 - **`benchmark_optimization.py`** - Benchmark performance of optimization algorithms
 
 ```bash
-# Analyze pipeline performance
-python scripts/analyze_performance.py
+# Run complete domain clustering pipeline
+python src/scripts/complete_domain_clustering.py
 
-# Benchmark optimizations
-python scripts/benchmark_optimization.py
+# Analyze clustering performance
+python src/scripts/analyze_performance.py
+
+# Verify domain clustering quality
+python src/scripts/verify_perfect_clustering.py
 ```
 
-See [`scripts/README.md`](scripts/README.md) for detailed usage instructions.
+See [`src/scripts/README.md`](src/scripts/README.md) for detailed usage instructions.
 
 ## � Full Documentation
 

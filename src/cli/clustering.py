@@ -31,9 +31,15 @@ from ..utils import log_run, LOG_PATH
 @click.option("--hierarchical/--no-hierarchical", default=False, show_default=True,
               help="Apply hierarchical clustering to break large clusters")
 @click.option("--max-cluster-size", type=int, default=50, show_default=True,
-              help="Maximum cluster size before hierarchical subdivision")
-@click.option("--max-depth", type=int, default=3, show_default=True,
-              help="Maximum depth for hierarchical clustering")
+              help="Maximum cluster size before subdivision (continues until all clusters meet this)")
+@click.option("--max-depth", type=int, default=20, show_default=True,
+              help="Maximum absolute depth limit (safety limit, use adaptive depth)")
+@click.option("--adaptive-depth/--no-adaptive-depth", default=True, show_default=True,
+              help="Use adaptive depth (continues until max-cluster-size is met)")
+@click.option("--timeout", type=int, default=300, show_default=True,
+              help="Timeout in seconds for hierarchical clustering")
+@click.option("--performance-mode/--no-performance-mode", default=True, show_default=True,
+              help="Use fast strategies for very large clusters")
 def clustering(
     features_path: str,
     cleaned_path: str,
@@ -45,9 +51,15 @@ def clustering(
     hierarchical: bool,
     max_cluster_size: int,
     max_depth: int,
+    adaptive_depth: bool,
+    timeout: int,
+    performance_mode: bool,
 ) -> None:
     """
-    Cluster records based on similarity features using DBSCAN with enhanced feature engineering.
+    Cluster records based on similarity features using DBSCAN with advanced hierarchical subdivision.
+    
+    This command supports both traditional fixed-depth hierarchical clustering and new adaptive depth
+    clustering that continues until all clusters meet the size constraint.
     
     This step groups similar records into clusters based on company and domain
     similarity features. It uses advanced feature engineering and enhanced scaling
@@ -59,6 +71,9 @@ def clustering(
     
         # Basic clustering with enhanced features
         python -m src.cli.clustering
+        
+        # Adaptive hierarchical clustering (recommended)
+        python -m src.cli.clustering --hierarchical --max-cluster-size 10 --adaptive-depth
         
         # Manual parameter tuning for more granular clusters
         python -m src.cli.clustering --eps 0.1 --min-samples 2 --scale
@@ -78,15 +93,38 @@ def clustering(
         
         # Choose clustering method based on hierarchical flag
         if hierarchical:
-            clustered_records, agg_features, stats = engine.hierarchical_clustering(
-                features_path=features_path,
-                cleaned_path=cleaned_path,
-                eps=eps,
-                min_samples=min_samples,
-                scale=scale,
-                max_cluster_size=max_cluster_size,
-                max_depth=max_depth
-            )
+            if adaptive_depth:
+                # Use the new adaptive hierarchical clusterer
+                from src.core.clustering.hierarchical.adaptive_clusterer_v3 import AdaptiveHierarchicalClusterer
+                
+                # Initialize adaptive clusterer
+                adaptive_clusterer = AdaptiveHierarchicalClusterer(timeout_seconds=timeout)
+                
+                # Set performance mode
+                if performance_mode:
+                    adaptive_clusterer.set_performance_mode()
+                
+                # Perform adaptive hierarchical clustering
+                clustered_records, agg_features, stats = adaptive_clusterer.cluster_dataset(
+                    features_path=features_path,
+                    cleaned_path=cleaned_path,
+                    eps=eps,
+                    min_samples=min_samples,
+                    scale=scale,
+                    max_cluster_size=max_cluster_size,
+                    performance_mode=performance_mode
+                )
+            else:
+                # Use traditional fixed-depth hierarchical clustering
+                clustered_records, agg_features, stats = engine.hierarchical_clustering(
+                    features_path=features_path,
+                    cleaned_path=cleaned_path,
+                    eps=eps,
+                    min_samples=min_samples,
+                    scale=scale,
+                    max_cluster_size=max_cluster_size,
+                    max_depth=max_depth
+                )
         else:
             # Perform clustering with enhanced features
             clustered_records, agg_features, stats = engine.cluster_records(

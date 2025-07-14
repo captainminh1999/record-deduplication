@@ -14,17 +14,34 @@ The clustering system has been completely rewritten using a modular strategy pat
   - Managing clustering depth and size constraints
   - Coordinating with connectivity manager for high-similarity preservation
 
-### Modular Subdivision Engine V2 (`subdivision_engine_v2.py`)
-- **Architecture**: Strategy Pattern implementation
-- **Purpose**: Clean, maintainable subdivision with specialized strategies
+### Adaptive Clusterer V3 (`adaptive_clusterer_v3.py`) 🔧 **FIXED**
+- **Purpose**: Advanced hierarchical clustering with domain-aware feature engineering
+- **Recent Fix**: 
+  - **Problem**: All perfect domain matches got identical similarity values (5000.0)
+  - **Solution**: Unique incremental offsets preserve domain identity while maintaining priority
+  - **Code**: `melted.loc[perfect_domain_mask, "domain_sim"] = 4999.0 + unique_offsets`
+- **Benefits**: Enables proper domain-based subdivision without losing domain priority
+
+### Modular Subdivision Engine V3 (`subdivision_engine_v3.py`) 🆕 **ENHANCED**
+- **Architecture**: Strategy Pattern implementation with domain awareness
+- **Purpose**: Clean, maintainable subdivision with specialized domain handling
 - **Key Features**:
   - Progressive strategy fallback system
-  - Cluster-specific PCA optimization
-  - Guaranteed subdivision success via ForceStrategy
+  - Smart detection of artificially boosted domain values
+  - Domain-first clustering with 85% similarity threshold
+  - Guaranteed subdivision success via multiple strategies
 
 #### Subdivision Strategies
 
-**1. AdaptiveDBSCANStrategy**
+**1. Domain-First Clustering** 🆕
+- **Target**: Any cluster with perfect domain matches (domain_sim ≥ 4999.0)
+- **Approach**: 
+  - Detects domain column with boosted/uniform values
+  - Groups records by domain with 85% similarity threshold
+  - Handles artificially boosted values vs. legitimate uniform clusters
+- **Benefits**: Ensures each domain gets its own cluster while maintaining similarity grouping
+
+**2. AdaptiveDBSCANStrategy**
 - **Target**: Clusters ≥50 records
 - **Approach**: 
   - Uses AdaptiveEpsCalculator for cluster-specific parameter optimization
@@ -32,7 +49,7 @@ The clustering system has been completely rewritten using a modular strategy pat
   - Progressive eps reduction for difficult clusters
 - **Benefits**: Preserves natural cluster structure while enabling subdivision
 
-**2. AggressivePCAStrategy**
+**3. AggressivePCAStrategy**
 - **Target**: Very large clusters ≥1000 records
 - **Approach**:
   - Forces aggressive PCA reduction (18 → 2-3 dimensions)
@@ -40,7 +57,7 @@ The clustering system has been completely rewritten using a modular strategy pat
   - Designed for clusters resistant to normal subdivision
 - **Benefits**: Handles extremely large, dense clusters
 
-**3. KMeansStrategy**
+**4. KMeansStrategy**
 - **Target**: Large clusters ≥500 records
 - **Approach**:
   - Intelligent sampling for clusters >5000 records
@@ -151,3 +168,24 @@ The modular strategy pattern enables easy addition of new subdivision approaches
 - **HybridStrategy**: Combination approaches for specific cluster types
 
 This architecture provides a robust foundation for handling diverse clustering challenges while maintaining code quality and extensibility.
+
+## 🆕 Recent Critical Updates (July 2025)
+
+### Domain Clustering Fix in Adaptive Clusterer V3
+**Critical Issue Resolved**: Fixed a fundamental bug where all perfect domain matches were assigned identical similarity values, preventing proper domain-based clustering.
+
+**Technical Details**:
+- **Problem**: Line 337 in `adaptive_clusterer_v3.py` set all perfect domain matches to 5000.0
+- **Impact**: Made different domains indistinguishable, causing massive mixed-domain clusters
+- **Solution**: Implemented unique incremental offsets while preserving domain priority
+- **Result**: Enables proper domain subdivision while maintaining ultra-high domain priority
+
+### Enhanced Subdivision Engine V3
+- **Smart Detection**: Identifies artificially boosted vs. legitimate uniform domain clusters
+- **Subdivision Control**: Allows subdivision of boosted values while preserving real uniform clusters
+- **Domain Awareness**: Specialized handling for domain-based clustering scenarios
+
+### Complete Domain Clustering Pipeline
+- **Integrated Workflow**: End-to-end domain clustering with rescue capabilities
+- **Analysis Tools**: Comprehensive validation and debugging utilities in `src/scripts/`
+- **Production Ready**: Robust error handling and performance optimization

@@ -332,9 +332,16 @@ class AdaptiveHierarchicalClusterer:
         if "domain_sim" in melted.columns:
             melted["domain_sim"] = melted["domain_sim"] * 1000.0  # Ultra-high weight for domain (10x boost from 100x)
             
-            # Special boost for perfect domain matches (domain_sim = 1.0)
+            # Special boost for perfect domain matches, but preserve uniqueness for subdivision
             perfect_domain_mask = melted["domain_sim"] >= 1000.0  # After weighting, perfect match = 1000.0
-            melted.loc[perfect_domain_mask, "domain_sim"] = 5000.0  # Massive boost for perfect matches
+            # Instead of making all perfect matches identical, add a small unique offset based on record pairs
+            # This preserves the high priority while allowing domain-based subdivision
+            if perfect_domain_mask.sum() > 0:
+                # Add small incremental values (0.001, 0.002, etc.) to preserve uniqueness
+                unique_offsets = np.arange(perfect_domain_mask.sum()) * 0.001
+                melted.loc[perfect_domain_mask, "domain_sim"] = 4999.0 + unique_offsets
+                print(f"    [DOMAIN-BOOST] Applied unique boosts to {perfect_domain_mask.sum()} perfect domain pairs (4999.000-4999.{unique_offsets[-1]:.3f})")
+            
             
         if "company_sim" in melted.columns:
             melted["company_sim"] = melted["company_sim"] * 0.1  # Reduce company weight to minimize interference

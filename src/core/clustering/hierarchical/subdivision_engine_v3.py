@@ -65,15 +65,34 @@ class DomainFirstClusterer:
             
             # Case 2: Uniform high values - ALL records are perfect domain matches
             elif max_val == min_val and max_val > 1.0:
+                # Special handling for artificially boosted values
+                is_artificially_boosted = max_val >= 4999.0
                 domain_info.update({
                     "domain_col_detected": True,
                     "domain_col_idx": i,
                     "max_domain_value": max_val,
                     "perfect_match_count": len(col_values),
                     "high_confidence_count": len(col_values),
-                    "uniform_perfect_cluster": True
+                    "uniform_perfect_cluster": not is_artificially_boosted  # Don't preserve if boosted
                 })
-                print(f"    [DOMAIN-DETECT] ✅ Uniform perfect domain cluster detected at index {i} (all={max_val:.2f})")
+                if is_artificially_boosted:
+                    print(f"    [DOMAIN-DETECT] ⚠️ Artificially boosted uniform values detected at index {i} (all={max_val:.2f}) - subdivision allowed")
+                else:
+                    print(f"    [DOMAIN-DETECT] ✅ Uniform perfect domain cluster detected at index {i} (all={max_val:.2f})")
+                return i, domain_info
+            
+            # Case 3: High domain values with some variation (new boosted values with unique offsets)
+            elif max_val >= 4999.0 and min_val >= 4999.0:
+                # These are artificially boosted values that should allow subdivision
+                domain_info.update({
+                    "domain_col_detected": True,
+                    "domain_col_idx": i,
+                    "max_domain_value": max_val,
+                    "perfect_match_count": len(col_values),
+                    "high_confidence_count": len(col_values),
+                    "uniform_perfect_cluster": False  # Allow subdivision for boosted values
+                })
+                print(f"    [DOMAIN-DETECT] ⚠️ Boosted domain values with variation detected at index {i} (range={min_val:.3f}-{max_val:.3f}) - subdivision allowed")
                 return i, domain_info
         
         print(f"    [DOMAIN-DETECT] ❌ No domain column detected")
@@ -103,25 +122,53 @@ class DomainFirstClusterer:
         max_domain_value = domain_info["max_domain_value"]
         
         # NEW AGGRESSIVE DOMAIN RULE: Group ALL records with 85%+ domain similarity
-        domain_threshold_85 = max_domain_value * 0.85
+        # Handle boosted domain values (5000.0) from adaptive clusterer
+        if max_domain_value >= 5000.0:
+            # For boosted values, we can't distinguish between different domains
+            # since they all have the same value (5000.0). In this case, the domain 
+            # grouping is meaningless - all records would be grouped together.
+            # Instead, skip domain-first clustering and let standard clustering handle it.
+            print(f"    [DOMAIN-FIRST] ⚠️ All domain values are boosted to {max_domain_value:.1f} - cannot distinguish domains")
+            print(f"    [DOMAIN-FIRST] 🔄 Skipping domain-first clustering due to indistinguishable domain values")
+            domain_info["clustering_applied"] = "skipped_boosted_values"
+            return False, np.zeros(len(cluster_X)), domain_info
+        else:
+            # For normal values (0-1 range), use 85% of maximum
+            domain_threshold_85 = max_domain_value * 0.85
+            print(f"    [DOMAIN-FIRST] 📊 Normal domain values (max={max_domain_value:.3f}), using threshold={domain_threshold_85:.3f}")
+        
         high_domain_mask = domain_values >= domain_threshold_85
         high_domain_count = np.sum(high_domain_mask)
         
         print(f"    [DOMAIN-FIRST] 🎯 AGGRESSIVE DOMAIN GROUPING: {high_domain_count} records with 85%+ domain similarity")
         
         if high_domain_count >= 2:
-            # FORCE all high domain similarity records into ONE cluster
-            print(f"    [DOMAIN-FIRST] 🔒 FORCING {high_domain_count} similar domain records into SINGLE cluster")
+            # FORCE similar domain records into SEPARATE clusters BY ACTUAL DOMAIN
+            print(f"    [DOMAIN-FIRST] 🔒 FORCING similar domain records into SEPARATE clusters BY DOMAIN")
             print(f"    [DOMAIN-FIRST] 📝 Dropping company name weight to 0 for domain matches 85%+")
             
             labels = np.full(len(cluster_X), -1, dtype=int)  # Initialize with -1 (unassigned)
+            current_cluster = 0
             
-            # Assign ALL high domain similarity records to cluster 0
+            # Group records by their actual domain values (not just similarity)
             high_domain_indices = np.where(high_domain_mask)[0]
-            for idx in high_domain_indices:
-                labels[idx] = 0
             
-            current_cluster = 1
+            # Get unique domain values for high domain similarity records
+            high_domain_values = cluster_X[high_domain_indices, domain_col_idx]
+            unique_domains = np.unique(high_domain_values)
+            
+            print(f"    [DOMAIN-FIRST] 📊 Found {len(unique_domains)} unique domains with 85%+ similarity")
+            
+            # Create separate cluster for each unique domain
+            for domain_value in unique_domains:
+                domain_mask = (cluster_X[:, domain_col_idx] == domain_value) & high_domain_mask
+                domain_indices = np.where(domain_mask)[0]
+                
+                if len(domain_indices) > 0:
+                    for idx in domain_indices:
+                        labels[idx] = current_cluster
+                    print(f"    [DOMAIN-FIRST] 🏷️  Domain cluster {current_cluster}: {len(domain_indices)} records (domain_val={domain_value:.3f})")
+                    current_cluster += 1
             
             # Handle remaining low domain similarity records (below 85%)
             low_domain_mask = ~high_domain_mask
@@ -164,16 +211,19 @@ class DomainFirstClusterer:
                 current_cluster += 1
             
             domain_info.update({
-                "clustering_applied": "aggressive_domain_grouping",
+                "clustering_applied": "aggressive_domain_grouping_by_domain",
                 "high_domain_grouped": high_domain_count,
-                "low_domain_clustered": len(low_domain_indices),
+                "unique_domains_found": len(unique_domains),
+                "domain_clusters_created": len(unique_domains),
+                "low_domain_clustered": len(low_domain_indices) if 'low_domain_indices' in locals() else 0,
                 "total_clusters": current_cluster,
                 "domain_threshold_85": domain_threshold_85,
                 "company_weight_dropped": True,
-                "single_domain_cluster": True
+                "separate_domain_clusters": True
             })
             
-            print(f"    [DOMAIN-FIRST] ✅ AGGRESSIVE GROUPING: {high_domain_count} similar domains → 1 cluster, {len(low_domain_indices)} others → {current_cluster-1} clusters")
+            low_domain_clusters = current_cluster - len(unique_domains) if 'low_domain_indices' in locals() else 0
+            print(f"    [DOMAIN-FIRST] ✅ AGGRESSIVE GROUPING: {high_domain_count} records → {len(unique_domains)} domain clusters, {len(low_domain_indices) if 'low_domain_indices' in locals() else 0} others → {low_domain_clusters} clusters")
             return True, labels, domain_info
         
         # Fallback: Handle uniform perfect domain clusters (preserve as single cluster)

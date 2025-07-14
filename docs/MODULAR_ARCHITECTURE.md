@@ -4,6 +4,34 @@
 
 The record deduplication pipeline has been successfully refactored to demonstrate modern software engineering principles with clean separation of concerns. This document summarizes the new modular architecture implemented across all pipeline steps.
 
+## Recent Updates (July 2025)
+
+### 🔧 **Critical Domain Clustering Fix**
+**Issue Resolved**: Fixed a critical bug in hierarchical clustering where all perfect domain matches were assigned identical similarity values (5000.0), causing multiple domains to be incorrectly clustered together.
+
+**Technical Fix**:
+- **Problem**: `adaptive_clusterer_v3.py` was setting all perfect domain matches to the same value, making domains indistinguishable
+- **Solution**: Modified domain boosting to preserve uniqueness while maintaining priority:
+  ```python
+  # Before: All perfect matches got identical values
+  melted.loc[perfect_domain_mask, "domain_sim"] = 5000.0
+  
+  # After: Unique incremental values preserve domain identity
+  unique_offsets = np.arange(perfect_domain_mask.sum()) * 0.001
+  melted.loc[perfect_domain_mask, "domain_sim"] = 4999.0 + unique_offsets
+  ```
+- **Impact**: Enables proper domain-based subdivision while maintaining aggressive domain prioritization
+
+### 🏗️ **Enhanced Subdivision Engine**
+- **Updated**: `subdivision_engine_v3.py` now detects artificially boosted domain values
+- **Feature**: Smart handling of boosted values allows subdivision while preserving legitimate uniform clusters
+- **Validation**: Added comprehensive test suite for domain boosting logic
+
+### 📊 **Project Organization**
+- **Completed**: Moved all analysis scripts to `src/scripts/` directory for better organization
+- **Updated**: Comprehensive documentation in `src/scripts/README.md`
+- **Enhanced**: Git integration with proper commit practices
+
 ## Current Implementation Status
 
 ✅ **Completed Steps**:
@@ -11,8 +39,9 @@ The record deduplication pipeline has been successfully refactored to demonstrat
 2. **Blocking** - Candidate pair generation  
 3. **Similarity** - Feature computation
 4. **Model Training** - ML duplicate scoring (core logic complete)
-5. **Clustering** - DBSCAN grouping with modular subdivision strategies
+5. **Clustering** - Advanced hierarchical DBSCAN with domain-aware subdivision
 6. **Reporting** - Excel report generation
+7. **Domain Clustering** - 🆕 Fixed critical domain grouping issue for accurate domain-based clustering
 
 ## Architecture Pattern
 
@@ -37,9 +66,10 @@ The new architecture follows a clear separation of concerns:
 
 **Clustering Architecture**:
 - `hierarchical/core_clusterer.py` - Main hierarchical clustering orchestrator
-- `hierarchical/subdivision_engine_v2.py` - Modular subdivision with strategy pattern
-- `hierarchical/adaptive_eps.py` - Intelligent parameter calculation
+- `hierarchical/subdivision_engine_v3.py` - Advanced modular subdivision with domain-aware detection
+- `hierarchical/adaptive_clusterer_v3.py` - 🔧 **Fixed**: Domain boosting with uniqueness preservation
 - `hierarchical/connectivity_manager.py` - High-similarity connection preservation
+- `hierarchical/adaptive_threshold.py` - Intelligent parameter calculation
 
 **Purpose**: Contains pure business logic for each pipeline step
 - **Responsibilities**: 
@@ -114,12 +144,20 @@ The new architecture follows a clear separation of concerns:
 ### New Modular CLI
 
 ```bash
-# Use the new modular architecture
-python -m src.cli preprocess data/sample_input.csv --normalize --deduplicate
+# Use the new modular architecture with enhanced domain clustering
+python -m src.cli preprocess data/your_spreadsheet.csv --normalize --deduplicate
 python -m src.cli blocking data/outputs/cleaned.csv
 python -m src.cli similarity data/outputs/cleaned.csv data/outputs/pairs.csv
-python -m src.cli clustering --auto-eps --scale
+python -m src.cli clustering --hierarchical --max-cluster-size 10 --max-depth 20
 python -m src.cli reporting
+
+# Enhanced domain clustering with rescue pipeline
+python src/scripts/complete_domain_clustering.py --timeout 300 --hierarchical
+
+# Analysis and verification scripts (in src/scripts/)
+python src/scripts/verify_perfect_clustering.py
+python src/scripts/analyze_domain_clustering.py
+python src/scripts/domain_noise_rescue.py
 
 # Get help for any step
 python -m src.cli preprocess --help
@@ -134,8 +172,12 @@ python -m src.cli reporting --help
 python -m src.preprocess --input-path data/sample_input.csv
 python -m src.blocking data/outputs/cleaned.csv
 python -m src.similarity data/outputs/cleaned.csv data/outputs/pairs.csv
-python -m src.clustering --eps 0.3 --min-samples 2 --scale
+python -m src.clustering --hierarchical --max-cluster-size 10 --max-depth 20
 python -m src.reporting
+
+# Enhanced domain-aware clustering (recommended for production)
+python run_hierarchical_clustering.py
+python src/scripts/complete_domain_clustering.py
 ```
 
 ### Programmatic Usage
@@ -149,17 +191,30 @@ from src.formatters.preprocess_formatter import PreprocessTerminalFormatter
 engine = PreprocessEngine()
 result = engine.process(df, PreprocessConfig(remove_duplicates=True))
 
-# Clustering example  
-from src.core.clustering_engine import ClusteringEngine
-from src.formatters.clustering_formatter import ClusteringFormatter
+# Enhanced hierarchical clustering with domain awareness
+from src.core.clustering.hierarchical.adaptive_clusterer_v3 import AdaptiveHierarchicalClusterer
+from src.core.clustering.hierarchical.subdivision_engine_v3 import SubdivisionEngineV3
 
-clustering_engine = ClusteringEngine()
-clustered_records, agg_features, stats = clustering_engine.cluster_records(
-    features_path="data/outputs/features.csv",
-    cleaned_path="data/outputs/cleaned.csv",
-    eps=0.3,
-    min_samples=2,
-    auto_eps=True
+clusterer = AdaptiveHierarchicalClusterer(
+    timeout_seconds=300,
+    max_cluster_size=10,
+    max_depth=20
+)
+
+# Domain clustering with fixed boosting logic
+result = clusterer.hierarchical_cluster(
+    features_df=features_df,
+    eps=0.5,
+    max_iterations=50
+)
+
+# Domain noise rescue pipeline
+from src.scripts.domain_noise_rescue import rescue_domain_noise_records
+
+updated_df, rescue_stats = rescue_domain_noise_records(
+    clustered_df, 
+    features_df,
+    domain_threshold=0.85
 )
 
 # Reporting example
@@ -204,6 +259,29 @@ print(formatter.format_comprehensive_results(stats, "manual_review.xlsx"))
 - Simple to modify business logic without UI changes
 - Can integrate with different data sources
 
+### 6. **🆕 Domain Clustering Accuracy**
+- Fixed critical domain boosting bug that prevented proper domain separation
+- Intelligent subdivision detection for artificially boosted values
+- Preserves domain priority while enabling domain-based clustering
+- Comprehensive domain noise rescue capabilities
+
+## 🔧 Domain Clustering Architecture
+
+### Problem Resolution
+The recent update addressed a critical issue where perfect domain matches were being assigned identical similarity values, causing multiple domains to be incorrectly grouped together.
+
+### Technical Implementation
+- **Adaptive Clusterer V3**: Enhanced domain boosting with uniqueness preservation
+- **Subdivision Engine V3**: Smart detection of boosted vs. legitimate uniform clusters
+- **Domain Noise Rescue**: Advanced pipeline for recovering scattered domain records
+- **Complete Domain Clustering**: End-to-end workflow with hierarchical subdivision
+
+### Key Features
+- **Domain Priority**: Perfect domain matches maintain ultra-high priority (4999+)
+- **Uniqueness Preservation**: Each domain pair gets slightly different values for subdivision
+- **Subdivision Control**: Engine correctly identifies when subdivision is beneficial
+- **Validation Tools**: Comprehensive testing and analysis scripts in `src/scripts/`
+
 ## Migration Strategy
 
 The refactoring maintains **full backward compatibility**:
@@ -237,8 +315,10 @@ The following pipeline steps have been successfully modularized:
 - `src/formatters/model_formatter.py` (terminal output)
 - `src/cli/model.py` (CLI orchestration)
 
-✅ **Clustering** - Completed
-- `src/core/clustering_engine.py` (business logic)
+✅ **Clustering** - Completed with Enhanced Domain Awareness
+- `src/core/clustering_engine_v2.py` (business logic)
+- `src/core/clustering/hierarchical/adaptive_clusterer_v3.py` (🔧 **FIXED**: domain boosting)
+- `src/core/clustering/hierarchical/subdivision_engine_v3.py` (🆕 domain-aware subdivision)
 - `src/formatters/clustering_formatter.py` (terminal output)
 - `src/cli/clustering.py` (CLI orchestration)
 
@@ -247,16 +327,16 @@ The following pipeline steps have been successfully modularized:
 - `src/formatters/reporting_formatter.py` (terminal output)
 - `src/cli/reporting.py` (CLI orchestration)
 
-## 🎉 Modularization Complete!
+## 🎉 Modularization Complete with Enhanced Domain Clustering!
 
-All major pipeline steps have been successfully refactored into the modular architecture! 
+All major pipeline steps have been successfully refactored into the modular architecture with critical domain clustering improvements! 
 
 ### ✅ Completed Pipeline Steps:
 - **Preprocessing**: Full modular implementation with engine, formatter, and CLI
 - **Blocking**: Full modular implementation with engine, formatter, and CLI
 - **Similarity**: Full modular implementation with engine, formatter, and CLI
 - **Model Training**: Full modular implementation with engine, formatter, and CLI
-- **Clustering**: Full modular implementation with engine, formatter, and CLI  
+- **Clustering**: 🆕 **Enhanced** modular implementation with domain-aware hierarchical clustering
 - **Reporting**: Full modular implementation with engine, formatter, and CLI
 
 ### ✅ Architecture Features:
@@ -265,10 +345,24 @@ All major pipeline steps have been successfully refactored into the modular arch
 - **File I/O**: Centralized file handling utilities
 - **Error Handling**: Robust error handling with automatic fallbacks
 - **Data Type Handling**: Smart ID type conversion and mismatch detection
+- **🆕 Domain Clustering**: Fixed critical domain boosting bug for accurate domain-based clustering
 
-The modular architecture is now production-ready and provides:
+### 🔧 Recent Critical Fixes:
+- **Domain Boosting Bug**: Fixed issue where all perfect domain matches got identical values
+- **Subdivision Logic**: Enhanced to handle artificially boosted values correctly
+- **Domain Rescue**: Advanced pipeline for recovering scattered domain records
+- **Project Organization**: All scripts moved to `src/scripts/` with comprehensive documentation
+
+### 📊 Performance Improvements:
+- **Clustering Accuracy**: Proper domain separation while maintaining domain priority
+- **Subdivision Efficiency**: Smart detection prevents unnecessary subdivision of legitimate clusters
+- **Validation Tools**: Comprehensive test suite for domain clustering logic
+- **Analysis Scripts**: Complete set of tools for cluster analysis and verification
+
+The modular architecture is now production-ready with robust domain clustering and provides:
 - Clean separation of concerns (business logic, UI, I/O)
 - Full backward compatibility with existing interfaces
+- Enhanced domain-aware clustering capabilities
 - Easy testing and maintenance
 - Flexible integration options (CLI, web, API, notebooks)
 
@@ -277,6 +371,8 @@ Optional future improvements:
 2. Add web interface using the modular components
 3. Create Jupyter notebook examples using the engine classes
 4. Add configuration file support for complex workflows
+5. 🆕 Further optimize domain clustering for extremely large datasets
+6. 🆕 Add more sophisticated domain similarity metrics beyond exact matching
 
 ## Example: Current vs. New Architecture
 

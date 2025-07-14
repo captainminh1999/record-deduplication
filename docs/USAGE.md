@@ -129,6 +129,48 @@ python -m src.cli.clustering --hierarchical --max-cluster-size 15 --max-depth 2 
 - **KMeans**: Efficient subdivision with sampling
 - **ForceStrategy**: Guaranteed success fallback
 
+## Step 6: Enhanced Domain Clustering 🆕
+
+**What it does:** Advanced hierarchical clustering with domain-aware subdivision and rescue capabilities.
+
+**Complete domain clustering pipeline (recommended):**
+```bash
+python src/scripts/complete_domain_clustering.py --timeout 300 --hierarchical
+```
+
+**Alternative: Manual hierarchical clustering:**
+```bash
+python -m src.cli.clustering --hierarchical --max-cluster-size 10 --max-depth 20 --eps 0.5
+```
+
+**Domain-specific analysis and validation:**
+```bash
+# Verify perfect domain clustering
+python src/scripts/verify_perfect_clustering.py
+
+# Analyze domain clustering quality
+python src/scripts/analyze_domain_clustering.py
+
+# Check for scattered domains
+python src/scripts/analyze_scattered_domains.py
+
+# Domain noise rescue
+python src/scripts/domain_noise_rescue.py
+```
+
+**Key Features:**
+- **Domain-First Clustering**: Ensures records with the same domain are grouped together
+- **Fixed Domain Boosting**: Resolves issue where perfect domain matches were indistinguishable
+- **Intelligent Subdivision**: Handles large mixed-domain clusters properly
+- **Noise Rescue**: Recovers scattered domain records and assigns them to correct clusters
+- **85% Similarity Threshold**: Balances precision and recall for domain matching
+
+**Advanced options:**
+- `--timeout`: Maximum time for clustering operations (default: 300 seconds)
+- `--hierarchical`: Enable hierarchical subdivision with domain awareness
+- `--max-cluster-size`: Maximum cluster size before subdivision (default: 10)
+- `--max-depth`: Maximum subdivision depth (default: 20)
+
 ## OpenAI Integration (Optional)
 
 **What it does:** AI-powered record deduplication using OpenAI.

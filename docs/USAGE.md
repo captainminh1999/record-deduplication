@@ -103,12 +103,31 @@ python -m src.cli.reporting
 
 ## Step 6: Clustering (Optional)
 
-**What it does:** Alternative approach using DBSCAN clustering.
+**What it does:** Advanced DBSCAN clustering with hierarchical subdivision for large clusters.
 
-**How to run:**
+**Basic clustering:**
 ```bash
 python -m src.cli.clustering --eps 0.5 --min-samples 2 --scale
 ```
+
+**Hierarchical clustering (recommended):**
+```bash
+python -m src.cli.clustering --hierarchical --max-cluster-size 15 --max-depth 2 --eps 0.4
+```
+
+**Advanced options:**
+- `--hierarchical`: Enable hierarchical subdivision
+- `--max-cluster-size`: Maximum cluster size before subdivision (default: 50)
+- `--max-depth`: Maximum subdivision depth (default: 3)
+- `--eps`: DBSCAN epsilon parameter (default: 0.1)
+- `--min-samples`: DBSCAN minimum samples (default: 2)
+- `--scale`: Apply enhanced scaling (recommended)
+
+**Clustering strategies:**
+- **AdaptiveDBSCAN**: Cluster-specific PCA optimization
+- **AggressivePCA**: For very large clusters (≥1000 records)
+- **KMeans**: Efficient subdivision with sampling
+- **ForceStrategy**: Guaranteed success fallback
 
 ## OpenAI Integration (Optional)
 

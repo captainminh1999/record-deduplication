@@ -2,7 +2,7 @@
 
 ## Overview
 
-The record deduplication pipeline has been successfully refactored to demonstrate modern software engineering principles with clean separation of concerns. This document summarizes the new modular architecture implemented across multiple pipeline steps.
+The record deduplication pipeline has been successfully refactored to demonstrate modern software engineering principles with clean separation of concerns. This document summarizes the new modular architecture implemented across all pipeline steps.
 
 ## Current Implementation Status
 
@@ -11,9 +11,7 @@ The record deduplication pipeline has been successfully refactored to demonstrat
 2. **Blocking** - Candidate pair generation  
 3. **Similarity** - Feature computation
 4. **Model Training** - ML duplicate scoring (core logic complete)
-
-🔄 **In Progress**:
-5. **Clustering** - DBSCAN grouping
+5. **Clustering** - DBSCAN grouping with modular subdivision strategies
 6. **Reporting** - Excel report generation
 
 ## Architecture Pattern
@@ -35,6 +33,13 @@ The new architecture follows a clear separation of concerns:
 - `blocking_engine.py` - Candidate pair generation
 - `similarity_engine.py` - Similarity feature computation
 - `model_engine.py` - ML model training and scoring
+- `clustering_engine_v2.py` - Advanced hierarchical clustering with modular subdivision
+
+**Clustering Architecture**:
+- `hierarchical/core_clusterer.py` - Main hierarchical clustering orchestrator
+- `hierarchical/subdivision_engine_v2.py` - Modular subdivision with strategy pattern
+- `hierarchical/adaptive_eps.py` - Intelligent parameter calculation
+- `hierarchical/connectivity_manager.py` - High-similarity connection preservation
 
 **Purpose**: Contains pure business logic for each pipeline step
 - **Responsibilities**: 
@@ -42,6 +47,7 @@ The new architecture follows a clear separation of concerns:
   - Statistical computations
   - Machine learning operations
   - Business rule implementations
+  - Modular clustering strategies
 - **Dependencies**: Only pandas, scikit-learn, and core libraries
 - **No I/O**: No file reading/writing
 - **No UI**: No terminal output or user interaction

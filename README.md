@@ -34,6 +34,8 @@ record_id,company
 | **[Installation](docs/INSTALLATION.md)** | Setup, dependencies, virtual environments |
 | **[Usage](docs/USAGE.md)** | Step-by-step commands and examples |
 | **[Pipeline Steps](docs/PIPELINE_STEPS.md)** | Detailed technical documentation |
+| **[Clustering Architecture](docs/CLUSTERING_ARCHITECTURE.md)** | 🆕 Modular clustering system design |
+| **[Modular Architecture](docs/MODULAR_ARCHITECTURE.md)** | 🆕 Overall system architecture |
 | **[GPT Integration](docs/GPT_INTEGRATION.md)** | Optional AI features and setup |
 | **[AI Deduplication](docs/AI_DEDUPLICATION.md)** | 🆕 AI-powered record merging |
 
@@ -45,6 +47,7 @@ record_id,company
 ✅ **Modular design** - Run individual steps or full pipeline  
 ✅ **Experiment tracking** - Comprehensive logging and statistics  
 ✅ **Multiple approaches** - Supervised ML + unsupervised clustering  
+✅ **Advanced clustering** - 🆕 Hierarchical DBSCAN with modular subdivision strategies  
 ✅ **AI-powered deduplication** - 🆕 Intelligent record merging with OpenAI  
 
 ## ⚡ Pipeline Overview
@@ -66,7 +69,23 @@ graph LR
 3. **Similarity** - Compute feature vectors
 4. **Model** - Train ML classifier
 5. **Reporting** - Excel output for review
-6. **Clustering** - Alternative DBSCAN approach
+6. **Clustering** - Hierarchical DBSCAN with intelligent subdivision
+
+## 🧠 Advanced Clustering Features
+
+The clustering system uses a **modular strategy pattern** for intelligent subdivision:
+
+- **AdaptiveDBSCAN**: Cluster-specific PCA optimization
+- **AggressivePCA**: Handles very large, dense clusters  
+- **KMeans**: Efficient subdivision with sampling
+- **ForceStrategy**: Guaranteed success fallback
+
+**Key Benefits:**
+- ✅ Respects max cluster size constraints (e.g., `--max-cluster-size 15`)
+- ✅ Preserves natural cluster structure via DBSCAN
+- ✅ Cluster-specific PCA transformations for optimal separation
+- ✅ Progressive strategy fallback ensures reliable subdivision
+- ✅ Noise-aware handling prevents artificial cluster assignments
 
 ## 🗂️ Project Structure
 

@@ -8,7 +8,7 @@ import time
 import json
 import click
 
-from ..core.clustering_engine import ClusteringEngine
+from ..core.clustering_engine_v2 import ClusteringEngine
 from ..formatters.clustering_formatter import ClusteringFormatter
 from ..utils import log_run, LOG_PATH
 
@@ -28,6 +28,12 @@ from ..utils import log_run, LOG_PATH
               help="Use enhanced scaling (PowerTransformer + StandardScaler)")
 @click.option("--agg-path", default="data/outputs/agg_features.csv", show_default=True,
               help="Where to write aggregated features (with cluster column)")
+@click.option("--hierarchical/--no-hierarchical", default=False, show_default=True,
+              help="Apply hierarchical clustering to break large clusters")
+@click.option("--max-cluster-size", type=int, default=50, show_default=True,
+              help="Maximum cluster size before hierarchical subdivision")
+@click.option("--max-depth", type=int, default=3, show_default=True,
+              help="Maximum depth for hierarchical clustering")
 def clustering(
     features_path: str,
     cleaned_path: str,
@@ -36,6 +42,9 @@ def clustering(
     output_path: str,
     scale: bool,
     agg_path: str,
+    hierarchical: bool,
+    max_cluster_size: int,
+    max_depth: int,
 ) -> None:
     """
     Cluster records based on similarity features using DBSCAN with enhanced feature engineering.
@@ -43,6 +52,8 @@ def clustering(
     This step groups similar records into clusters based on company and domain
     similarity features. It uses advanced feature engineering and enhanced scaling
     to improve clustering quality, particularly targeting the eps range of 0.01-0.15.
+    
+    Hierarchical clustering can break large clusters into smaller, more manageable ones.
     
     Examples:
     
@@ -52,8 +63,11 @@ def clustering(
         # Manual parameter tuning for more granular clusters
         python -m src.cli.clustering --eps 0.1 --min-samples 2 --scale
         
+        # Hierarchical clustering to break large clusters
+        python -m src.cli.clustering --eps 0.15 --hierarchical --max-cluster-size 30
+        
         # Fine-tuning for domain-based clustering
-        python -m src.cli.clustering --eps 0.05 --min-samples 2 --scale
+        python -m src.cli.clustering --eps 0.05 --min-samples 2 --scale --hierarchical
     """
     start_time = time.time()
     formatter = ClusteringFormatter()
@@ -62,14 +76,26 @@ def clustering(
         # Initialize clustering engine
         engine = ClusteringEngine()
         
-        # Perform clustering with enhanced features
-        clustered_records, agg_features, stats = engine.cluster_records(
-            features_path=features_path,
-            cleaned_path=cleaned_path,
-            eps=eps,
-            min_samples=min_samples,
-            scale=scale
-        )
+        # Choose clustering method based on hierarchical flag
+        if hierarchical:
+            clustered_records, agg_features, stats = engine.hierarchical_clustering(
+                features_path=features_path,
+                cleaned_path=cleaned_path,
+                eps=eps,
+                min_samples=min_samples,
+                scale=scale,
+                max_cluster_size=max_cluster_size,
+                max_depth=max_depth
+            )
+        else:
+            # Perform clustering with enhanced features
+            clustered_records, agg_features, stats = engine.cluster_records(
+                features_path=features_path,
+                cleaned_path=cleaned_path,
+                eps=eps,
+                min_samples=min_samples,
+                scale=scale
+            )
         
         # Save results
         engine.save_results(clustered_records, agg_features, output_path, agg_path)

@@ -1,5 +1,34 @@
 # Record Deduplication Project - Areas for Improvement
 
+## ✅ Recent Improvements (January 2025)
+
+### Modular Clustering Architecture
+- **Implemented**: Strategy pattern for subdivision engine
+- **Achievement**: Clean separation of concerns for different clustering approaches
+- **Components**: 
+  - `SubdivisionEngineV2` with four specialized strategies
+  - `AdaptiveDBSCANStrategy` with cluster-specific PCA optimization
+  - `AggressivePCAStrategy` for very large clusters
+  - `KMeansStrategy` with intelligent sampling
+  - `ForceStrategy` as guaranteed fallback
+- **Benefits**: Maintainable, testable, extensible clustering system
+
+### Intelligent Parameter Optimization
+- **Implemented**: `AdaptiveEpsCalculator` for cluster-specific parameter tuning
+- **Achievement**: Each cluster gets optimized PCA transformation and eps parameters
+- **Features**: Variance-based dimensionality reduction, nearest neighbor analysis
+- **Benefits**: Better subdivision success rates, preserved cluster quality
+
+### Noise-Aware Clustering
+- **Implemented**: Proper noise point handling in hierarchical clustering
+- **Achievement**: DBSCAN noise points return to original clusters rather than forced subdivision
+- **Benefits**: Maintains data quality, avoids artificial cluster assignments
+
+### Connectivity Preservation
+- **Implemented**: High-similarity connection preservation during subdivision
+- **Achievement**: Important relationships maintained across clustering levels
+- **Benefits**: Better cluster coherence, preserved business relationships
+
 ## 1. Code Quality & Structure
 
 ### Error Handling & Robustness

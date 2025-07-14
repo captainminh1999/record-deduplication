@@ -34,6 +34,9 @@ class ClusteringEngine:
         eps: float = 0.1,
         min_samples: int = 2,
         scale: bool = True,
+        hierarchical: bool = False,
+        max_cluster_size: int = 50,
+        max_depth: int = 3,
     ) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[str, Any]]:
         """
         Generate DBSCAN clusters from similarity features with enhanced feature engineering.
@@ -44,6 +47,9 @@ class ClusteringEngine:
             eps: DBSCAN epsilon parameter
             min_samples: DBSCAN minimum samples parameter
             scale: Whether to use enhanced scaling (PowerTransformer + StandardScaler)
+            hierarchical: Whether to apply hierarchical clustering to break large clusters
+            max_cluster_size: Maximum cluster size before hierarchical subdivision
+            max_depth: Maximum depth for hierarchical clustering
             
         Returns:
             Tuple of (clustered_records, aggregated_features, stats)
@@ -54,6 +60,9 @@ class ClusteringEngine:
                 "eps": eps,
                 "min_samples": min_samples,
                 "scale": scale,
+                "hierarchical": hierarchical,
+                "max_cluster_size": max_cluster_size if hierarchical else None,
+                "max_depth": max_depth if hierarchical else None,
                 "enhanced_features": True,
                 "features_used": []
             },
@@ -80,6 +89,17 @@ class ClusteringEngine:
         
         # Perform clustering
         labels = self._perform_clustering(X, eps, min_samples)
+        
+        # Apply hierarchical clustering if requested
+        if hierarchical:
+            print(f"\n🔄 Applying hierarchical clustering (max size: {max_cluster_size})...")
+            initial_clusters = len(set(labels[labels != -1]))
+            labels = self._hierarchical_clustering(
+                X, labels, eps, min_samples, max_cluster_size, max_depth
+            )
+            final_clusters = len(set(labels[labels != -1]))
+            print(f"✅ Hierarchical clustering complete: {initial_clusters} → {final_clusters} clusters")
+        
         agg_features["cluster"] = labels
         
         # Calculate clustering statistics
@@ -90,6 +110,105 @@ class ClusteringEngine:
         clustered_records = self._prepare_output(agg_features, cleaned)
         
         return clustered_records, agg_features, self.clustering_stats
+    
+    def hierarchical_clustering(
+        self,
+        features_path: str,
+        cleaned_path: str,
+        eps: float = 0.15,
+        min_samples: int = 2,
+        scale: bool = True,
+        max_cluster_size: int = 50,
+        max_depth: int = 3,
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[str, Any]]:
+        """
+        Perform hierarchical DBSCAN clustering to break large clusters into smaller ones.
+        
+        This method first performs standard DBSCAN clustering, then recursively
+        subdivides any clusters larger than max_cluster_size.
+        
+        Args:
+            features_path: Path to similarity features CSV
+            cleaned_path: Path to cleaned records CSV  
+            eps: Initial DBSCAN epsilon parameter
+            min_samples: DBSCAN minimum samples parameter
+            scale: Whether to use enhanced scaling
+            max_cluster_size: Maximum allowed cluster size before subdivision
+            max_depth: Maximum depth of hierarchical subdivisions
+            
+        Returns:
+            Tuple of (clustered_records, agg_features, clustering_stats)
+        """
+        print(f"🔄 Starting hierarchical clustering...")
+        print(f"   📋 Parameters: eps={eps}, min_samples={min_samples}, max_size={max_cluster_size}, max_depth={max_depth}")
+        
+        # Initialize stats tracking
+        self.clustering_stats = {
+            "parameters": {
+                "eps": eps,
+                "min_samples": min_samples,
+                "scale": scale,
+                "hierarchical": True,
+                "max_cluster_size": max_cluster_size,
+                "max_depth": max_depth,
+                "enhanced_features": True,
+                "features_used": []
+            },
+            "data_stats": {
+                "input_records": 0,
+                "feature_stats": {}
+            }
+        }
+        
+        # Load and prepare data (same as cluster_records)
+        agg_features = pd.read_csv(features_path)
+        cleaned = pd.read_csv(cleaned_path)
+        self.clustering_stats["data_stats"]["input_records"] = len(cleaned)
+        
+        # Enhanced feature engineering
+        agg_features_enhanced, feature_weights = self._prepare_enhanced_features(agg_features, cleaned)
+        self.clustering_stats["parameters"]["feature_weights"] = feature_weights
+        
+        # Convert to numpy array for clustering
+        X = agg_features_enhanced.values
+        
+        # Enhanced scaling
+        if scale:
+            X, scaling_stats = self._enhanced_scaling(X)
+            self.clustering_stats["scaling"] = scaling_stats
+        
+        # Initial DBSCAN clustering
+        print(f"🎯 Phase 1: Initial DBSCAN clustering (eps={eps}, min_samples={min_samples})")
+        initial_labels = self._perform_clustering(X, eps, min_samples)
+        
+        initial_clusters = len(set(initial_labels[initial_labels != -1]))
+        print(f"   📊 Initial clustering: {initial_clusters} clusters")
+        
+        # Apply hierarchical subdivision
+        print(f"🌳 Phase 2: Hierarchical subdivision")
+        final_labels = self._hierarchical_clustering(
+            X, initial_labels, eps, min_samples, max_cluster_size, max_depth
+        )
+        
+        final_clusters = len(set(final_labels[final_labels != -1]))
+        print(f"✅ Hierarchical clustering complete: {initial_clusters} → {final_clusters} clusters")
+        
+        agg_features_enhanced["cluster"] = final_labels
+        
+        # Calculate clustering statistics
+        cluster_stats = self._calculate_cluster_stats(X, final_labels, eps, min_samples)
+        self.clustering_stats["results"] = cluster_stats
+        self.clustering_stats["hierarchical"] = {
+            "initial_clusters": initial_clusters,
+            "final_clusters": final_clusters,
+            "max_cluster_size": max_cluster_size,
+            "max_depth": max_depth
+        }
+        
+        # Prepare output
+        clustered_records = self._prepare_output(agg_features_enhanced, cleaned)
+        
+        return clustered_records, agg_features_enhanced, self.clustering_stats
     
     def _prepare_enhanced_features(
         self, 
@@ -160,33 +279,33 @@ class ClusteringEngine:
         
         # Base features
         if "company_sim" in sim_cols:
-            weights["company_sim"] = 0.15  # Reduced weight for company similarity
+            weights["company_sim"] = 0.0001  # Reduced weight for company similarity
             melted["company_sim"] = melted["company_sim"] * weights["company_sim"]
         if "domain_sim" in sim_cols:
-            weights["domain_sim"] = 2.0  # High weight for domain similarity
+            weights["domain_sim"] = 10.0  # High weight for domain similarity
             melted["domain_sim"] = melted["domain_sim"] * weights["domain_sim"]
         
         # Interaction features - high weights for domain-related interactions
         if "company_domain_product" in engineered_features:
-            weights["company_domain_product"] = 1.5
+            weights["company_domain_product"] = 3.0
             melted["company_domain_product"] = melted["company_domain_product"] * weights["company_domain_product"]
         if "company_domain_sum" in engineered_features:
-            weights["company_domain_sum"] = 1.0
+            weights["company_domain_sum"] = 2.0
             melted["company_domain_sum"] = melted["company_domain_sum"] * weights["company_domain_sum"]
         if "company_domain_ratio" in engineered_features:
-            weights["company_domain_ratio"] = 0.8
+            weights["company_domain_ratio"] = 1.5
             melted["company_domain_ratio"] = melted["company_domain_ratio"] * weights["company_domain_ratio"]
         
         # Non-linear features - moderate weights
         for col in sim_cols:
             if f"{col}_squared" in engineered_features:
-                weights[f"{col}_squared"] = 0.3
+                weights[f"{col}_squared"] = 20.0
                 melted[f"{col}_squared"] = melted[f"{col}_squared"] * weights[f"{col}_squared"]
             if f"{col}_sqrt" in engineered_features:
-                weights[f"{col}_sqrt"] = 0.4
+                weights[f"{col}_sqrt"] = 0.2
                 melted[f"{col}_sqrt"] = melted[f"{col}_sqrt"] * weights[f"{col}_sqrt"]
             if f"{col}_log" in engineered_features:
-                weights[f"{col}_log"] = 0.2
+                weights[f"{col}_log"] = 0.0
                 melted[f"{col}_log"] = melted[f"{col}_log"] * weights[f"{col}_log"]
         
         # Statistical features - lower weights to avoid overfitting
@@ -231,6 +350,171 @@ class ClusteringEngine:
         self.clustering_model = DBSCAN(eps=eps, min_samples=min_samples)
         labels = self.clustering_model.fit_predict(X)
         return labels
+    
+    def _hierarchical_clustering(
+        self, 
+        X: np.ndarray, 
+        initial_labels: np.ndarray,
+        base_eps: float,
+        base_min_samples: int,
+        max_cluster_size: int = 50,
+        max_depth: int = 3,
+        current_depth: int = 0
+    ) -> np.ndarray:
+        """PCA-based hierarchical clustering - break large clusters into smaller ones using adaptive feature space."""
+        
+        if current_depth >= max_depth:
+            return initial_labels
+        
+        print(f"🧠 Level {current_depth + 1} PCA-based hierarchical clustering...")
+        
+        # Get unique clusters (excluding noise -1)
+        unique_clusters = np.unique(initial_labels)
+        unique_clusters = unique_clusters[unique_clusters != -1]
+        
+        # Track the next available cluster ID
+        next_cluster_id = max(unique_clusters) + 1 if len(unique_clusters) > 0 else 0
+        
+        new_labels = initial_labels.copy()
+        clusters_split = 0
+        total_subdivisions = 0
+        
+        # Import PCA here to avoid module-level import issues
+        from sklearn.decomposition import PCA
+        from sklearn.preprocessing import StandardScaler
+        from sklearn.neighbors import NearestNeighbors
+        
+        for cluster_id in unique_clusters:
+            # Get points in this cluster
+            cluster_mask = initial_labels == cluster_id
+            cluster_size = np.sum(cluster_mask)
+            
+            # Only subdivide if cluster is too large
+            if cluster_size > max_cluster_size:
+                print(f"  📊 Subdividing cluster {cluster_id} (size: {cluster_size}) with PCA-adaptive clustering")
+                
+                # Extract features for this cluster
+                cluster_X = X[cluster_mask]
+                
+                # Check if all features are identical (zero variance)
+                feature_variances = np.var(cluster_X, axis=0)
+                has_variance = np.any(feature_variances > 1e-12)
+                
+                if not has_variance:
+                    print(f"    ⚠️  All features identical - adding minimal noise for subdivision")
+                    # Add very small random noise to break ties
+                    np.random.seed(42 + cluster_id)  # Reproducible per cluster
+                    noise_scale = 1e-8
+                    cluster_X = cluster_X + np.random.normal(0, noise_scale, cluster_X.shape)
+                
+                # Step 1: PCA transformation for this cluster's feature space
+                try:
+                    # Standardize features first
+                    cluster_scaler = StandardScaler()
+                    cluster_X_scaled = cluster_scaler.fit_transform(cluster_X)
+                    
+                    # Apply PCA to reduce dimensionality and find principal components
+                    # Keep enough components to explain 95% variance (or all if too few samples)
+                    max_components = min(cluster_X_scaled.shape[0] - 1, cluster_X_scaled.shape[1])
+                    pca = PCA(n_components=min(max_components, 0.95))  # Keep 95% variance or max possible
+                    
+                    if max_components > 1:
+                        cluster_X_pca = pca.fit_transform(cluster_X_scaled)
+                        print(f"    🔄 PCA: {cluster_X_scaled.shape[1]} → {pca.n_components_} dimensions ({pca.explained_variance_ratio_.sum():.3f} variance)")
+                    else:
+                        # Too few samples for meaningful PCA
+                        cluster_X_pca = cluster_X_scaled
+                        print(f"    🔄 Skipping PCA (too few samples): using original {cluster_X_scaled.shape[1]} dimensions")
+                    
+                    # Step 2: Calculate adaptive eps for this PCA space
+                    if cluster_X_pca.shape[0] > 4:  # Need at least 4 points for 4th NN
+                        nn = NearestNeighbors(n_neighbors=min(4, cluster_X_pca.shape[0]))
+                        nn.fit(cluster_X_pca)
+                        distances, _ = nn.kneighbors(cluster_X_pca)
+                        
+                        # Use median of 4th (or last available) nearest neighbor distances
+                        kth_distances = distances[:, -1]
+                        adaptive_eps = np.median(kth_distances)
+                        
+                        # Apply hierarchical scaling factor
+                        level_factor = 0.7 - (current_depth * 0.1)
+                        adaptive_eps *= max(0.3, level_factor)
+                        
+                        print(f"    📏 Adaptive eps in PCA space: {adaptive_eps:.4f}")
+                    else:
+                        # Fallback for very small clusters
+                        adaptive_eps = 0.1
+                        print(f"    📏 Fallback eps (small cluster): {adaptive_eps:.4f}")
+                    
+                    # Step 3: DBSCAN clustering in PCA space
+                    sub_min_samples = max(2, min(base_min_samples, cluster_size // 10))  # Adaptive min_samples
+                    sub_model = DBSCAN(eps=adaptive_eps, min_samples=sub_min_samples)
+                    sub_labels = sub_model.fit_predict(cluster_X_pca)
+                    
+                    # Analyze results
+                    unique_sub_labels = np.unique(sub_labels)
+                    unique_sub_labels = unique_sub_labels[unique_sub_labels != -1]
+                    n_noise = np.sum(sub_labels == -1)
+                    
+                    print(f"    📈 PCA-DBSCAN results: {len(unique_sub_labels)} clusters, {n_noise} noise points")
+                    
+                    if len(unique_sub_labels) > 1:  # Only if we actually split the cluster
+                        # Assign new cluster IDs
+                        for sub_label in unique_sub_labels:
+                            sub_mask = sub_labels == sub_label
+                            original_indices = np.where(cluster_mask)[0][sub_mask]
+                            new_labels[original_indices] = next_cluster_id
+                            next_cluster_id += 1
+                            total_subdivisions += 1
+                        
+                        # Handle noise points from sub-clustering (keep original cluster ID)
+                        if n_noise > 0:
+                            noise_mask = sub_labels == -1
+                            original_noise_indices = np.where(cluster_mask)[0][noise_mask]
+                            new_labels[original_noise_indices] = cluster_id  # Keep in original cluster
+                        
+                        clusters_split += 1
+                        sub_cluster_sizes = [np.sum(sub_labels == label) for label in unique_sub_labels]
+                        print(f"    ✅ Split into {len(unique_sub_labels)} sub-clusters (sizes: {sorted(sub_cluster_sizes, reverse=True)})")
+                    else:
+                        print(f"    ⚠️  No subdivision possible even with PCA adaptation")
+                        
+                except Exception as e:
+                    print(f"    ❌ PCA subdivision failed: {str(e)}")
+                    print(f"    🔄 Falling back to standard subdivision...")
+                    
+                    # Fallback to original method
+                    sub_eps_factor = 0.7 - (current_depth * 0.1)
+                    sub_eps = base_eps * max(0.3, sub_eps_factor)
+                    sub_min_samples = max(2, base_min_samples - 1)
+                    
+                    sub_model = DBSCAN(eps=sub_eps, min_samples=sub_min_samples)
+                    sub_labels = sub_model.fit_predict(cluster_X)
+                    
+                    unique_sub_labels = np.unique(sub_labels)
+                    unique_sub_labels = unique_sub_labels[unique_sub_labels != -1]
+                    
+                    if len(unique_sub_labels) > 1:
+                        for sub_label in unique_sub_labels:
+                            sub_mask = sub_labels == sub_label
+                            original_indices = np.where(cluster_mask)[0][sub_mask]
+                            new_labels[original_indices] = next_cluster_id
+                            next_cluster_id += 1
+                            total_subdivisions += 1
+                        
+                        clusters_split += 1
+                        print(f"    ✅ Fallback split successful")
+                
+        print(f"  📈 Split {clusters_split} large clusters into {total_subdivisions} sub-clusters at level {current_depth + 1}")
+        
+        # Recursive call for next level if we made changes
+        if clusters_split > 0 and current_depth < max_depth - 1:
+            return self._hierarchical_clustering(
+                X, new_labels, base_eps, base_min_samples, 
+                max_cluster_size, max_depth, current_depth + 1
+            )
+        else:
+            return new_labels
     
     def _calculate_cluster_stats(
         self, 
@@ -314,6 +598,8 @@ class ClusteringEngine:
             "min_samples": results.get("final_min_samples", 0),
             "scale": params.get("scale", False),
             "enhanced_features": params.get("enhanced_features", False),
+            "hierarchical": params.get("hierarchical", False),
+            "max_cluster_size": params.get("max_cluster_size"),
             "n_clusters": results.get("n_clusters", 0),
             "n_noise": results.get("n_noise_points", 0),
             "silhouette_score": results.get("silhouette_score", 0.0)

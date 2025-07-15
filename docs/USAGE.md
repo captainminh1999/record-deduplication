@@ -31,10 +31,10 @@ Before running a fresh pipeline, you may want to clear previous outputs:
 
 ```bash
 # Clear all output files
-python -c "from src.utils import clear_all_data; clear_all_data()"
+python -c "from src.io import clear_all_data; clear_all_data('data/outputs')"
 
 # Clear specific files
-python -c "from src.utils import clear_files; clear_files(['data/outputs/cleaned.csv', 'data/outputs/pairs.csv'])"
+python -c "from src.io import clear_files; clear_files(['data/outputs/cleaned.csv', 'data/outputs/pairs.csv'])"
 ```
 
 ## Step 1: Preprocessing (Data Cleaning)

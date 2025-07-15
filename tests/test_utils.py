@@ -2,7 +2,8 @@ import os
 import tempfile
 import time
 import unittest
-from src import utils
+from src.logging import log_run
+from src.io import clear_files, clear_all_data
 
 
 class UtilsTest(unittest.TestCase):
@@ -11,7 +12,7 @@ class UtilsTest(unittest.TestCase):
             log_path = os.path.join(tmpdir, "history.log")
             start = time.time()
             end = start + 1
-            utils.log_run("test", start, end, 10, log_path=log_path)
+            log_run("test", start, end, 10, log_path=log_path)
             with open(log_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
             self.assertEqual(len(lines), 1)
@@ -21,9 +22,9 @@ class UtilsTest(unittest.TestCase):
             file2 = os.path.join(tmpdir, "f2.txt")
             open(file1, "w").close()
             open(file2, "w").close()
-            utils.clear_files([file1])
+            clear_files([file1])
             self.assertFalse(os.path.exists(file1))
-            utils.clear_all_data(tmpdir, exclude=[os.path.basename(log_path)])
+            clear_all_data(tmpdir, exclude=[os.path.basename(log_path)])
             self.assertFalse(os.path.exists(file2))
             self.assertTrue(os.path.exists(log_path))
 

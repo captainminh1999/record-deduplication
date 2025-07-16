@@ -2,6 +2,22 @@
 
 This directory contains utility scripts for development, testing, and analysis of the record deduplication pipeline.
 
+## 🧹 **Script Reorganization (July 2025)**
+
+**Recent Cleanup**: Consolidated and organized analysis scripts for better maintainability:
+- ✅ **Removed 17 empty duplicate files** from root directory
+- ✅ **Created 2 comprehensive analysis scripts** combining related functionality
+- ✅ **Moved 5 utility scripts** from root to proper scripts directory
+- ✅ **Eliminated redundant cluster-specific scripts** in favor of parameterized analysis
+- ✅ **Removed empty scripts/ directory** to avoid confusion with src/scripts/
+
+**Benefits:**
+- 🎯 **Reduced script count** from 30+ to 20 focused scripts
+- 🔧 **Consolidated similar functions** into comprehensive tools
+- 📁 **Clean root directory** with only core project files
+- 🧪 **Parameterized analysis** instead of hardcoded cluster IDs
+- 📚 **Better organization** with clear script purposes
+
 ## 🔧 Recent Updates (July 2025)
 
 **Critical Domain Clustering Fix Applied**: All scripts have been updated to work with the fixed domain clustering logic that resolves the issue where multiple domains were incorrectly grouped together.
@@ -103,14 +119,62 @@ python src/scripts/domain_noise_rescue.py
 
 ## 🔧 New Testing and Debugging Scripts (July 2025)
 
+### 📊 **Comprehensive Analysis Scripts (NEW)**
+
+#### `comprehensive_domain_analysis.py` 🆕
+**Purpose:** Unified domain analysis combining multiple domain analysis functions.
+
+**Usage:**
+```bash
+# Run all domain analyses
+python src/scripts/comprehensive_domain_analysis.py --all
+
+# Specific analyses
+python src/scripts/comprehensive_domain_analysis.py --distribution
+python src/scripts/comprehensive_domain_analysis.py --quality
+python src/scripts/comprehensive_domain_analysis.py --cluster 4207
+python src/scripts/comprehensive_domain_analysis.py --compare-clean
+```
+
+**Features:**
+- Domain_sim value distribution analysis
+- Domain clustering quality assessment
+- Specific cluster domain composition analysis
+- Domain vs domain_clean field comparison
+- Replaces: domain_data_analysis.py, domain_sim_analysis.py, domain_similarity_analysis.py, domain_values_analysis.py
+
+#### `comprehensive_cluster_analysis.py` 🆕
+**Purpose:** Unified cluster analysis for size distribution, subdivision candidates, and detailed cluster examination.
+
+**Usage:**
+```bash
+# Run all cluster analyses
+python src/scripts/comprehensive_cluster_analysis.py --all
+
+# Specific analyses
+python src/scripts/comprehensive_cluster_analysis.py --stats
+python src/scripts/comprehensive_cluster_analysis.py --large
+python src/scripts/comprehensive_cluster_analysis.py --subdivision
+python src/scripts/comprehensive_cluster_analysis.py --cluster 2483
+```
+
+**Features:**
+- Comprehensive cluster statistics
+- Analysis of largest clusters
+- Subdivision candidate identification
+- Detailed single cluster analysis with domain boosting detection
+- Replaces: analyze_cluster_2483.py, analyze_cluster_4207.py, subdivide_cluster_2483.py
+
 ### Root Directory Scripts (for easy access)
+
+### **General Utility Scripts (Moved from Root)**
 
 #### `test_domain_boosting.py` 🆕
 **Purpose:** Validates the fixed domain boosting logic.
 
 **Usage:**
 ```bash
-python test_domain_boosting.py
+python src/scripts/test_domain_boosting.py
 ```
 
 **Features:**
@@ -123,7 +187,7 @@ python test_domain_boosting.py
 
 **Usage:**
 ```bash
-python cluster_size_analysis.py
+python src/scripts/cluster_size_analysis.py
 ```
 
 **Features:**
@@ -131,57 +195,27 @@ python cluster_size_analysis.py
 - Identifies clusters needing subdivision
 - Provides domain distribution analysis
 
-#### `domain_values_analysis.py` 🆕
-**Purpose:** Analyzes domain similarity values in specific clusters.
-
-**Usage:**
-```bash
-python domain_values_analysis.py
-```
-
-**Features:**
-- Examines domain_sim values in problematic clusters
-- Identifies artificially boosted values
-- Validates domain boosting fixes
-
-#### `analyze_cluster_2483.py` 🆕
-**Purpose:** Specialized analysis for large mixed-domain clusters.
-
-**Usage:**
-```bash
-python analyze_cluster_2483.py
-```
-
-**Features:**
-- Deep dive analysis of specific cluster composition
-- Domain distribution examination
-- Boosted value detection
-
-#### `subdivide_cluster_2483.py` 🆕
-**Purpose:** Targeted subdivision of large clusters using enhanced engine.
-
-**Usage:**
-```bash
-python subdivide_cluster_2483.py
-```
-
-**Features:**
-- Direct subdivision testing
-- Validates subdivision engine improvements
-- Generates subdivision analysis reports
-
 #### `run_hierarchical_clustering.py` 🆕
 **Purpose:** Direct hierarchical clustering execution with domain fixes.
 
 **Usage:**
 ```bash
-python run_hierarchical_clustering.py
+python src/scripts/run_hierarchical_clustering.py
 ```
 
 **Features:**
 - Fresh hierarchical clustering run
 - Uses fixed domain boosting logic
 - Generates comprehensive clustering results
+
+#### `check_columns.py` & `check_feature_matrix.py` 🔧
+**Purpose:** Quick data structure inspection utilities.
+
+**Usage:**
+```bash
+python src/scripts/check_columns.py        # Check CSV column structure
+python src/scripts/check_feature_matrix.py # Analyze feature matrix
+```
 
 ## 🚀 Quick Start
 
@@ -199,11 +233,14 @@ python src/scripts/verify_perfect_clustering.py
 
 ### Analyze Results
 ```bash
-# Check domain clustering quality
-python src/scripts/analyze_domain_clustering.py
+# Comprehensive domain analysis
+python src/scripts/comprehensive_domain_analysis.py --all
 
-# Analyze any scattered domains
-python src/scripts/analyze_scattered_domains.py
+# Comprehensive cluster analysis
+python src/scripts/comprehensive_cluster_analysis.py --all
+
+# Check specific problematic clusters
+python src/scripts/comprehensive_cluster_analysis.py --cluster 2483
 
 # Performance analysis
 python src/scripts/analyze_performance.py

@@ -107,6 +107,13 @@ Examples:
         clustering_parser.add_argument("--agg-path", default="data/outputs/agg_features.csv")
         clustering_parser.add_argument("--auto-eps", action="store_true")
         clustering_parser.add_argument("--log-path", default="data/run_history.log")
+        # Hierarchical clustering options
+        clustering_parser.add_argument("--hierarchical", action="store_true", help="Apply hierarchical clustering to break large clusters")
+        clustering_parser.add_argument("--max-cluster-size", type=int, default=20, help="Maximum cluster size before subdivision")
+        clustering_parser.add_argument("--max-depth", type=int, default=10, help="Maximum subdivision depth")
+        clustering_parser.add_argument("--adaptive-depth", action="store_true", help="Use adaptive depth instead of fixed depth")
+        clustering_parser.add_argument("--timeout", type=int, default=300, help="Timeout in seconds for hierarchical clustering")
+        clustering_parser.add_argument("--performance-mode", action="store_true", default=True, help="Use fast strategies for very large clusters")
         
         # Reporting subcommand
         reporting_parser = subparsers.add_parser(
@@ -224,15 +231,50 @@ Examples:
             # Import and run clustering CLI
             from .clustering import clustering
             try:
-                clustering([
+                args_list = [
                     "--features-path", parsed_args.features_path,
                     "--cleaned-path", parsed_args.cleaned_path,
                     "--output-path", parsed_args.output_path,
                     "--eps", str(parsed_args.eps),
                     "--min-samples", str(parsed_args.min_samples),
                     "--agg-path", parsed_args.agg_path
-                ] + (["--scale"] if parsed_args.scale else ["--no-scale"]),
-                standalone_mode=False)
+                ]
+                
+                # Add scale option
+                if hasattr(parsed_args, 'scale') and parsed_args.scale:
+                    args_list.append("--scale")
+                else:
+                    args_list.append("--no-scale")
+                
+                # Add auto-eps option
+                if hasattr(parsed_args, 'auto_eps') and parsed_args.auto_eps:
+                    args_list.append("--auto-eps")
+                else:
+                    args_list.append("--no-auto-eps")
+                
+                # Add hierarchical clustering options
+                if hasattr(parsed_args, 'hierarchical') and parsed_args.hierarchical:
+                    args_list.append("--hierarchical")
+                else:
+                    args_list.append("--no-hierarchical")
+                
+                # Add hierarchical parameters if they exist
+                if hasattr(parsed_args, 'max_cluster_size'):
+                    args_list.extend(["--max-cluster-size", str(parsed_args.max_cluster_size)])
+                if hasattr(parsed_args, 'max_depth'):
+                    args_list.extend(["--max-depth", str(parsed_args.max_depth)])
+                if hasattr(parsed_args, 'adaptive_depth') and parsed_args.adaptive_depth:
+                    args_list.append("--adaptive-depth")
+                else:
+                    args_list.append("--no-adaptive-depth")
+                if hasattr(parsed_args, 'timeout'):
+                    args_list.extend(["--timeout", str(parsed_args.timeout)])
+                if hasattr(parsed_args, 'performance_mode') and parsed_args.performance_mode:
+                    args_list.append("--performance-mode")
+                else:
+                    args_list.append("--no-performance-mode")
+                
+                clustering(args_list, standalone_mode=False)
                 return 0
             except SystemExit as e:
                 return int(e.code) if e.code else 0

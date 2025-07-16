@@ -10,7 +10,7 @@ from typing import Optional
 from .base import StandardCLI, CLIArgumentPatterns
 from ..core.similarity_engine import SimilarityEngine, SimilarityConfig
 from ..formatters.similarity_formatter import SimilarityTerminalFormatter
-from ..utils import log_run
+from ..logging import log_run
 
 
 class SimilarityCLI(StandardCLI):

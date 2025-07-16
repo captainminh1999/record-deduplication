@@ -10,7 +10,7 @@ import click
 
 from ..core.clustering_engine_v2 import ClusteringEngine
 from ..formatters.clustering_formatter import ClusteringFormatter
-from ..utils import log_run, LOG_PATH
+from ..logging import log_run, LOG_PATH
 
 
 @click.command()

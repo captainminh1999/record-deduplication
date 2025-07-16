@@ -165,18 +165,18 @@ python -m src.cli clustering --help
 python -m src.cli reporting --help
 ```
 
-### Legacy CLI with New Architecture Option
+### Legacy CLI (Alternative if modular CLI has issues)
 
 ```bash
-# Legacy interfaces still work with new modular components
-python -m src.preprocess --input-path data/sample_input.csv
-python -m src.blocking data/outputs/cleaned.csv
-python -m src.similarity data/outputs/cleaned.csv data/outputs/pairs.csv
-python -m src.clustering --hierarchical --max-cluster-size 10 --max-depth 20
-python -m src.reporting
+# Legacy interfaces work with new modular components as fallback
+python -m src.cli.preprocess data/sample_input.csv --normalize --deduplicate
+python -m src.cli.blocking data/outputs/cleaned.csv
+python -m src.cli.similarity data/outputs/cleaned.csv data/outputs/pairs.csv
+python -m src.cli.clustering --hierarchical --max-cluster-size 10 --max-depth 20
+python -m src.cli.reporting
 
 # Enhanced domain-aware clustering (recommended for production)
-python run_hierarchical_clustering.py
+python src/scripts/run_hierarchical_clustering.py
 python src/scripts/complete_domain_clustering.py
 ```
 

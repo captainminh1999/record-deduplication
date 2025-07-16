@@ -10,7 +10,7 @@ import click
 
 from ..core.model_engine import ModelEngine
 from ..formatters.model_formatter import ModelFormatter
-from ..utils import log_run, LOG_PATH
+from ..logging import log_run, LOG_PATH
 
 
 @click.command()

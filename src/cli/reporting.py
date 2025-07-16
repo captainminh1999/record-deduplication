@@ -10,7 +10,7 @@ import click
 
 from ..core.reporting_engine import ReportingEngine
 from ..formatters.reporting_formatter import ReportingFormatter
-from ..utils import log_run, LOG_PATH
+from ..logging import log_run, LOG_PATH
 
 
 @click.command()

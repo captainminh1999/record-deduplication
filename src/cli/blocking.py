@@ -10,7 +10,7 @@ from typing import Optional
 from .base import StandardCLI, CLIArgumentPatterns
 from ..core.blocking_engine import BlockingEngine, BlockingConfig
 from ..formatters.blocking_formatter import BlockingTerminalFormatter
-from ..utils import log_run
+from ..logging import log_run
 
 
 class BlockingCLI(StandardCLI):

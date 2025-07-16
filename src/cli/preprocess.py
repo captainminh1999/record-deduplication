@@ -17,7 +17,7 @@ from typing import Optional
 from .base import StandardCLI, CLIArgumentPatterns
 from ..core.preprocess_engine import PreprocessEngine, PreprocessConfig
 from ..formatters.preprocess_formatter import PreprocessTerminalFormatter as PreprocessFormatter
-from ..utils import log_run
+from ..logging import log_run
 
 
 class PreprocessCLI(StandardCLI):

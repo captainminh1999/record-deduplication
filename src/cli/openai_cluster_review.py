@@ -10,7 +10,7 @@ import click
 
 from ..core.openai_engine import OpenAIEngine, OpenAIConfig
 from ..formatters.openai_formatter import OpenAIFormatter
-from ..utils import log_run, LOG_PATH
+from ..logging import log_run, LOG_PATH
 
 # Default model
 DEFAULT_MODEL = "gpt-4o-mini-2024-07-18"
